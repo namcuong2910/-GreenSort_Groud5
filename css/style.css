@@ -1,0 +1,305 @@
+/* ==========================================================================
+   GreenSort - Hệ thống phân loại & điều phối thu gom thông minh
+   Trang: Hướng dẫn phân loại rác cho Người dân (resident-waste-guide)
+   Học phần: CSE122 - Phát triển ứng dụng Web cơ bản
+   ========================================================================== */
+
+:root {
+  --primary-color: #16a34a;
+  --primary-dark: #15803d;
+  --primary-light: #f0fdf4;
+  --primary-rgb: 22, 163, 74;
+  
+  --secondary-color: #0284c7;
+  --warning-color: #d97706;
+  --danger-color: #dc2626;
+  
+  --surface-card: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  
+  --transition-speed: 0.25s ease-in-out;
+  --border-radius-card: 1rem;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-main);
+  background-color: #f8fafc;
+  overflow-x: hidden;
+}
+
+/* 1. Header & Navigation */
+.navbar-brand-greensort {
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--primary-dark);
+  font-size: 1.35rem;
+}
+
+.navbar-brand-greensort .brand-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  background-color: #dcfce7;
+  color: #166534;
+  border-radius: 999px;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+.nav-link.active-green {
+  color: var(--primary-color) !important;
+  font-weight: 600;
+  position: relative;
+}
+
+.nav-link.active-green::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0.5rem;
+  right: 0.5rem;
+  height: 2px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+}
+
+/* 2. Hero Section */
+.hero-greensort {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f8fafc 100%);
+  border-bottom: 1px solid #e2e8f0;
+  position: relative;
+}
+
+.hero-greensort::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 10%;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(74, 222, 128, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+  pointer-events: none;
+}
+
+/* 3. AI Classifier Card (Điểm nhấn AI-1 theo đề bài BTL-05) */
+.ai-classifier-card {
+  border-radius: 1.25rem;
+  border: 1px solid rgba(22, 163, 74, 0.2);
+  box-shadow: 0 10px 30px -10px rgba(22, 163, 74, 0.15);
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-badge-glowing {
+  background: linear-gradient(135deg, #16a34a, #059669);
+  color: white;
+  font-weight: 600;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  box-shadow: 0 4px 10px rgba(22, 163, 74, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.ai-result-box {
+  background: #f0fdf4;
+  border: 1.5px dashed #86efac;
+  border-radius: 1rem;
+  transition: var(--transition-speed);
+}
+
+.ai-result-box.hazardous {
+  background: #fef2f2;
+  border-color: #fca5a5;
+}
+
+.ai-result-box.recyclable {
+  background: #f0f9ff;
+  border-color: #7dd3fc;
+}
+
+.ai-result-box.other {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+/* 4. Category Cards */
+.category-card {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-card);
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+  cursor: pointer;
+  background: #ffffff;
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.08);
+}
+
+.category-card.cat-organic {
+  border-top: 4px solid #16a34a;
+}
+.category-card.cat-recyclable {
+  border-top: 4px solid #0284c7;
+}
+.category-card.cat-hazardous {
+  border-top: 4px solid #dc2626;
+}
+.category-card.cat-other {
+  border-top: 4px solid #64748b;
+}
+
+.category-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+.cat-organic .category-icon-wrapper {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+.cat-recyclable .category-icon-wrapper {
+  background-color: #e0f2fe;
+  color: #0284c7;
+}
+.cat-hazardous .category-icon-wrapper {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+.cat-other .category-icon-wrapper {
+  background-color: #f1f5f9;
+  color: #64748b;
+}
+
+/* 5. Waste Item Cards (Grid) */
+.waste-item-card {
+  border: 1px solid var(--border-color);
+  border-radius: 0.85rem;
+  background: #ffffff;
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.waste-item-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.08);
+  border-color: #bbf7d0;
+}
+
+.waste-card-icon {
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+/* 6. Filter Nav Pills */
+.filter-pills .btn {
+  border-radius: 999px;
+  font-weight: 500;
+  padding: 0.45rem 1.1rem;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  background: white;
+  transition: all var(--transition-speed);
+}
+
+.filter-pills .btn:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.filter-pills .btn.active {
+  background: #16a34a !important;
+  color: white !important;
+  border-color: #16a34a !important;
+  box-shadow: 0 4px 10px rgba(22, 163, 74, 0.25);
+}
+
+/* 7. Skeleton Loading Effect */
+.skeleton-box {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 6px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* 8. Interactive Steps */
+.step-number {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #dcfce7;
+  color: #15803d;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+/* 9. Back to Top Button */
+#btnBackToTop {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1030;
+  display: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  transition: transform var(--transition-speed), background-color var(--transition-speed);
+}
+
+#btnBackToTop:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-3px);
+}
+
+/* 10. Responsive Utilities */
+@media (max-width: 767.98px) {
+  .hero-greensort {
+    text-align: center;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  
+  .filter-pills {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 0.5rem;
+    flex-wrap: nowrap !important;
+  }
+}

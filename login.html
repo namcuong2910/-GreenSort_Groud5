@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreenSort - Đăng Nhập Hệ Thống Phân Loại & Điều Phối Rác</title>
+  <meta name="description" content="Đăng nhập tài khoản GreenSort dành cho Người dân, Nhân viên thu gom, Điều phối viên và Quản trị viên.">
+
+  <!-- Google Fonts & Bootstrap 5.3 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .auth-bg {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #e0f2fe 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .auth-card {
+      border: 1px solid rgba(22, 163, 74, 0.2);
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      overflow: hidden;
+    }
+    .role-option-card {
+      border: 1.5px solid #e2e8f0;
+      border-radius: 0.75rem;
+      padding: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .role-option-card:hover {
+      border-color: #16a34a;
+      background: #f0fdf4;
+    }
+    .role-option-card.selected {
+      border-color: #16a34a;
+      background: #f0fdf4;
+      box-shadow: 0 0 0 1px #16a34a;
+    }
+  </style>
+</head>
+<body class="auth-bg">
+
+  <div class="auth-card p-4 p-md-5">
+    
+    <!-- Logo & Brand Header -->
+    <div class="text-center mb-4">
+      <a href="resident-waste-guide.html" class="text-decoration-none d-inline-flex align-items-center mb-2">
+        <span class="fs-1 me-2">🌱</span>
+        <span class="fs-2 fw-bold text-dark">Green<span class="text-success">Sort</span></span>
+      </a>
+      <h1 class="h5 fw-bold text-dark mb-1">Đăng Nhập Hệ Thống</h1>
+      <p class="text-muted small mb-0">Hệ thống phân loại rác & điều phối thu gom thông minh</p>
+    </div>
+
+    <!-- Chọn vai trò đăng nhập nhanh (Hỗ trợ chấm điểm nhiều role theo BTL-05) -->
+    <div class="mb-3">
+      <label class="form-label small fw-semibold text-dark">Chọn vai trò đăng nhập của bạn:</label>
+      <div class="row g-2" id="roleSelector">
+        <div class="col-6">
+          <div class="role-option-card selected d-flex align-items-center gap-2" data-role="resident" data-redirect="resident-waste-guide.html">
+            <span class="fs-5">🌿</span>
+            <div class="small lh-sm">
+              <strong class="d-block text-dark">Người dân</strong>
+              <small class="text-muted" style="font-size: 0.7rem;">Cư dân đô thị</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="role-option-card d-flex align-items-center gap-2" data-role="collector" data-redirect="collector-task-list.html">
+            <span class="fs-5">🚛</span>
+            <div class="small lh-sm">
+              <strong class="d-block text-dark">Thu gom viên</strong>
+              <small class="text-muted" style="font-size: 0.7rem;">Tuyến xe 02</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="role-option-card d-flex align-items-center gap-2" data-role="coordinator" data-redirect="coordinator-request-board.html">
+            <span class="fs-5">📋</span>
+            <div class="small lh-sm">
+              <strong class="d-block text-dark">Điều phối viên</strong>
+              <small class="text-muted" style="font-size: 0.7rem;">Quản lý SLA</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="role-option-card d-flex align-items-center gap-2" data-role="admin" data-redirect="resident-waste-guide.html">
+            <span class="fs-5">⚙️</span>
+            <div class="small lh-sm">
+              <strong class="d-block text-dark">Quản trị viên</strong>
+              <small class="text-muted" style="font-size: 0.7rem;">Admin hệ thống</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Đăng nhập (Có Form Validation) -->
+    <div id="loginAlert" class="alert d-none small py-2 mb-3" role="alert"></div>
+
+    <form id="loginForm" class="needs-validation" novalidate>
+      
+      <div class="mb-3">
+        <label for="usernameInput" class="form-label small fw-semibold">Tài khoản / Số điện thoại <span class="text-danger">*</span></label>
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
+          <input type="text" class="form-control border-start-0 ps-0" id="usernameInput" placeholder="Nhập username hoặc số điện thoại" required>
+        </div>
+        <div class="invalid-feedback">Vui lòng nhập tên tài khoản hoặc số điện thoại.</div>
+      </div>
+
+      <div class="mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <label for="passwordInput" class="form-label small fw-semibold mb-0">Mật khẩu <span class="text-danger">*</span></label>
+          <a href="#" class="small text-success text-decoration-none" onclick="alert('Mật khẩu mẫu của các tài khoản thử nghiệm là: password123')">Quên mật khẩu?</a>
+        </div>
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+          <input type="password" class="form-control border-start-0 border-end-0 ps-0" id="passwordInput" placeholder="Nhập mật khẩu" required>
+          <button class="btn btn-outline-secondary border-start-0 bg-white" type="button" id="togglePassword">
+            <i class="bi bi-eye text-muted"></i>
+          </button>
+        </div>
+        <div class="invalid-feedback">Vui lòng nhập mật khẩu.</div>
+      </div>
+
+      <div class="form-check mb-4">
+        <input class="form-check-input" type="checkbox" id="rememberMe" checked>
+        <label class="form-check-label small text-muted" for="rememberMe">
+          Ghi nhớ đăng nhập trên thiết bị này
+        </label>
+      </div>
+
+      <!-- Nút Đăng nhập -->
+      <button type="submit" class="btn btn-success w-100 rounded-pill py-2 fw-bold mb-3 shadow-sm" id="btnLoginSubmit">
+        <i class="bi bi-box-arrow-in-right me-2"></i>Đăng Nhập Vào Hệ Thống
+      </button>
+
+      <!-- Chuyển sang Tạo tài khoản mới -->
+      <div class="text-center pt-2 border-top">
+        <span class="small text-muted">Bạn chưa có tài khoản?</span>
+        <a href="register.html" class="small text-success fw-bold text-decoration-none ms-1">
+          <i class="bi bi-person-plus me-1"></i>Tạo tài khoản mới ngay
+        </a>
+      </div>
+
+    </form>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/auth-guard.js"></script>
+  <script>
+    // Xử lý chọn vai trò
+    let redirectUrl = 'resident-waste-guide.html';
+    let selectedRole = 'Người dân';
+    const roleCards = document.querySelectorAll('.role-option-card');
+    
+    roleCards.forEach(card => {
+      card.addEventListener('click', () => {
+        roleCards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        redirectUrl = card.getAttribute('data-redirect');
+        
+        // Gợi ý username theo role
+        const role = card.getAttribute('data-role');
+        const userInput = document.getElementById('usernameInput');
+        if (role === 'resident') { userInput.value = 'nguyenvana'; selectedRole = 'Người dân'; }
+        else if (role === 'collector') { userInput.value = 'xe_thu_gom_02'; selectedRole = 'Thu gom viên'; }
+        else if (role === 'coordinator') { userInput.value = 'dieu_phoi_vien_01'; selectedRole = 'Điều phối viên'; }
+        else if (role === 'admin') { userInput.value = 'admin_greensort'; selectedRole = 'Quản trị viên'; }
+      });
+    });
+
+    // Ẩn/Hiện mật khẩu
+    const togglePassBtn = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('passwordInput');
+    togglePassBtn.addEventListener('click', () => {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      togglePassBtn.innerHTML = type === 'password' ? '<i class="bi bi-eye text-muted"></i>' : '<i class="bi bi-eye-slash text-muted"></i>';
+    });
+
+    // Tự động điền username nếu vừa đăng ký xong quay lại
+    const urlParams = new URLSearchParams(window.location.search);
+    const registeredUser = urlParams.get('user');
+    if (registeredUser) {
+      document.getElementById('usernameInput').value = registeredUser;
+      const alertBox = document.getElementById('loginAlert');
+      alertBox.className = 'alert alert-success small py-2 mb-3';
+      alertBox.textContent = `Tài khoản "${registeredUser}" đã được tạo thành công! Hãy nhập mật khẩu để đăng nhập.`;
+      alertBox.classList.remove('d-none');
+    }
+
+    // Xử lý đăng nhập Form Validation & Xác thực LocalStorage
+    const loginForm = document.getElementById('loginForm');
+    const alertBox = document.getElementById('loginAlert');
+
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (!loginForm.checkValidity()) {
+        e.stopPropagation();
+        loginForm.classList.add('was-validated');
+        return;
+      }
+
+      const username = document.getElementById('usernameInput').value;
+      const password = document.getElementById('passwordInput').value;
+      const btn = document.getElementById('btnLoginSubmit');
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang kiểm tra thông tin...';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        const authResult = authenticateUser(username, password);
+        btn.innerHTML = '<i class="bi bi-box-arrow-in-right me-2"></i>Đăng Nhập Vào Hệ Thống';
+        btn.disabled = false;
+
+        if (authResult.success) {
+          alertBox.className = 'alert alert-success small py-2 mb-3';
+          alertBox.textContent = `Xin chào ${authResult.user.fullName || authResult.user.username}! Đang đăng nhập...`;
+          alertBox.classList.remove('d-none');
+
+          setTimeout(() => {
+            // Chuyển hướng theo đúng vai trò của tài khoản
+            const userRole = authResult.user.role;
+            if (userRole === 'collector') window.location.href = 'collector-task-list.html';
+            else if (userRole === 'coordinator') window.location.href = 'coordinator-request-board.html';
+            else window.location.href = 'resident-waste-guide.html';
+          }, 800);
+        } else {
+          alertBox.className = 'alert alert-danger small py-2 mb-3';
+          alertBox.textContent = authResult.message;
+          alertBox.classList.remove('d-none');
+        }
+      }, 500);
+    });
+  </script>
+</body>
+</html>
