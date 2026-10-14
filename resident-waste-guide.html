@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreenSort - Hướng Dẫn & Phân Loại Rác Thông Minh</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="GreenSort - Nền tảng phân loại rác thông minh cho người dân và điều phối thu gom đô thị. Tra cứu quy tắc phân loại, nhận diện rác bằng AI và tìm điểm thu gom gần nhất.">
+  <meta name="keywords" content="GreenSort, phan loai rac, tai che, rac huu co, rac nguy hai, AI rac thai, CSE122">
+  <meta name="author" content="Sinh viên CSE122 - Thủy Lợi University">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <!-- ==================== 1. HEADER & TOPBAR ==================== -->
+  <header class="sticky-top bg-white border-bottom shadow-sm">
+    <div class="container py-2">
+      <div class="d-flex align-items-center justify-content-between">
+        
+        <!-- Logo & Brand Name -->
+        <a href="index.html" class="d-flex align-items-center text-decoration-none navbar-brand-greensort">
+          <span class="fs-3 me-2">🌱</span>
+          <span class="fw-bold">Green<span class="text-success">Sort</span></span>
+          <span class="brand-badge ms-2 d-none d-sm-inline">Dân cư</span>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="d-none d-lg-flex align-items-center gap-4">
+          <a href="resident-waste-guide.html" class="nav-link active-green">Hướng dẫn phân loại</a>
+          <a href="resident-collection-points.html" class="nav-link text-secondary">Điểm thu gom</a>
+          <a href="resident-pickup-request.html" class="nav-link text-secondary">Đặt lịch thu gom</a>
+          <a href="coordinator-request-board.html" class="nav-link text-secondary">Bảng điều phối</a>
+          <a href="collector-task-list.html" class="nav-link text-secondary">Thu gom viên</a>
+        </nav>
+
+        <!-- Right Action: User Role Switcher & Mobile Menu Trigger -->
+        <div class="d-flex align-items-center gap-2">
+          <!-- User info & Nút Đăng xuất -->
+          <div class="dropdown">
+            <button class="btn btn-outline-success btn-sm dropdown-toggle rounded-pill px-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-check-fill me-1"></i><span id="currentUserDisplay">Cư dân (Đã đăng nhập)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+              <li><h6 class="dropdown-header">Tài khoản hiện tại:</h6></li>
+              <li><a class="dropdown-item" href="resident-waste-guide.html">🌿 Trang phân loại</a></li>
+              <li><a class="dropdown-item" href="resident-collection-points.html">📍 Điểm thu gom</a></li>
+              <li><a class="dropdown-item" href="resident-pickup-request.html">🚚 Đặt lịch thu gom</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><button class="dropdown-item text-danger" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-1"></i>Đăng xuất</button></li>
+            </ul>
+          </div>
+
+          <!-- Mobile Hamburger Toggler Button -->
+          <button class="btn btn-light d-lg-none border" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileOffcanvasNav" aria-controls="mobileOffcanvasNav" aria-label="Mở menu điều hướng">
+            <i class="bi bi-list fs-5"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Offcanvas Menu Sidebar -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileOffcanvasNav" aria-labelledby="mobileNavLabel">
+    <div class="offcanvas-header border-bottom">
+      <h5 class="offcanvas-title d-flex align-items-center" id="mobileNavLabel">
+        <span class="fs-4 me-2">🌱</span>
+        <span class="fw-bold">Green<span class="text-success">Sort</span></span>
+      </h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Đóng"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="navbar-nav gap-2">
+        <li class="nav-item">
+          <a class="nav-link active fw-bold text-success" href="resident-waste-guide.html">
+            <i class="bi bi-journal-text me-2"></i>Hướng dẫn phân loại
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="resident-collection-points.html">
+            <i class="bi bi-geo-alt me-2"></i>Điểm thu gom
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="resident-pickup-request.html">
+            <i class="bi bi-calendar-check me-2"></i>Đặt lịch thu gom cồng kềnh
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="coordinator-request-board.html">
+            <i class="bi bi-diagram-3 me-2"></i>Bảng điều phối
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="collector-task-list.html">
+            <i class="bi bi-truck me-2"></i>Nhiệm vụ thu gom viên
+          </a>
+        </li>
+      </ul>
+      <div class="mt-4 pt-3 border-top">
+        <small class="text-muted d-block mb-2">Đăng nhập vai trò:</small>
+        <span class="badge bg-success-subtle text-success p-2 w-100 text-start">
+          <i class="bi bi-person-check me-1"></i>Tài khoản Cư dân khu đô thị
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 2. MAIN CONTENT ==================== -->
+  <main class="flex-grow-1">
+
+    <!-- HERO SECTION: BANNER & QUICK SEARCH -->
+    <section class="hero-greensort py-5">
+      <div class="container py-lg-4">
+        <div class="row align-items-center g-4">
+          
+          <div class="col-lg-7 text-center text-lg-start">
+            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill mb-3">
+              <i class="bi bi-shield-check me-1"></i>Chuẩn hóa theo Luật Bảo vệ Môi trường 2024
+            </span>
+            <h1 class="display-5 fw-extrabold text-dark tracking-tight mb-3">
+              Hướng Dẫn Phân Loại Rác <br class="d-none d-md-block">
+              <span class="text-success">Tại Nguồn Chuẩn Xác</span>
+            </h1>
+            <p class="lead text-secondary mb-4">
+              Tra cứu nhanh cách xử lý từng món đồ phế thải trong gia đình, giảm thiểu rác chôn lấp và chung tay xây dựng đô thị thông minh, xanh - sạch - đẹp.
+            </p>
+
+            <!-- Quick Search Input inside Hero -->
+            <div class="card p-2 shadow-sm rounded-pill border-0 mb-3 mx-auto mx-lg-0" style="max-width: 580px;">
+              <div class="input-group">
+                <span class="input-group-text bg-white border-0 ps-3">
+                  <i class="bi bi-search text-muted fs-5"></i>
+                </span>
+                <input type="text" id="searchInput" class="form-control border-0 shadow-none ps-2" placeholder="Tìm kiếm rác: vỏ chai, pin cũ, thức ăn thừa..." aria-label="Tìm kiếm rác">
+                <button class="btn btn-success rounded-pill px-4" type="button" onclick="document.getElementById('wasteLookupSection').scrollIntoView({behavior: 'smooth'})">
+                  Tra cứu
+                </button>
+              </div>
+            </div>
+
+            <!-- Quick Filter Tags -->
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-2">
+              <span class="small text-muted me-1">Gợi ý tìm nhanh:</span>
+              <a href="#" class="badge bg-white text-dark border text-decoration-none py-2 px-3 rounded-pill quick-tag" data-val="pin">Pin cũ</a>
+              <a href="#" class="badge bg-white text-dark border text-decoration-none py-2 px-3 rounded-pill quick-tag" data-val="lon">Vỏ lon nhôm</a>
+              <a href="#" class="badge bg-white text-dark border text-decoration-none py-2 px-3 rounded-pill quick-tag" data-val="thức ăn">Thức ăn thừa</a>
+              <a href="#" class="badge bg-white text-dark border text-decoration-none py-2 px-3 rounded-pill quick-tag" data-val="carton">Bìa carton</a>
+            </div>
+          </div>
+
+          <!-- Hero Side Info Graphic -->
+          <div class="col-lg-5">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white text-start">
+              <div class="d-flex align-items-center mb-3">
+                <div class="bg-success-subtle text-success p-3 rounded-circle me-3">
+                  <i class="bi bi-recycle fs-3"></i>
+                </div>
+                <div>
+                  <h5 class="fw-bold mb-0">Chỉ số Môi trường 2026</h5>
+                  <small class="text-muted">Thống kê tại địa bàn triển khai</small>
+                </div>
+              </div>
+              <div class="row g-3 text-center">
+                <div class="col-4 border-end">
+                  <div class="h4 fw-bold text-success mb-0">84%</div>
+                  <small class="text-muted" style="font-size: 0.75rem;">Đã phân loại đúng</small>
+                </div>
+                <div class="col-4 border-end">
+                  <div class="h4 fw-bold text-primary mb-0">1.2 Tấn</div>
+                  <small class="text-muted" style="font-size: 0.75rem;">Nhựa tái chế/ngày</small>
+                </div>
+                <div class="col-4">
+                  <div class="h4 fw-bold text-danger mb-0">0%</div>
+                  <small class="text-muted" style="font-size: 0.75rem;">Pin xả bừa bãi</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION AI FEATURE (BẮT BUỘC THEO BTL-05: AI-1 WASTE CLASSIFIER) -->
+    <section class="py-5 bg-white border-bottom" id="aiClassifierSection">
+      <div class="container">
+        
+        <div class="text-center max-w-700 mx-auto mb-4">
+          <div class="ai-badge-glowing mb-2">
+            <i class="bi bi-stars"></i> TÍNH NĂNG ĐỘT PHÁ AI-1
+          </div>
+          <h2 class="h3 fw-bold text-dark">Trợ Lý Phân Loại Rác Thông Minh (AI Classifier)</h2>
+          <p class="text-muted small">
+            Không biết đồ dùng thuộc loại rác nào? Nhập tên đồ vật hoặc tình trạng, mô hình AI của GreenSort sẽ phân tích loại rác, độ tin cậy và hướng dẫn xử lý chuẩn xác.
+          </p>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-lg-9 col-xl-8">
+            <div class="ai-classifier-card p-4 p-md-5">
+              
+              <!-- Form input mô phỏng AI -->
+              <div class="mb-3">
+                <label for="aiWasteInput" class="form-label fw-semibold text-dark">
+                  <i class="bi bi-chat-square-text text-success me-1"></i>Nhập tên đồ vật bạn muốn vứt bỏ:
+                </label>
+                <div class="input-group input-group-lg">
+                  <input type="text" id="aiWasteInput" class="form-control" placeholder="Ví dụ: Pin con thỏ cũ, hộp xốp dính dầu mỡ, vỏ chuối..." value="Pin con thỏ hết điện">
+                  <button class="btn btn-success px-4" id="btnAiAnalyze" type="button">
+                    <i class="bi bi-cpu me-1"></i>Phân tích AI ✨
+                  </button>
+                </div>
+                <div class="invalid-feedback">Vui lòng nhập tên đồ vật cần phân loại.</div>
+                <div class="form-text text-muted mt-2">
+                  <i class="bi bi-lightbulb me-1"></i>Bạn có thể thử: <code>Pin lithium</code>, <code>Vỏ lon coca</code>, <code>Xương gà</code>, <code>Hộp cơm xốp dính mỡ</code>
+                </div>
+              </div>
+
+              <!-- Loading Skeleton State khi AI đang suy luận -->
+              <div id="aiLoadingBox" class="d-none mt-4 p-4 border rounded-3 bg-light">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="spinner-border spinner-border-sm text-success me-2" role="status"></div>
+                  <strong class="text-success">GreenSort AI đang phân tích dữ liệu & quét ma trận chất thải...</strong>
+                </div>
+                <div class="skeleton-box mb-2" style="height: 20px; width: 60%;"></div>
+                <div class="skeleton-box mb-2" style="height: 16px; width: 90%;"></div>
+                <div class="skeleton-box" style="height: 16px; width: 75%;"></div>
+              </div>
+
+              <!-- Result State khi AI trả về kết quả -->
+              <div id="aiResultBox" class="ai-result-box p-4 mt-3 hazardous">
+                <!-- Nội dung kết quả sẽ được inject động bởi JavaScript -->
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                  <div>
+                    <span class="badge text-bg-danger rounded-pill fs-6 px-3 py-2 me-2">Rác nguy hại</span>
+                    <span class="badge bg-white text-dark border rounded-pill py-2 px-3">
+                      <i class="bi bi-cpu text-success me-1"></i>Độ tin cậy: <strong>98.5%</strong>
+                    </span>
+                  </div>
+                  <div class="small text-muted">
+                    <i class="bi bi-clock-history me-1"></i>Mô hình: <strong>GreenSort-v2.5 (Vision & NLP)</strong>
+                  </div>
+                </div>
+
+                <h4 class="h5 fw-bold text-dark mb-2">
+                  <i class="bi bi-check2-circle text-danger me-2"></i>Đề xuất cho: "Pin con thỏ hết điện"
+                </h4>
+
+                <div class="p-3 bg-white rounded-3 border mb-3">
+                  <div class="row g-2">
+                    <div class="col-md-6">
+                      <span class="text-muted small">Thùng bỏ quy định:</span>
+                      <p class="fw-bold text-dark mb-1"><i class="bi bi-trash3-fill me-1 text-danger"></i>Thùng Màu Đỏ / Trạm thu gom nguy hại TLU</p>
+                    </div>
+                    <div class="col-md-6">
+                      <span class="text-muted small">Cách chuẩn bị:</span>
+                      <p class="fw-bold text-dark mb-1">Bọc kín hai đầu cực bằng băng dính, cho vào hộp kín.</p>
+                    </div>
+                  </div>
+                  <div class="mt-2 pt-2 border-top">
+                    <span class="text-muted small"><strong>Giải thích của AI:</strong> Pin chứa kim loại nặng độc hại (chì, thủy ngân, cadimi) gây ô nhiễm đất và nước ngầm nếu chôn lấp. Tuyệt đối không vứt chung vào rác sinh hoạt.</span>
+                  </div>
+                </div>
+
+                <!-- Người dùng kiểm soát (User Control theo BTL-05: Chấp nhận / Sửa / Báo lỗi) -->
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                  <button class="btn btn-success btn-sm px-3 rounded-pill" onclick="acceptAiResult('Pin con thỏ hết điện', 'Rác nguy hại')">
+                    <i class="bi bi-check-lg me-1"></i>Chấp nhận kết quả
+                  </button>
+                  <button class="btn btn-outline-secondary btn-sm px-3 rounded-pill" onclick="triggerManualEdit('Pin con thỏ hết điện')">
+                    <i class="bi bi-pencil me-1"></i>Sửa loại rác thủ công
+                  </button>
+                  <button class="btn btn-outline-danger btn-sm px-3 rounded-pill" onclick="reportAiError('Pin con thỏ hết điện')">
+                    <i class="bi bi-flag me-1"></i>Báo lỗi phân loại
+                  </button>
+                </div>
+              </div>
+
+              <!-- Trạng thái lỗi hoặc không nhận diện được (Failure State) -->
+              <div id="aiErrorBox" class="d-none alert alert-warning mt-3 mb-0" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                AI chưa đủ dữ liệu nhận diện vật phẩm này. Vui lòng tra cứu thủ công trong bảng danh mục bên dưới!
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: 4 NHÓM RÁC QUY CHUẨN (OVERVIEW CARDS) -->
+    <section class="py-5 bg-light border-bottom">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-end justify-content-between mb-4">
+          <div>
+            <h2 class="h4 fw-bold text-dark mb-1">4 Nhóm Phân Loại Rác Chuẩn</h2>
+            <p class="text-muted mb-0 small">Phân loại đúng màu thùng giúp người công nhân thu gom và tái chế đạt hiệu suất tối đa</p>
+          </div>
+          <span class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill mt-2 mt-md-0">
+            Quy định môi trường Việt Nam
+          </span>
+        </div>
+
+        <div class="row g-4">
+          <!-- 1. Hữu cơ -->
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="category-card cat-organic p-4 h-100" onclick="filterByCategory('organic')">
+              <div class="category-icon-wrapper">
+                <i class="bi bi-flower1"></i>
+              </div>
+              <h3 class="h5 fw-bold text-dark mb-1">Rác Hữu Cơ</h3>
+              <p class="small text-success fw-semibold mb-2"><i class="bi bi-trash3 me-1"></i>Thùng Màu Xanh Lá / Nâu</p>
+              <p class="small text-muted mb-3">Thức ăn thừa, rau củ quả hỏng, lá cây, bã cà phê, xác động vật nhỏ.</p>
+              <div class="mt-auto pt-2 border-top d-flex justify-content-between align-items-center">
+                <span class="small text-muted">Mục đích: Ủ compost</span>
+                <i class="bi bi-arrow-right text-success"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Tái chế -->
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="category-card cat-recyclable p-4 h-100" onclick="filterByCategory('recyclable')">
+              <div class="category-icon-wrapper">
+                <i class="bi bi-recycle"></i>
+              </div>
+              <h3 class="h5 fw-bold text-dark mb-1">Rác Tái Chế</h3>
+              <p class="small text-primary fw-semibold mb-2"><i class="bi bi-trash3 me-1"></i>Thùng Màu Xanh Dương</p>
+              <p class="small text-muted mb-3">Vỏ lon bia, chai nhựa, sách báo, bìa carton, kim loại, thủy tinh lành.</p>
+              <div class="mt-auto pt-2 border-top d-flex justify-content-between align-items-center">
+                <span class="small text-muted">Mục đích: Thu hồi tái sinh</span>
+                <i class="bi bi-arrow-right text-primary"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Nguy hại -->
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="category-card cat-hazardous p-4 h-100" onclick="filterByCategory('hazardous')">
+              <div class="category-icon-wrapper">
+                <i class="bi bi-radioactive"></i>
+              </div>
+              <h3 class="h5 fw-bold text-dark mb-1">Rác Nguy Hại</h3>
+              <p class="small text-danger fw-semibold mb-2"><i class="bi bi-trash3 me-1"></i>Thùng Màu Đỏ / Trạm Riêng</p>
+              <p class="small text-muted mb-3">Pin cũ, ắc quy, bóng đèn huỳnh quang, thuốc quá hạn, chai lọ hóa chất tẩy rửa.</p>
+              <div class="mt-auto pt-2 border-top d-flex justify-content-between align-items-center">
+                <span class="small text-muted">Mục đích: Xử lý chuyên biệt</span>
+                <i class="bi bi-arrow-right text-danger"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Vô cơ khác -->
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="category-card cat-other p-4 h-100" onclick="filterByCategory('other')">
+              <div class="category-icon-wrapper">
+                <i class="bi bi-trash3"></i>
+              </div>
+              <h3 class="h5 fw-bold text-dark mb-1">Rác Vô Cơ Khác</h3>
+              <p class="small text-secondary fw-semibold mb-2"><i class="bi bi-trash3 me-1"></i>Thùng Màu Xám / Đen</p>
+              <p class="small text-muted mb-3">Hộp xốp dính dầu, túi nilon bẩn, đồ gốm sứ vỡ, bỉm tã lót, tàn thuốc.</p>
+              <div class="mt-auto pt-2 border-top d-flex justify-content-between align-items-center">
+                <span class="small text-muted">Mục đích: Đốt điện / Chôn lấp</span>
+                <i class="bi bi-arrow-right text-secondary"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: TRA CỨU & DANH SÁCH CHI TIẾT CÓ BỘ LỌC + MODAL -->
+    <section class="py-5" id="wasteLookupSection">
+      <div class="container">
+        
+        <!-- Header Tra cứu & Tabs Bộ Lọc -->
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+          <div>
+            <h2 class="h4 fw-bold text-dark mb-1">Thư Viện Tra Cứu Vật Phẩm Thường Gặp</h2>
+            <p class="text-muted small mb-0">Hiển thị hướng dẫn cách thu gom, thời gian phân hủy và điểm tái chế tương ứng</p>
+          </div>
+          
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-light text-dark border rounded-pill px-3 py-2" id="searchCountBadge">
+              12 vật phẩm
+            </span>
+          </div>
+        </div>
+
+        <!-- Filter Pills Buttons -->
+        <div class="filter-pills d-flex gap-2 mb-4">
+          <button type="button" class="btn active filter-btn" data-filter="all">Tất cả</button>
+          <button type="button" class="btn filter-btn" data-filter="organic">🍏 Hữu cơ</button>
+          <button type="button" class="btn filter-btn" data-filter="recyclable">♻️ Tái chế</button>
+          <button type="button" class="btn filter-btn" data-filter="hazardous">⚠️ Nguy hại</button>
+          <button type="button" class="btn filter-btn" data-filter="other">🗑️ Vô cơ khác</button>
+        </div>
+
+        <!-- Empty State Box (Ẩn theo mặc định, hiện khi tìm kiếm không ra) -->
+        <div id="emptyStateBox" class="d-none text-center py-5 bg-white rounded-4 border">
+          <div class="text-muted display-4 mb-2"><i class="bi bi-search"></i></div>
+          <h4 class="h5 fw-bold text-dark">Không tìm thấy vật phẩm rác nào phù hợp</h4>
+          <p class="text-muted small mb-3">Hãy thử kiểm tra lại từ khóa hoặc sử dụng tính năng Trợ lý AI ở phía trên.</p>
+          <button class="btn btn-outline-success btn-sm rounded-pill px-4" onclick="document.getElementById('searchInput').value=''; currentSearchQuery=''; renderWasteCards();">
+            Xóa tìm kiếm
+          </button>
+        </div>
+
+        <!-- Waste Grid Container (JavaScript sẽ render vào đây) -->
+        <div class="row g-4" id="wasteGrid">
+          <!-- Dynamic rendering by main.js -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: QUY TRÌNH 3 BƯỚC THU GOM CHUẨN TẠI NHÀ -->
+    <section class="py-5 bg-white border-top">
+      <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-5">
+          <h2 class="h4 fw-bold text-dark">Quy Trình 3 Bước Xử Lý Rác Chuẩn Tại Gia Đình</h2>
+          <p class="text-muted small">Hãy thực hiện 3 thói quen đơn giản này mỗi ngày vì một môi trường xanh</p>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="d-flex align-items-start p-3 rounded-4 bg-light h-100">
+              <div class="step-number">1</div>
+              <div>
+                <h5 class="fw-bold mb-1">Phân loại ngay tại nguồn</h5>
+                <p class="small text-muted mb-0">Đặt ít nhất 2 đến 3 thùng rác có phân màu riêng biệt trong khu bếp và phòng khách.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="d-flex align-items-start p-3 rounded-4 bg-light h-100">
+              <div class="step-number">2</div>
+              <div>
+                <h5 class="fw-bold mb-1">Làm sạch & Gấp dẹp</h5>
+                <p class="small text-muted mb-0">Tráng qua nước với chai lọ, ép bẹp vỏ lon nhôm và gấp phẳng thùng carton để tiết kiệm diện tích.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="d-flex align-items-start p-3 rounded-4 bg-light h-100">
+              <div class="step-number">3</div>
+              <div>
+                <h5 class="fw-bold mb-1">Đổ rác đúng giờ & địa điểm</h5>
+                <p class="small text-muted mb-0">Tuân thủ khung giờ thu gom của công nhân vệ sinh, mang pin và thiết bị điện tử đến đúng điểm thu hồi.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== 3. FOOTER ==================== -->
+  <footer class="bg-dark text-white pt-5 pb-4 mt-auto">
+    <div class="container">
+      <div class="row g-4 pb-4 border-bottom border-secondary border-opacity-25">
+        
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center mb-3">
+            <span class="fs-3 me-2">🌱</span>
+            <span class="fw-bold fs-4 text-white">Green<span class="text-success">Sort</span></span>
+          </div>
+          <p class="text-white-50 small mb-3">
+            Hệ thống phân loại rác và điều phối thu gom thông minh giải quyết bài toán ô nhiễm môi trường đô thị.
+          </p>
+          <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill">
+            Đề tài BTL-05 • CSE122 • Thủy Lợi University
+          </span>
+        </div>
+
+        <div class="col-lg-2 col-md-6 col-6">
+          <h6 class="text-uppercase fw-bold text-white mb-3">Dành cho Dân cư</h6>
+          <ul class="list-unstyled text-white-50 small mb-0 d-flex flex-column gap-2">
+            <li><a href="resident-waste-guide.html" class="text-white-50 text-decoration-none">Hướng dẫn phân loại</a></li>
+            <li><a href="#" class="text-white-50 text-decoration-none">Bản đồ điểm thu gom</a></li>
+            <li><a href="#" class="text-white-50 text-decoration-none">Đặt lịch thu gom cồng kềnh</a></li>
+            <li><a href="#" class="text-white-50 text-decoration-none">Đổi điểm thưởng xanh</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-6 col-6">
+          <h6 class="text-uppercase fw-bold text-white mb-3">Vận hành</h6>
+          <ul class="list-unstyled text-white-50 small mb-0 d-flex flex-column gap-2">
+            <li><a href="#" class="text-white-50 text-decoration-none">Nhân viên thu gom</a></li>
+            <li><a href="#" class="text-white-50 text-decoration-none">Bảng điều phối SLA</a></li>
+            <li><a href="#" class="text-white-50 text-decoration-none">Quản trị danh mục rác</a></li>
+            <li><a href="#" class="text-white-50 text-decoration-none">Báo cáo phân tích</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <h6 class="text-uppercase fw-bold text-white mb-3">Thông tin đồ án</h6>
+          <p class="text-white-50 small mb-2">
+            <i class="bi bi-mortarboard-fill me-2 text-success"></i>Học phần: Phát triển ứng dụng Web cơ bản (CSE122)
+          </p>
+          <p class="text-white-50 small mb-2">
+            <i class="bi bi-code-slash me-2 text-success"></i>Công nghệ: Semantic HTML5, CSS3/Bootstrap 5, JavaScript ES6
+          </p>
+          <p class="text-white-50 small mb-0">
+            <i class="bi bi-github me-2 text-success"></i>Repository: <code>github.com/cse122-greensort</code>
+          </p>
+        </div>
+
+      </div>
+
+      <div class="d-flex flex-column flex-md-row align-items-center justify-content-between pt-3 text-white-50 small">
+        <span>© 2026 GreenSort Team. Bài kiểm tra giữa kỳ CSE122.</span>
+        <span>Thiết kế đáp ứng Bootstrap 5 & Figma Specs.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== 4. MODALS & TOAST NOTIFICATIONS ==================== -->
+
+  <!-- MODAL XEM CHI TIẾT VẬT PHẨM RÁC (ĐÁP ỨNG TIÊU CHÍ JAVASCRIPT MODAL) -->
+  <div class="modal fade" id="wasteDetailModal" tabindex="-1" aria-labelledby="modalWasteName" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        
+        <div class="modal-header border-bottom bg-light">
+          <div>
+            <span id="modalWasteBadge" class="badge text-bg-success rounded-pill px-3 py-2 mb-1">Rác hữu cơ</span>
+            <h4 class="modal-title h5 fw-bold text-dark" id="modalWasteName">Tên vật phẩm rác</h4>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+        </div>
+
+        <div class="modal-body p-4">
+          <div class="mb-3">
+            <span class="text-muted small d-block mb-1">Màu thùng chứa quy định:</span>
+            <div class="p-2 bg-light rounded-3 fw-bold text-dark d-flex align-items-center">
+              <i class="bi bi-trash3-fill text-success fs-5 me-2"></i>
+              <span id="modalBinColor">Thùng Xanh Lá / Nâu</span>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-6">
+              <span class="text-muted small d-block">Điểm đến xử lý:</span>
+              <strong class="text-dark small" id="modalDestination">Nhà máy phân compost</strong>
+            </div>
+            <div class="col-6">
+              <span class="text-muted small d-block">Thời gian phân hủy:</span>
+              <strong class="text-dark small" id="modalDecompose">2 - 6 tuần</strong>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <span class="text-muted small d-block mb-1">Hướng dẫn chi tiết từng bước:</span>
+            <div class="p-3 bg-light rounded-3 small text-dark border" id="modalInstructions">
+              1. Để ráo nước.<br>2. Bỏ vào túi sinh học tự phân hủy.
+            </div>
+          </div>
+
+          <div class="alert alert-success d-flex align-items-center mb-0 p-2 small" role="alert">
+            <i class="bi bi-lightbulb-fill text-success me-2 fs-5"></i>
+            <div>
+              <strong>Mẹo hữu ích: </strong><span id="modalTip">Ủ làm phân bón hữu cơ cho cây cảnh.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer border-top bg-light">
+          <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3" data-bs-dismiss="modal">Đóng</button>
+          <button type="button" class="btn btn-success btn-sm rounded-pill px-3" id="btnSubmitFeedback">
+            <i class="bi bi-hand-thumbs-up me-1"></i>Đánh giá thông tin hữu ích
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST FEEDBACK THÔNG BÁO TƯƠNG TÁC -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1080;">
+    <div id="feedbackToast" class="toast align-items-center text-bg-dark border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center">
+          <i class="bi bi-check-circle-fill text-success fs-5 me-2"></i>
+          <span id="toastMessage">Thao tác thành công!</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Đóng"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nút cuộn lên đầu trang -->
+  <button id="btnBackToTop" title="Cuộn lên đầu trang">
+    <i class="bi bi-arrow-up"></i>
+  </button>
+
+  <!-- ==================== 5. SCRIPTS ==================== -->
+  <!-- Bootstrap 5 Bundle JS (có Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Auth Guard & Custom Main JS -->
+  <script src="js/auth-guard.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Helper lọc nhanh từ danh mục card -->
+  <script>
+    function filterByCategory(cat) {
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-filter') === cat) {
+          btn.click();
+        }
+      });
+      document.getElementById('wasteLookupSection').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>
