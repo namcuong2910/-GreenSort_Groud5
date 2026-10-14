@@ -1,8 +1,8 @@
 <<<<<<< HEAD
 # BÁO CÁO GIỮA KỲ CSE122 – SINH VIÊN 1 (SV1)
 
-- **Họ và tên:** [Họ tên SV1]
-- **Mã sinh viên:** [Mã SV1]
+- **Họ và tên:Bùi Văn Nam Cường
+- **Mã sinh viên:2551060590
 - **Vai trò BTL:** Người dân (Resident)
 - **Trang chính thực hiện:** `resident-waste-guide.html` (Hướng Dẫn & Phân Loại Rác Bằng AI-1)
 
