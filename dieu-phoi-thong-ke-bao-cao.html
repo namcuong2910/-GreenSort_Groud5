@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreenSort - Báo Cáo Phân Tích & Hiệu Suất SLA (Coordinator Analytics)</title>
+  <meta name="description" content="Báo cáo phân tích chuyên sâu hiệu suất điều phối rác, cam kết dịch vụ SLA, tỷ lệ tái chế và giảm thiểu phát thải CO2.">
+
+  <!-- Google Fonts & Bootstrap 5.3 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/giao-dien.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    .the-phan-tich {
+      border: none;
+      border-radius: 1rem;
+      background: #ffffff;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+  <!-- HEADER -->
+  <header class="sticky-top bg-white border-bottom shadow-sm">
+    <div class="container-fluid px-4 py-2">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <a href="dieu-phoi-bang-yeu-cau.html" class="d-flex align-items-center text-decoration-none logo-thuong-hieu">
+          <span class="fs-3 me-2">🌱</span>
+          <span class="fw-bold">Green<span class="text-success">Sort</span></span>
+          <span class="badge bg-primary-subtle text-primary ms-2 border border-primary-subtle"><i class="bi bi-person-badge-fill me-1"></i>Điều phối viên</span>
+        </a>
+
+        <nav class="d-none d-lg-flex align-items-center gap-2">
+          <a href="dieu-phoi-bang-yeu-cau.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+            <i class="bi bi-kanban me-1"></i>Bảng điều phối (SLA Board)
+          </a>
+          <a href="dieu-phoi-quan-ly-diem-gom.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+            <i class="bi bi-geo-alt me-1"></i>Quản lý Điểm thu gom
+          </a>
+          <a href="dieu-phoi-thong-ke-bao-cao.html" class="btn btn-sm btn-primary text-white fw-semibold rounded-pill px-3">
+            <i class="bi bi-graph-up me-1"></i>Phân tích & Báo cáo
+          </a>
+        </nav>
+
+        <div class="d-flex align-items-center gap-2">
+          <div class="dropdown">
+            <button class="btn btn-outline-primary btn-sm dropdown-toggle rounded-pill px-3 fw-semibold" type="button" data-bs-toggle="dropdown">
+              <i class="bi bi-person-badge me-1"></i><span id="currentUserDisplay">Lê Điều Phối (Điều phối viên)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+              <li><h6 class="dropdown-header text-uppercase text-muted small">Tài khoản Điều phối viên:</h6></li>
+              <li><a class="dropdown-item" href="dieu-phoi-bang-yeu-cau.html"><i class="bi bi-kanban me-2"></i>Request Board</a></li>
+              <li><a class="dropdown-item" href="dieu-phoi-quan-ly-diem-gom.html"><i class="bi bi-geo-alt me-2"></i>Điểm thu gom & Sensor</a></li>
+              <li><a class="dropdown-item active bg-primary text-white" href="dieu-phoi-thong-ke-bao-cao.html"><i class="bi bi-graph-up me-2"></i>Phân tích & Báo cáo SLA</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><button class="dropdown-item text-danger" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</button></li>
+            </ul>
+          </div>
+          <button class="btn btn-sm btn-light border text-danger rounded-pill px-3" onclick="logoutUser()" title="Đăng xuất khỏi hệ thống">
+            <i class="bi bi-box-arrow-right me-1"></i>Đăng xuất
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-grow-1 p-3 p-md-4">
+    <div class="container-fluid">
+      
+      <!-- Top header actions -->
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div>
+          <h2 class="h4 fw-bold text-dark mb-1">Phân Tích Hiệu Quả Điều Phối & Báo Cáo Cam Kết SLA</h2>
+          <p class="text-secondary small mb-0">Thống kê khối lượng thu gom, tỷ lệ xử lý đúng hẹn (&lt;4 giờ) và tác động giảm thiểu dấu chân carbon (ESG).</p>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary rounded-pill px-3" onclick="window.print()">
+            <i class="bi bi-printer me-1"></i>In báo cáo
+          </button>
+          <button class="btn btn-success rounded-pill px-4 text-white" onclick="exportExcelReport()">
+            <i class="bi bi-file-earmark-spreadsheet me-1"></i>Xuất Excel (CSV)
+          </button>
+        </div>
+      </div>
+
+      <!-- KEY METRICS ROW -->
+      <div class="row g-3 mb-4">
+        <div class="col-12 col-sm-6 col-xl-3">
+          <div class="card the-phan-tich p-4">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <small class="text-muted text-uppercase fw-semibold">Thời gian phản hồi TB</small>
+                <h3 class="fw-bold text-dark mt-2 mb-1">28 phút</h3>
+                <span class="text-success small fw-semibold"><i class="bi bi-arrow-down-short"></i>Nhanh hơn 12p so với mục tiêu</span>
+              </div>
+              <div class="bg-success-subtle text-success p-3 rounded-circle">
+                <i class="bi bi-stopwatch fs-4"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+          <div class="card the-phan-tich p-4">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <small class="text-muted text-uppercase fw-semibold">Đơn vị hoàn thành SLA</small>
+                <h3 class="fw-bold text-primary mt-2 mb-1">98.4%</h3>
+                <span class="text-primary small fw-semibold"><i class="bi bi-check-circle"></i>Vượt chuẩn chất lượng</span>
+              </div>
+              <div class="bg-primary-subtle text-primary p-3 rounded-circle">
+                <i class="bi bi-award fs-4"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+          <div class="card the-phan-tich p-4">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <small class="text-muted text-uppercase fw-semibold">Giảm phát thải CO2</small>
+                <h3 class="fw-bold text-success mt-2 mb-1">1,420 kg</h3>
+                <span class="text-success small fw-semibold"><i class="bi bi-tree"></i>Tương đương trồng 68 cây xanh</span>
+              </div>
+              <div class="bg-success-subtle text-success p-3 rounded-circle">
+                <i class="bi bi-globe-americas fs-4"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+          <div class="card the-phan-tich p-4">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <small class="text-muted text-uppercase fw-semibold">Điểm thưởng trao tặng</small>
+                <h3 class="fw-bold text-warning mt-2 mb-1">34,500</h3>
+                <span class="text-warning small fw-semibold"><i class="bi bi-stars"></i>Khuyến khích 1,200 cư dân</span>
+              </div>
+              <div class="bg-warning-subtle text-warning p-3 rounded-circle">
+                <i class="bi bi-gift fs-4"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHARTS -->
+      <div class="row g-4 mb-4">
+        <!-- SLA Performance Chart -->
+        <div class="col-lg-7">
+          <div class="card the-phan-tich p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="fw-bold mb-0">Hiệu suất cam kết xử lý SLA theo ngày (Giờ xử lý TB)</h5>
+              <span class="badge bg-light text-muted border">Mục tiêu: &lt; 2h</span>
+            </div>
+            <div style="height: 300px; position: relative;">
+              <canvas id="slaTrendChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Waste Composition Chart -->
+        <div class="col-lg-5">
+          <div class="card the-phan-tich p-4">
+            <h5 class="fw-bold mb-3">Tỷ lệ rác đã được tái chế thành công</h5>
+            <div style="height: 300px; position: relative;">
+              <canvas id="recyclingEfficiencyChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DETAILED SLA TABLE -->
+      <div class="card the-phan-tich p-4">
+        <h5 class="fw-bold mb-3">Bảng Thống Kê Hiệu Suất Theo Tuyến & Đội Xe</h5>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr class="small text-muted text-uppercase">
+                <th>Tuyến xe & Khu vực</th>
+                <th>Tài xế phụ trách</th>
+                <th>Số đơn tiếp nhận</th>
+                <th>Đúng hạn SLA (&lt;4h)</th>
+                <th>Khối lượng gom</th>
+                <th>Đánh giá cư dân</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Tuyến 01 - Hoàn Kiếm</strong></td>
+                <td>Bác Hùng (Xe 29C-112.34)</td>
+                <td>48 đơn</td>
+                <td><span class="badge bg-success-subtle text-success">100% đúng hạn</span></td>
+                <td>1,240 kg</td>
+                <td>⭐⭐⭐⭐⭐ 4.9/5</td>
+              </tr>
+              <tr>
+                <td><strong>Tuyến 02 - Ba Đình & Đống Đa</strong></td>
+                <td>Bác Nam (Xe 29C-888.99)</td>
+                <td>56 đơn</td>
+                <td><span class="badge bg-success-subtle text-success">98.2% đúng hạn</span></td>
+                <td>1,850 kg</td>
+                <td>⭐⭐⭐⭐⭐ 4.8/5</td>
+              </tr>
+              <tr>
+                <td><strong>Tuyến 03 - Cầu Giấy & Tây Hồ</strong></td>
+                <td>Bác Minh (Xe 29C-456.78)</td>
+                <td>35 đơn</td>
+                <td><span class="badge bg-warning-subtle text-warning">94.3% đúng hạn</span></td>
+                <td>980 kg</td>
+                <td>⭐⭐⭐⭐ 4.6/5</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-top py-3 text-center text-muted small mt-auto">
+    <div class="container">
+      GreenSort Platform &copy; 2026 - Báo cáo phân tích điều phối & chỉ số SLA đô thị xanh.
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/kiem-tra-quyen.js"></script>
+  <script src="js/du-lieu.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initAnalyticsCharts();
+    });
+
+    function initAnalyticsCharts() {
+      // SLA Trend Chart
+      const ctx1 = document.getElementById('slaTrendChart').getContext('2d');
+      new Chart(ctx1, {
+        type: 'line',
+        data: {
+          labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+          datasets: [{
+            label: 'Thời gian xử lý trung bình (giờ)',
+            data: [1.8, 1.5, 1.4, 1.9, 1.6, 1.2, 1.3],
+            borderColor: '#16a34a',
+            backgroundColor: 'rgba(22, 163, 74, 0.1)',
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 3,
+              ticks: { callback: v => v + 'h' }
+            }
+          }
+        }
+      });
+
+      // Recycling Efficiency
+      const ctx2 = document.getElementById('recyclingEfficiencyChart').getContext('2d');
+      new Chart(ctx2, {
+        type: 'pie',
+        data: {
+          labels: ['Đã chuyển nhà máy tái chế', 'Xử lý vi sinh hữu cơ', 'Rác trơ / Chôn lấp hợp vệ sinh'],
+          datasets: [{
+            data: [62, 28, 10],
+            backgroundColor: ['#16a34a', '#84cc16', '#cbd5e1']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+
+    function exportExcelReport() {
+      const requests = KhoDuLieu.pickupRequests.getAll();
+      let csvContent = "data:text/csv;charset=utf-8,Ma_Don,Nguoi_Gui,So_Dien_Thoai,Dia_Chi,Loai_Rac,Khoi_Luong,Uu_Tien_AI,Trang_Thai\n";
+      requests.forEach(r => {
+        const sender = r.senderName || r.requesterName || 'Cư dân';
+        const waste = r.wasteType || r.category || 'Rác tái chế';
+        const weight = r.actualWeight || r.estimatedWeight || 5;
+        csvContent += `"${r.id}","${sender}","${r.phone || ''}","${r.address || ''}","${waste}","${weight}","${r.priorityScore || 50}","${r.status}"\n`;
+      });
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `GreenSort_SLA_Report_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>

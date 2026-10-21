@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreenSort - Đăng Ký Tài Khoản Người Dân</title>
+  <meta name="description" content="Tạo tài khoản cá nhân trên GreenSort để tham gia phân loại rác, tích điểm xanh và đặt lịch thu gom rác cồng kềnh.">
+
+  <!-- Google Fonts & Bootstrap 5.3 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/giao-dien.css">
+
+  <style>
+    .nen-xac-thuc {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #e0f2fe 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .the-xac-thuc {
+      border: 1px solid rgba(22, 163, 74, 0.2);
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+      background: #ffffff;
+      width: 100%;
+      max-width: 520px;
+      overflow: hidden;
+    }
+    .do-manh-mat-khau {
+      height: 4px;
+      border-radius: 2px;
+      transition: all 0.3s;
+      margin-top: 0.35rem;
+    }
+  </style>
+</head>
+<body class="nen-xac-thuc">
+
+  <div class="the-xac-thuc p-4 p-md-5">
+    
+    <!-- Logo & Header -->
+    <div class="text-center mb-4">
+      <a href="dang-nhap.html" class="text-decoration-none d-inline-flex align-items-center mb-2">
+        <span class="fs-1 me-2">🌱</span>
+        <span class="fs-2 fw-bold text-dark">Green<span class="text-success">Sort</span></span>
+      </a>
+      <h1 class="h4 fw-bold text-dark mb-1">Tạo Tài Khoản Người Dân</h1>
+      <p class="text-muted small mb-0">Đăng ký để cùng bảo vệ môi trường & đặt lịch thu gom rác</p>
+    </div>
+
+    <!-- Lưu ý vai trò -->
+    <div class="alert alert-light border small py-2 mb-3 d-flex align-items-start gap-2">
+      <i class="bi bi-info-circle-fill text-primary mt-1"></i>
+      <span>Trang này dành cho <strong>Người dân</strong> tự đăng ký. Tài khoản <em>Thu gom viên</em>, <em>Điều phối viên</em> do <strong>Quản trị viên</strong> tạo trong phân hệ quản trị.</span>
+    </div>
+
+    <!-- Alert thông báo lỗi/thành công -->
+    <div id="registerAlert" class="alert d-none small py-2 mb-3" role="alert"></div>
+
+    <!-- Form Đăng Ký (Validation) -->
+    <form id="registerForm" class="needs-validation" novalidate>
+      
+      <div class="mb-3">
+        <label for="regFullName" class="form-label small fw-semibold">Họ và tên của bạn <span class="text-danger">*</span></label>
+        <div class="input-group">
+          <span class="input-group-text bg-light"><i class="bi bi-person text-muted"></i></span>
+          <input type="text" class="form-control" id="regFullName" placeholder="Ví dụ: Nguyễn Văn A" required minlength="2">
+        </div>
+        <div class="invalid-feedback">Vui lòng nhập họ và tên (tối thiểu 2 ký tự).</div>
+      </div>
+
+      <div class="row g-2 mb-3">
+        <div class="col-md-6">
+          <label for="regUsername" class="form-label small fw-semibold">Tên tài khoản <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="regUsername" placeholder="nguyenvana" pattern="[a-zA-Z0-9_]{4,20}" required>
+          <div class="invalid-feedback">4-20 ký tự, chỉ chữ, số, gạch dưới.</div>
+        </div>
+        <div class="col-md-6">
+          <label for="regPhone" class="form-label small fw-semibold">Số điện thoại <span class="text-danger">*</span></label>
+          <input type="tel" class="form-control" id="regPhone" placeholder="0912345678" pattern="[0-9]{10,11}" required>
+          <div class="invalid-feedback">10-11 chữ số hợp lệ.</div>
+        </div>
+      </div>
+
+      <!-- Hiển thị vai trò cố định -->
+      <div class="mb-3">
+        <label class="form-label small fw-semibold">Vai trò đăng ký:</label>
+        <div class="form-control bg-light d-flex align-items-center gap-2" style="cursor: default;">
+          <span>🌿</span>
+          <strong>Người dân</strong>
+          <span class="text-muted small">(Cư dân đô thị / Hộ gia đình)</span>
+          <i class="bi bi-lock-fill text-muted ms-auto" title="Vai trò mặc định, không thể thay đổi"></i>
+        </div>
+        <div class="form-text text-muted" style="font-size: 0.75rem;">
+          <i class="bi bi-info-circle me-1"></i>Vai trò khác (Thu gom viên, Điều phối viên) do Quản trị viên cấp.
+        </div>
+      </div>
+
+      <div class="row g-2 mb-3">
+        <div class="col-md-6">
+          <label for="regPassword" class="form-label small fw-semibold">Mật khẩu <span class="text-danger">*</span></label>
+          <input type="password" class="form-control" id="regPassword" placeholder="Tối thiểu 6 ký tự" minlength="6" required>
+          <div class="do-manh-mat-khau" id="passwordStrength"></div>
+          <div class="invalid-feedback">Mật khẩu tối thiểu 6 ký tự.</div>
+        </div>
+        <div class="col-md-6">
+          <label for="regConfirmPassword" class="form-label small fw-semibold">Xác nhận mật khẩu <span class="text-danger">*</span></label>
+          <input type="password" class="form-control" id="regConfirmPassword" placeholder="Nhập lại mật khẩu" minlength="6" required>
+          <div class="invalid-feedback">Mật khẩu xác nhận không khớp.</div>
+        </div>
+      </div>
+
+      <div class="form-check mb-4">
+        <input class="form-check-input" type="checkbox" id="regTerms" required>
+        <label class="form-check-label small text-muted" for="regTerms">
+          Tôi đồng ý với <a href="#" class="text-success text-decoration-none" data-bs-toggle="modal" data-bs-target="#termsModal">Quy định phân loại rác & Bảo mật</a> của GreenSort.
+        </label>
+        <div class="invalid-feedback">Bạn cần đồng ý với điều khoản dịch vụ.</div>
+      </div>
+
+      <!-- Nút Đăng Ký -->
+      <button type="submit" class="btn btn-success w-100 rounded-pill py-2 fw-bold mb-3 shadow-sm" id="btnRegisterSubmit">
+        <i class="bi bi-person-plus-fill me-2"></i>Đăng Ký Tài Khoản
+      </button>
+
+      <!-- Chuyển sang Đăng Nhập -->
+      <div class="text-center pt-2 border-top">
+        <span class="small text-muted">Đã có tài khoản GreenSort?</span>
+        <a href="dang-nhap.html" class="small text-success fw-bold text-decoration-none ms-1">
+          Đăng nhập ngay
+        </a>
+      </div>
+
+    </form>
+
+  </div>
+
+  <!-- Modal Điều khoản dịch vụ -->
+  <div class="modal fade" id="termsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header border-bottom-0">
+          <h5 class="modal-title fw-bold"><i class="bi bi-file-earmark-text me-2"></i>Quy Định & Điều Khoản GreenSort</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body small text-secondary">
+          <h6 class="fw-bold text-dark">1. Quy định phân loại rác</h6>
+          <p>Người dùng cam kết tuân thủ đúng quy tắc phân loại rác theo 4 nhóm: Hữu cơ, Tái chế, Nguy hại, và Vô cơ khác. Việc phân loại sai có thể bị từ chối yêu cầu thu gom.</p>
+          
+          <h6 class="fw-bold text-dark">2. Chính sách bảo mật</h6>
+          <p>Thông tin cá nhân (họ tên, số điện thoại, địa chỉ) chỉ được sử dụng cho mục đích điều phối thu gom rác và không chia sẻ cho bên thứ ba.</p>
+          
+          <h6 class="fw-bold text-dark">3. Trách nhiệm người dùng</h6>
+          <p>Người dùng có trách nhiệm cung cấp thông tin chính xác khi đặt lịch thu gom, có mặt đúng giờ hẹn và chuẩn bị rác đúng quy cách.</p>
+          
+          <h6 class="fw-bold text-dark">4. Quyền của GreenSort</h6>
+          <p>Hệ thống có quyền vô hiệu hóa tài khoản vi phạm quy định hoặc gửi yêu cầu spam. Mọi quyết định có thể được khiếu nại qua Điều phối viên.</p>
+        </div>
+        <div class="modal-footer border-top-0">
+          <button type="button" class="btn btn-success rounded-pill px-4" data-bs-dismiss="modal">Tôi đã đọc & đồng ý</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/kiem-tra-quyen.js"></script>
+  <script>
+    const bieuMauDangKy = document.getElementById('registerForm');
+    const hopThongBaoDangKy = document.getElementById('registerAlert');
+    const oNhapMatKhau = document.getElementById('regPassword');
+    const oXacNhanMatKhau = document.getElementById('regConfirmPassword');
+    const thanhDoManhMatKhau = document.getElementById('passwordStrength');
+
+    // ===== ĐÁNH GIÁ ĐỘ MẠNH CỦA MẬT KHẨU =====
+    oNhapMatKhau.addEventListener('input', () => {
+      const chuoiMatKhau = oNhapMatKhau.value;
+      let diemDoManh = 0;
+      if (chuoiMatKhau.length >= 6) diemDoManh++;
+      if (chuoiMatKhau.length >= 10) diemDoManh++;
+      if (/[A-Z]/.test(chuoiMatKhau)) diemDoManh++;
+      if (/[0-9]/.test(chuoiMatKhau)) diemDoManh++;
+      if (/[^a-zA-Z0-9]/.test(chuoiMatKhau)) diemDoManh++;
+
+      const bangMauDoManh = ['#dc2626', '#d97706', '#d97706', '#16a34a', '#16a34a'];
+      const doRongThanhTienDo = ['20%', '40%', '60%', '80%', '100%'];
+
+      if (chuoiMatKhau.length === 0) {
+        thanhDoManhMatKhau.style.width = '0%';
+        thanhDoManhMatKhau.style.background = 'transparent';
+      } else {
+        const chiSo = Math.min(diemDoManh, 4);
+        thanhDoManhMatKhau.style.width = doRongThanhTienDo[chiSo];
+        thanhDoManhMatKhau.style.background = bangMauDoManh[chiSo];
+      }
+    });
+
+    // ===== GỬI BIỂU MẪU ĐĂNG KÝ =====
+    bieuMauDangKy.addEventListener('submit', function(suKien) {
+      suKien.preventDefault();
+
+      if (oNhapMatKhau.value !== oXacNhanMatKhau.value) {
+        oXacNhanMatKhau.setCustomValidity('Mật khẩu không khớp!');
+      } else {
+        oXacNhanMatKhau.setCustomValidity('');
+      }
+
+      if (!bieuMauDangKy.checkValidity()) {
+        suKien.stopPropagation();
+        bieuMauDangKy.classList.add('was-validated');
+        return;
+      }
+
+      const duLieuNguoiDungMoi = {
+        fullName: document.getElementById('regFullName').value,
+        username: document.getElementById('regUsername').value,
+        phone: document.getElementById('regPhone').value,
+        password: oNhapMatKhau.value
+      };
+
+      const nutDangKy = document.getElementById('btnRegisterSubmit');
+      nutDangKy.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang tạo tài khoản...';
+      nutDangKy.disabled = true;
+
+      setTimeout(() => {
+        const ketQuaDangKy = dangKyTaiKhoanMoi(duLieuNguoiDungMoi);
+        nutDangKy.innerHTML = '<i class="bi bi-person-plus-fill me-2"></i>Đăng Ký Tài Khoản';
+        nutDangKy.disabled = false;
+
+        if (ketQuaDangKy.success) {
+          hopThongBaoDangKy.className = 'alert alert-success small py-2 mb-3 d-flex align-items-center';
+          hopThongBaoDangKy.innerHTML = `<i class="bi bi-check-circle-fill me-2"></i>${ketQuaDangKy.message} Đang chuyển hướng sang trang đăng nhập...`;
+          hopThongBaoDangKy.classList.remove('d-none');
+          
+          setTimeout(() => {
+            window.location.href = `dang-nhap.html?user=${encodeURIComponent(duLieuNguoiDungMoi.username)}`;
+          }, 1000);
+        } else {
+          hopThongBaoDangKy.className = 'alert alert-danger small py-2 mb-3 d-flex align-items-center';
+          hopThongBaoDangKy.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-2"></i>${ketQuaDangKy.message}`;
+          hopThongBaoDangKy.classList.remove('d-none');
+        }
+      }, 500);
+    });
+  </script>
+</body>
+</html>

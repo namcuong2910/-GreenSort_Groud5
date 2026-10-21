@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreenSort - Hướng Dẫn & Phân Loại Rác Thông Minh</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description"
+    content="GreenSort - Nền tảng phân loại rác thông minh cho người dân và điều phối thu gom đô thị. Tra cứu quy tắc phân loại, hướng dẫn phân loại rác chi tiết và tìm điểm thu gom gần nhất.">
+  <meta name="keywords" content="GreenSort, phan loai rac, tai che, rac huu co, rac nguy hai, CSE122">
+  <meta name="author" content="Sinh viên CSE122 - Thủy Lợi University">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <!-- ========================================== -->
+  <!-- CSS TỔNG HỢP TOÀN BỘ GIAO DIỆN (ĐÃ GỘP TỪ css/style.css) -->
+  <!-- ========================================== -->
+  <style>
+    /* ==========================================================================
+   GreenSort - Hệ thống phân loại & điều phối thu gom thông minh
+   Trang: Hướng dẫn phân loại rác cho Người dân (resident-waste-guide)
+   Học phần: CSE122 - Phát triển ứng dụng Web cơ bản
+   ========================================================================== */
+
+    :root {
+      --primary-color: #16a34a;
+      --primary-dark: #15803d;
+      --primary-light: #f0fdf4;
+      --primary-rgb: 22, 163, 74;
+
+      --secondary-color: #0284c7;
+      --warning-color: #d97706;
+      --danger-color: #dc2626;
+
+      --surface-card: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+
+      --transition-speed: 0.25s ease-in-out;
+      --border-radius-card: 1rem;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text-main);
+      background-color: #f8fafc;
+      overflow-x: hidden;
+    }
+
+    /* 1. Header & Navigation (Thanh điều hướng & Thương hiệu) */
+    .logo-thuong-hieu {
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--primary-dark);
+      font-size: 1.35rem;
+    }
+
+    .logo-thuong-hieu .huy-hieu-vai-tro {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      background-color: #dcfce7;
+      color: #166534;
+      border-radius: 999px;
+      font-weight: 600;
+      vertical-align: middle;
+    }
+
+    .nav-link.trang-hien-tai {
+      color: var(--primary-color) !important;
+      font-weight: 600;
+      position: relative;
+    }
+
+    .nav-link.trang-hien-tai::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0.5rem;
+      right: 0.5rem;
+      height: 2px;
+      background-color: var(--primary-color);
+      border-radius: 2px;
+    }
+
+    /* 2. Hero Section (Khung Banner chính) */
+    .khung-banner-chinh {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f8fafc 100%);
+      border-bottom: 1px solid #e2e8f0;
+      position: relative;
+    }
+
+    .khung-banner-chinh::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 10%;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(74, 222, 128, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+      pointer-events: none;
+    }
+
+    .the-tim-nhanh {
+      transition: all var(--transition-speed);
+    }
+
+    .the-tim-nhanh:hover {
+      background-color: var(--primary-light) !important;
+      color: var(--primary-dark) !important;
+      border-color: var(--primary-color) !important;
+    }
+
+    /* 3. Card Gợi Ý Phân Loại (Khung phân loại rác thông minh) */
+    .the-phan-loai-ai {
+      border-radius: 1.25rem;
+      border: 1px solid rgba(22, 163, 74, 0.2);
+      box-shadow: 0 10px 30px -10px rgba(22, 163, 74, 0.15);
+      background: #ffffff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .huy-hieu-ai-phat-sang {
+      background: linear-gradient(135deg, #16a34a, #059669);
+      color: white;
+      font-weight: 600;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      box-shadow: 0 4px 10px rgba(22, 163, 74, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .hop-ket-qua-ai {
+      background: #f0fdf4;
+      border: 1.5px dashed #86efac;
+      border-radius: 1rem;
+      transition: var(--transition-speed);
+    }
+
+    .hop-ket-qua-ai.rac-nguy-hai {
+      background: #fef2f2;
+      border-color: #fca5a5;
+    }
+
+    .hop-ket-qua-ai.rac-tai-che {
+      background: #f0f9ff;
+      border-color: #7dd3fc;
+    }
+
+    .hop-ket-qua-ai.rac-vo-co {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    .hop-ket-qua-ai.rac-huu-co {
+      background: #f0fdf4;
+      border-color: #86efac;
+    }
+
+    /* 4. Thẻ Danh Mục Rác (Category Cards) */
+    .the-danh-muc-rac {
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius-card);
+      transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+      cursor: pointer;
+      background: #ffffff;
+    }
+
+    .the-danh-muc-rac:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.08);
+    }
+
+    .the-danh-muc-rac.nhom-rac-huu-co {
+      border-top: 4px solid #16a34a;
+    }
+
+    .the-danh-muc-rac.nhom-rac-tai-che {
+      border-top: 4px solid #0284c7;
+    }
+
+    .the-danh-muc-rac.nhom-rac-nguy-hai {
+      border-top: 4px solid #dc2626;
+    }
+
+    .the-danh-muc-rac.nhom-rac-vo-co {
+      border-top: 4px solid #64748b;
+    }
+
+    .khung-bieu-tuong-danh-muc {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .nhom-rac-huu-co .khung-bieu-tuong-danh-muc {
+      background-color: #dcfce7;
+      color: #16a34a;
+    }
+
+    .nhom-rac-tai-che .khung-bieu-tuong-danh-muc {
+      background-color: #e0f2fe;
+      color: #0284c7;
+    }
+
+    .nhom-rac-nguy-hai .khung-bieu-tuong-danh-muc {
+      background-color: #fee2e2;
+      color: #dc2626;
+    }
+
+    .nhom-rac-vo-co .khung-bieu-tuong-danh-muc {
+      background-color: #f1f5f9;
+      color: #64748b;
+    }
+
+    /* 5. Thẻ Từng Vật Phẩm Rác (Waste Item Cards) */
+    .the-vat-pham-rac {
+      border: 1px solid var(--border-color);
+      border-radius: 0.85rem;
+      background: #ffffff;
+      transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .the-vat-pham-rac:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.08);
+      border-color: #bbf7d0;
+    }
+
+    .bieu-tuong-vat-pham {
+      font-size: 2rem;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: #f8fafc;
+    }
+
+    /* 6. Thanh Nút Lọc Danh Mục (Filter Pills) */
+    .thanh-nut-loc .btn {
+      border-radius: 999px;
+      font-weight: 500;
+      padding: 0.45rem 1.1rem;
+      border: 1px solid #e2e8f0;
+      color: #475569;
+      background: white;
+      transition: all var(--transition-speed);
+    }
+
+    .thanh-nut-loc .btn:hover {
+      background: #f1f5f9;
+      color: #1e293b;
+    }
+
+    .thanh-nut-loc .btn.active {
+      background: #16a34a !important;
+      color: white !important;
+      border-color: #16a34a !important;
+      box-shadow: 0 4px 10px rgba(22, 163, 74, 0.25);
+    }
+
+    /* 7. Hiệu ứng chờ tải dữ liệu (Skeleton Loading Effect) */
+    .hieu-ung-cho-tai {
+      background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s infinite;
+      border-radius: 6px;
+    }
+
+    @keyframes skeleton-loading {
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    /* 8. Đánh số bước tương tác (Step Number) */
+    .so-thu-tu-buoc {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #dcfce7;
+      color: #15803d;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      margin-right: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* 9. Nút cuộn lên đầu trang (Back to Top Button) */
+    #nutCuonLenDau {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1030;
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+      transition: transform var(--transition-speed), background-color var(--transition-speed);
+    }
+
+    #nutCuonLenDau:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-3px);
+    }
+
+    /* 10. Tương thích di động (Responsive Utilities) */
+    @media (max-width: 767.98px) {
+      .khung-banner-chinh {
+        text-align: center;
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+      }
+
+      .thanh-nut-loc {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 0.5rem;
+        flex-wrap: nowrap !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+  <!-- ==================== 1. HEADER & TOPBAR ==================== -->
+  <header class="sticky-top bg-white border-bottom shadow-sm">
+    <div class="container py-2">
+      <div class="d-flex align-items-center justify-content-between">
+
+        <!-- Logo & Brand Name -->
+        <a href="index.html" class="d-flex align-items-center text-decoration-none logo-thuong-hieu">
+          <span class="fs-3 me-2">🌱</span>
+          <span class="fw-bold">Green<span class="text-success">Sort</span></span>
+          <span class="huy-hieu-vai-tro ms-2 d-none d-sm-inline">Dân cư</span>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="d-none d-lg-flex align-items-center gap-4">
+          <a href="cu-dan-tra-cuu-rac.html" class="nav-link trang-hien-tai">Hướng dẫn phân loại</a>
+          <a href="cu-dan-diem-thu-gom.html" class="nav-link text-secondary">Điểm thu gom</a>
+          <a href="cu-dan-dat-lich-thu-gom.html" class="nav-link text-secondary">Đặt lịch thu gom</a>
+          <a href="coordinator-request-board.html" class="nav-link text-secondary">Bảng điều phối</a>
+          <a href="collector-task-list.html" class="nav-link text-secondary">Thu gom viên</a>
+        </nav>
+
+        <!-- Right Action: User Role Switcher & Mobile Menu Trigger -->
+        <div class="d-flex align-items-center gap-2">
+          <!-- User info & Nút Đăng xuất -->
+          <div class="dropdown">
+            <button class="btn btn-outline-success btn-sm dropdown-toggle rounded-pill px-3" type="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-check-fill me-1"></i><span id="currentUserDisplay">Cư dân (Đã đăng nhập)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+              <li>
+                <h6 class="dropdown-header">Tài khoản hiện tại:</h6>
+              </li>
+              <li><a class="dropdown-item" href="cu-dan-tra-cuu-rac.html">🌿 Trang phân loại</a></li>
+              <li><a class="dropdown-item" href="cu-dan-diem-thu-gom.html">📍 Điểm thu gom</a></li>
+              <li><a class="dropdown-item" href="cu-dan-dat-lich-thu-gom.html">🚚 Đặt lịch thu gom</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><button class="dropdown-item text-danger" onclick="logoutUser()"><i
+                    class="bi bi-box-arrow-right me-1"></i>Đăng xuất</button></li>
+            </ul>
+          </div>
+
+          <!-- Mobile Hamburger Toggler Button -->
+          <button class="btn btn-light d-lg-none border" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#mobileOffcanvasNav" aria-controls="mobileOffcanvasNav" aria-label="Mở menu điều hướng">
+            <i class="bi bi-list fs-5"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Offcanvas Menu Sidebar -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileOffcanvasNav" aria-labelledby="mobileNavLabel">
+    <div class="offcanvas-header border-bottom">
+      <h5 class="offcanvas-title d-flex align-items-center" id="mobileNavLabel">
+        <span class="fs-4 me-2">🌱</span>
+        <span class="fw-bold">Green<span class="text-success">Sort</span></span>
+      </h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Đóng"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="navbar-nav gap-2">
+        <li class="nav-item">
+          <a class="nav-link active fw-bold text-success" href="cu-dan-tra-cuu-rac.html">
+            <i class="bi bi-journal-text me-2"></i>Hướng dẫn phân loại
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="cu-dan-diem-thu-gom.html">
+            <i class="bi bi-geo-alt me-2"></i>Điểm thu gom
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="cu-dan-dat-lich-thu-gom.html">
+            <i class="bi bi-calendar-check me-2"></i>Đặt lịch thu gom cồng kềnh
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="coordinator-request-board.html">
+            <i class="bi bi-diagram-3 me-2"></i>Bảng điều phối
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="collector-task-list.html">
+            <i class="bi bi-truck me-2"></i>Nhiệm vụ thu gom viên
+          </a>
+        </li>
+      </ul>
+      <div class="mt-4 pt-3 border-top">
+        <small class="text-muted d-block mb-2">Đăng nhập vai trò:</small>
+        <span class="badge bg-success-subtle text-success p-2 w-100 text-start">
+          <i class="bi bi-person-check me-1"></i>Tài khoản Cư dân khu đô thị
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 2. MAIN CONTENT ==================== -->
+  <main class="flex-grow-1">
+
+    <!-- HERO SECTION: BANNER & QUICK SEARCH -->
+    <section class="khung-banner-chinh py-5">
+      <div class="container py-lg-4">
+        <div class="row align-items-center g-4">
+
+          <div class="col-lg-7 text-center text-lg-start">
+            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill mb-3">
+              <i class="bi bi-shield-check me-1"></i>Chuẩn hóa theo Luật Bảo vệ Môi trường 2024
+            </span>
+            <h1 class="display-5 fw-extrabold text-dark tracking-tight mb-3">
+              Hướng Dẫn Phân Loại Rác <br class="d-none d-md-block">
+              <span class="text-success">Tại Nguồn Chuẩn Xác</span>
+            </h1>
+            <p class="lead text-secondary mb-4">
+              Tra cứu nhanh cách xử lý từng món đồ phế thải trong gia đình, giảm thiểu rác chôn lấp và chung tay xây
+              dựng đô thị thông minh, xanh - sạch - đẹp.
+            </p>
+
+            <!-- Quick Search Input inside Hero -->
+            <div class="card p-2 shadow-sm rounded-pill border-0 mb-3 mx-auto mx-lg-0" style="max-width: 580px;">
+              <div class="input-group">
+                <span class="input-group-text bg-white border-0 ps-3">
+                  <i class="bi bi-search text-muted fs-5"></i>
+                </span>
+                <input type="text" id="searchInput" class="form-control border-0 shadow-none ps-2"
+                  placeholder="Tìm kiếm rác: vỏ chai, pin cũ, thức ăn thừa..." aria-label="Tìm kiếm rác">
+                <button class="btn btn-success rounded-pill px-4" type="button"
+                  onclick="document.getElementById('wasteLookupSection').scrollIntoView({behavior: 'smooth'})">
+                  Tra cứu
+                </button>
+              </div>
+            </div>
+
+            <!-- Quick Filter Tags -->
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-2">
+              <span class="small text-muted me-1">Gợi ý tìm nhanh:</span>
+              <a href="#" class="badge bg-white text-dark border text-decoration-none py-2 px-3 rounded-pill the-tim-nhanh"
+                data-val="pin">Pin cũ</a>
+              <a href="#" class="badge bg-white text-dark border text-decoration-none py-2 px-3 rounded-pill the-tim-nhanh"
+                data-val="lon">Vỏ lon nhôm</a>
+              <a href="#" class="badge bg-white text-dark border text-decoration-none py-2 px-3 rounded-pill the-tim-nhanh"
+                data-val="thức ăn">Thức ăn thừa</a>
+              <a href="#" class="badge bg-white text-dark border text-decoration-none py-2 px-3 rounded-pill the-tim-nhanh"
+                data-val="carton">Bìa carton</a>
+            </div>
+          </div>
+
+          <!-- Hero Side Info Graphic -->
+          <div class="col-lg-5">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white text-start">
+              <div class="d-flex align-items-center mb-3">
+                <div class="bg-success-subtle text-success p-3 rounded-circle me-3">
+                  <i class="bi bi-recycle fs-3"></i>
+                </div>
+                <div>
+                  <h5 class="fw-bold mb-0">Chỉ số Môi trường 2026</h5>
+                  <small class="text-muted">Thống kê tại địa bàn triển khai</small>
+                </div>
+              </div>
+              <div class="row g-3 text-center">
+                <div class="col-4 border-end">
+                  <div class="h4 fw-bold text-success mb-0">84%</div>
+                  <small class="text-muted" style="font-size: 0.75rem;">Đã phân loại đúng</small>
+                </div>
+                <div class="col-4 border-end">
+                  <div class="h4 fw-bold text-primary mb-0">1.2 Tấn</div>
+                  <small class="text-muted" style="font-size: 0.75rem;">Nhựa tái chế/ngày</small>
+                </div>
+                <div class="col-4">
+                  <div class="h4 fw-bold text-danger mb-0">0%</div>
+                  <small class="text-muted" style="font-size: 0.75rem;">Pin xả bừa bãi</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Tra cứu & Phân loại rác thông minh -->
+    <section class="py-5 bg-white border-bottom" id="aiClassifierSection">
+      <div class="container">
+
+        <div class="text-center max-w-700 mx-auto mb-4">
+          <div class="huy-hieu-ai-phat-sang mb-2">
+            <i class="bi bi-stars"></i> Gợi ý phân loại rác
+          </div>
+          <h2 class="h3 fw-bold text-dark">Công Cụ Gợi Ý Phân Loại Rác Nhanh</h2>
+          <p class="text-muted small">
+            Không biết đồ dùng thuộc loại rác nào? Nhập tên đồ vật hoặc tình trạng, mô hình AI của GreenSort sẽ phân
+            tích loại rác, độ tin cậy và hướng dẫn xử lý chuẩn xác.
+          </p>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-lg-9 col-xl-8">
+            <div class="the-phan-loai-ai p-4 p-md-5">
+
+              <!-- Form input mô phỏng AI -->
+              <div class="mb-3">
+                <label for="aiWasteInput" class="form-label fw-semibold text-dark">
+                  <i class="bi bi-chat-square-text text-success me-1"></i>Nhập tên đồ vật bạn muốn vứt bỏ:
+                </label>
+                <div class="input-group input-group-lg">
+                  <input type="text" id="aiWasteInput" class="form-control"
+                    placeholder="Ví dụ: Pin con thỏ cũ, hộp xốp dính dầu mỡ, vỏ chuối..." value="Pin con thỏ hết điện">
+                  <button class="btn btn-success px-4" id="btnAiAnalyze" type="button">
+                    <i class="bi bi-magic me-1"></i>Gợi ý phân loại ✨
+                  </button>
+                </div>
+                <div class="invalid-feedback">Vui lòng nhập tên đồ vật cần phân loại.</div>
+                <div class="form-text text-muted mt-2">
+                  <i class="bi bi-lightbulb me-1"></i>Bạn có thể thử: <code>Pin lithium</code>,
+                  <code>Vỏ lon coca</code>, <code>Xương gà</code>, <code>Hộp cơm xốp dính mỡ</code>
+                </div>
+              </div>
+
+              <!-- Loading Skeleton State khi AI đang suy luận -->
+              <div id="aiLoadingBox" class="d-none mt-4 p-4 border rounded-3 bg-light">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="spinner-border spinner-border-sm text-success me-2" role="status"></div>
+                  <strong class="text-success">GreenSort AI đang phân tích dữ liệu & quét ma trận chất thải...</strong>
+                </div>
+                <div class="hieu-ung-cho-tai mb-2" style="height: 20px; width: 60%;"></div>
+                <div class="hieu-ung-cho-tai mb-2" style="height: 16px; width: 90%;"></div>
+                <div class="hieu-ung-cho-tai" style="height: 16px; width: 75%;"></div>
+              </div>
+
+              <!-- Result State khi AI trả về kết quả -->
+              <div id="aiResultBox" class="hop-ket-qua-ai p-4 mt-3 hazardous">
+                <!-- Nội dung kết quả sẽ được inject động bởi JavaScript -->
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                  <div>
+                    <span class="badge text-bg-danger rounded-pill fs-6 px-3 py-2 me-2">Rác nguy hại</span>
+                    <span class="badge bg-white text-dark border rounded-pill py-2 px-3">
+                      <i class="bi bi-magic text-success me-1"></i>Độ phù hợp: <strong>98.5%</strong>
+                    </span>
+                  </div>
+                  <div class="small text-muted">
+                    <i class="bi bi-clock-history me-1"></i>Mô hình: <strong>GreenSort-v2.5 (Vision & NLP)</strong>
+                  </div>
+                </div>
+
+                <h4 class="h5 fw-bold text-dark mb-2">
+                  <i class="bi bi-check2-circle text-danger me-2"></i>Đề xuất cho: "Pin con thỏ hết điện"
+                </h4>
+
+                <div class="p-3 bg-white rounded-3 border mb-3">
+                  <div class="row g-2">
+                    <div class="col-md-6">
+                      <span class="text-muted small">Thùng bỏ quy định:</span>
+                      <p class="fw-bold text-dark mb-1"><i class="bi bi-trash3-fill me-1 text-danger"></i>Thùng Màu Đỏ /
+                        Trạm thu gom nguy hại TLU</p>
+                    </div>
+                    <div class="col-md-6">
+                      <span class="text-muted small">Cách chuẩn bị:</span>
+                      <p class="fw-bold text-dark mb-1">Bọc kín hai đầu cực bằng băng dính, cho vào hộp kín.</p>
+                    </div>
+                  </div>
+                  <div class="mt-2 pt-2 border-top">
+                    <span class="text-muted small"><strong>Giải thích của AI:</strong> Pin chứa kim loại nặng độc hại
+                      (chì, thủy ngân, cadimi) gây ô nhiễm đất và nước ngầm nếu chôn lấp. Tuyệt đối không vứt chung vào
+                      rác sinh hoạt.</span>
+                  </div>
+                </div>
+
+                <!-- Người dùng kiểm soát (User Control theo BTL-05: Chấp nhận / Sửa / Báo lỗi) -->
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                  <button class="btn btn-success btn-sm px-3 rounded-pill"
+                    onclick="acceptAiResult('Pin con thỏ hết điện', 'Rác nguy hại')">
+                    <i class="bi bi-check-lg me-1"></i>Chấp nhận kết quả
+                  </button>
+                  <button class="btn btn-outline-secondary btn-sm px-3 rounded-pill"
+                    onclick="triggerManualEdit('Pin con thỏ hết điện')">
+                    <i class="bi bi-pencil me-1"></i>Sửa loại rác thủ công
+                  </button>
+                  <button class="btn btn-outline-danger btn-sm px-3 rounded-pill"
+                    onclick="reportAiError('Pin con thỏ hết điện')">
+                    <i class="bi bi-flag me-1"></i>Báo lỗi phân loại
+                  </button>
+                </div>
+              </div>
+
+              <!-- Trạng thái lỗi hoặc không nhận diện được (Failure State) -->
+              <div id="aiErrorBox" class="d-none alert alert-warning mt-3 mb-0" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                AI chưa đủ dữ liệu nhận diện vật phẩm này. Vui lòng tra cứu thủ công trong bảng danh mục bên dưới!
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: 4 NHÓM RÁC QUY CHUẨN (OVERVIEW CARDS) -->
+    <section class="py-5 bg-light border-bottom">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-end justify-content-between mb-4">
+          <div>
+            <h2 class="h4 fw-bold text-dark mb-1">4 Nhóm Phân Loại Rác Chuẩn</h2>
+            <p class="text-muted mb-0 small">Phân loại đúng màu thùng giúp người công nhân thu gom và tái chế đạt hiệu
+              suất tối đa</p>
+          </div>
+          <span class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill mt-2 mt-md-0">
+            Quy định môi trường Việt Nam
+          </span>
+        </div>
+
+        <div class="row g-4">
+          <!-- 1. Hữu cơ -->
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="the-danh-muc-rac nhom-rac-huu-co p-4 h-100" onclick="filterByCategory('organic')">
+              <div class="khung-bieu-tuong-danh-muc">
+                <i class="bi bi-flower1"></i>
+              </div>
+              <h3 class="h5 fw-bold text-dark mb-1">Rác Hữu Cơ</h3>
+              <p class="small text-success fw-semibold mb-2"><i class="bi bi-trash3 me-1"></i>Thùng Màu Xanh Lá / Nâu
+              </p>
+              <p class="small text-muted mb-3">Thức ăn thừa, rau củ quả hỏng, lá cây, bã cà phê, xác động vật nhỏ.</p>
+              <div class="mt-auto pt-2 border-top d-flex justify-content-between align-items-center">
+                <span class="small text-muted">Mục đích: Ủ compost</span>
+                <i class="bi bi-arrow-right text-success"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Tái chế -->
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="the-danh-muc-rac nhom-rac-tai-che p-4 h-100" onclick="filterByCategory('recyclable')">
+              <div class="khung-bieu-tuong-danh-muc">
+                <i class="bi bi-recycle"></i>
+              </div>
+              <h3 class="h5 fw-bold text-dark mb-1">Rác Tái Chế</h3>
+              <p class="small text-primary fw-semibold mb-2"><i class="bi bi-trash3 me-1"></i>Thùng Màu Xanh Dương</p>
+              <p class="small text-muted mb-3">Vỏ lon bia, chai nhựa, sách báo, bìa carton, kim loại, thủy tinh lành.
+              </p>
+              <div class="mt-auto pt-2 border-top d-flex justify-content-between align-items-center">
+                <span class="small text-muted">Mục đích: Thu hồi tái sinh</span>
+                <i class="bi bi-arrow-right text-primary"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Nguy hại -->
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="the-danh-muc-rac nhom-rac-nguy-hai p-4 h-100" onclick="filterByCategory('hazardous')">
+              <div class="khung-bieu-tuong-danh-muc">
+                <i class="bi bi-radioactive"></i>
+              </div>
+              <h3 class="h5 fw-bold text-dark mb-1">Rác Nguy Hại</h3>
+              <p class="small text-danger fw-semibold mb-2"><i class="bi bi-trash3 me-1"></i>Thùng Màu Đỏ / Trạm Riêng
+              </p>
+              <p class="small text-muted mb-3">Pin cũ, ắc quy, bóng đèn huỳnh quang, thuốc quá hạn, chai lọ hóa chất tẩy
+                rửa.</p>
+              <div class="mt-auto pt-2 border-top d-flex justify-content-between align-items-center">
+                <span class="small text-muted">Mục đích: Xử lý chuyên biệt</span>
+                <i class="bi bi-arrow-right text-danger"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Vô cơ khác -->
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="the-danh-muc-rac nhom-rac-vo-co p-4 h-100" onclick="filterByCategory('other')">
+              <div class="khung-bieu-tuong-danh-muc">
+                <i class="bi bi-trash3"></i>
+              </div>
+              <h3 class="h5 fw-bold text-dark mb-1">Rác Vô Cơ Khác</h3>
+              <p class="small text-secondary fw-semibold mb-2"><i class="bi bi-trash3 me-1"></i>Thùng Màu Xám / Đen</p>
+              <p class="small text-muted mb-3">Hộp xốp dính dầu, túi nilon bẩn, đồ gốm sứ vỡ, bỉm tã lót, tàn thuốc.</p>
+              <div class="mt-auto pt-2 border-top d-flex justify-content-between align-items-center">
+                <span class="small text-muted">Mục đích: Đốt điện / Chôn lấp</span>
+                <i class="bi bi-arrow-right text-secondary"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: TRA CỨU & DANH SÁCH CHI TIẾT CÓ BỘ LỌC + MODAL -->
+    <section class="py-5" id="wasteLookupSection">
+      <div class="container">
+
+        <!-- Header Tra cứu & Tabs Bộ Lọc -->
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+          <div>
+            <h2 class="h4 fw-bold text-dark mb-1">Thư Viện Tra Cứu Vật Phẩm Thường Gặp</h2>
+            <p class="text-muted small mb-0">Hiển thị hướng dẫn cách thu gom, thời gian phân hủy và điểm tái chế tương
+              ứng</p>
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-light text-dark border rounded-pill px-3 py-2" id="searchCountBadge">
+              12 vật phẩm
+            </span>
+          </div>
+        </div>
+
+        <!-- Filter Pills Buttons -->
+        <div class="thanh-nut-loc d-flex gap-2 mb-4">
+          <button type="button" class="btn active nut-loc-danh-muc" data-filter="all">Tất cả</button>
+          <button type="button" class="btn nut-loc-danh-muc" data-filter="organic">🍏 Hữu cơ</button>
+          <button type="button" class="btn nut-loc-danh-muc" data-filter="recyclable">♻️ Tái chế</button>
+          <button type="button" class="btn nut-loc-danh-muc" data-filter="hazardous">⚠️ Nguy hại</button>
+          <button type="button" class="btn nut-loc-danh-muc" data-filter="other">🗑️ Vô cơ khác</button>
+        </div>
+
+        <!-- Empty State Box (Ẩn theo mặc định, hiện khi tìm kiếm không ra) -->
+        <div id="emptyStateBox" class="d-none text-center py-5 bg-white rounded-4 border">
+          <div class="text-muted display-4 mb-2"><i class="bi bi-search"></i></div>
+          <h4 class="h5 fw-bold text-dark">Không tìm thấy vật phẩm rác nào phù hợp</h4>
+          <p class="text-muted small mb-3">Hãy thử kiểm tra lại từ khóa hoặc sử dụng tính năng Trợ lý AI ở phía trên.
+          </p>
+          <button class="btn btn-outline-success btn-sm rounded-pill px-4"
+            onclick="document.getElementById('searchInput').value=''; currentSearchQuery=''; renderWasteCards();">
+            Xóa tìm kiếm
+          </button>
+        </div>
+
+        <!-- Waste Grid Container (JavaScript sẽ render vào đây) -->
+        <div class="row g-4" id="wasteGrid">
+          <!-- Dynamic rendering by main.js -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: QUY TRÌNH 3 BƯỚC THU GOM CHUẨN TẠI NHÀ -->
+    <section class="py-5 bg-white border-top">
+      <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-5">
+          <h2 class="h4 fw-bold text-dark">Quy Trình 3 Bước Xử Lý Rác Chuẩn Tại Gia Đình</h2>
+          <p class="text-muted small">Hãy thực hiện 3 thói quen đơn giản này mỗi ngày vì một môi trường xanh</p>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="d-flex align-items-start p-3 rounded-4 bg-light h-100">
+              <div class="so-thu-tu-buoc">1</div>
+              <div>
+                <h5 class="fw-bold mb-1">Phân loại ngay tại nguồn</h5>
+                <p class="small text-muted mb-0">Đặt ít nhất 2 đến 3 thùng rác có phân màu riêng biệt trong khu bếp và
+                  phòng khách.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="d-flex align-items-start p-3 rounded-4 bg-light h-100">
+              <div class="so-thu-tu-buoc">2</div>
+              <div>
+                <h5 class="fw-bold mb-1">Làm sạch & Gấp dẹp</h5>
+                <p class="small text-muted mb-0">Tráng qua nước với chai lọ, ép bẹp vỏ lon nhôm và gấp phẳng thùng
+                  carton để tiết kiệm diện tích.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="d-flex align-items-start p-3 rounded-4 bg-light h-100">
+              <div class="so-thu-tu-buoc">3</div>
+              <div>
+                <h5 class="fw-bold mb-1">Đổ rác đúng giờ & địa điểm</h5>
+                <p class="small text-muted mb-0">Tuân thủ khung giờ thu gom của công nhân vệ sinh, mang pin và thiết bị
+                  điện tử đến đúng điểm thu hồi.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== 3. FOOTER ==================== -->
+  <footer class="bg-dark text-white pt-5 pb-4 mt-auto">
+    <div class="container">
+      <div class="row g-4 pb-4 border-bottom border-secondary border-opacity-25">
+
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center mb-3">
+            <span class="fs-3 me-2">🌱</span>
+            <span class="fw-bold fs-4 text-white">Green<span class="text-success">Sort</span></span>
+          </div>
+          <p class="text-white-50 small mb-3">
+            Hệ thống phân loại rác và điều phối thu gom thông minh giải quyết bài toán ô nhiễm môi trường đô thị.
+          </p>
+          <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill">
+            Đề tài BTL-05 • CSE122 • Thủy Lợi University
+          </span>
+        </div>
+
+        <div class="col-lg-2 col-md-6 col-6">
+          <h6 class="text-uppercase fw-bold text-white mb-3">Dành cho Dân cư</h6>
+          <ul class="list-unstyled text-white-50 small mb-0 d-flex flex-column gap-2">
+            <li><a href="cu-dan-tra-cuu-rac.html" class="text-white-50 text-decoration-none">Hướng dẫn phân loại</a>
+            </li>
+            <li><a href="#" class="text-white-50 text-decoration-none">Bản đồ điểm thu gom</a></li>
+            <li><a href="#" class="text-white-50 text-decoration-none">Đặt lịch thu gom cồng kềnh</a></li>
+            <li><a href="#" class="text-white-50 text-decoration-none">Đổi điểm thưởng xanh</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-6 col-6">
+          <h6 class="text-uppercase fw-bold text-white mb-3">Vận hành</h6>
+          <ul class="list-unstyled text-white-50 small mb-0 d-flex flex-column gap-2">
+            <li><a href="#" class="text-white-50 text-decoration-none">Nhân viên thu gom</a></li>
+            <li><a href="#" class="text-white-50 text-decoration-none">Bảng điều phối SLA</a></li>
+            <li><a href="#" class="text-white-50 text-decoration-none">Quản trị danh mục rác</a></li>
+            <li><a href="#" class="text-white-50 text-decoration-none">Báo cáo phân tích</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <h6 class="text-uppercase fw-bold text-white mb-3">Thông tin đồ án</h6>
+          <p class="text-white-50 small mb-2">
+            <i class="bi bi-mortarboard-fill me-2 text-success"></i>Học phần: Phát triển ứng dụng Web cơ bản (CSE122)
+          </p>
+          <p class="text-white-50 small mb-2">
+            <i class="bi bi-code-slash me-2 text-success"></i>Công nghệ: Semantic HTML5, CSS3/Bootstrap 5, JavaScript
+            ES6
+          </p>
+          <p class="text-white-50 small mb-0">
+            <i class="bi bi-github me-2 text-success"></i>Repository: <code>github.com/cse122-greensort</code>
+          </p>
+        </div>
+
+      </div>
+
+      <div class="d-flex flex-column flex-md-row align-items-center justify-content-between pt-3 text-white-50 small">
+        <span>© 2026 GreenSort Team. Bài kiểm tra giữa kỳ CSE122.</span>
+        <span>Thiết kế đáp ứng Bootstrap 5 & Figma Specs.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== 4. MODALS & TOAST NOTIFICATIONS ==================== -->
+
+  <!-- MODAL XEM CHI TIẾT VẬT PHẨM RÁC (ĐÁP ỨNG TIÊU CHÍ JAVASCRIPT MODAL) -->
+  <div class="modal fade" id="wasteDetailModal" tabindex="-1" aria-labelledby="modalWasteName" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+
+        <div class="modal-header border-bottom bg-light">
+          <div>
+            <span id="modalWasteBadge" class="badge text-bg-success rounded-pill px-3 py-2 mb-1">Rác hữu cơ</span>
+            <h4 class="modal-title h5 fw-bold text-dark" id="modalWasteName">Tên vật phẩm rác</h4>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+        </div>
+
+        <div class="modal-body p-4">
+          <div class="mb-3">
+            <span class="text-muted small d-block mb-1">Màu thùng chứa quy định:</span>
+            <div class="p-2 bg-light rounded-3 fw-bold text-dark d-flex align-items-center">
+              <i class="bi bi-trash3-fill text-success fs-5 me-2"></i>
+              <span id="modalBinColor">Thùng Xanh Lá / Nâu</span>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-6">
+              <span class="text-muted small d-block">Điểm đến xử lý:</span>
+              <strong class="text-dark small" id="modalDestination">Nhà máy phân compost</strong>
+            </div>
+            <div class="col-6">
+              <span class="text-muted small d-block">Thời gian phân hủy:</span>
+              <strong class="text-dark small" id="modalDecompose">2 - 6 tuần</strong>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <span class="text-muted small d-block mb-1">Hướng dẫn chi tiết từng bước:</span>
+            <div class="p-3 bg-light rounded-3 small text-dark border" id="modalInstructions">
+              1. Để ráo nước.<br>2. Bỏ vào túi sinh học tự phân hủy.
+            </div>
+          </div>
+
+          <div class="alert alert-success d-flex align-items-center mb-0 p-2 small" role="alert">
+            <i class="bi bi-lightbulb-fill text-success me-2 fs-5"></i>
+            <div>
+              <strong>Mẹo hữu ích: </strong><span id="modalTip">Ủ làm phân bón hữu cơ cho cây cảnh.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer border-top bg-light">
+          <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3"
+            data-bs-dismiss="modal">Đóng</button>
+          <button type="button" class="btn btn-success btn-sm rounded-pill px-3" id="btnSubmitFeedback">
+            <i class="bi bi-hand-thumbs-up me-1"></i>Đánh giá thông tin hữu ích
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST FEEDBACK THÔNG BÁO TƯƠNG TÁC -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1080;">
+    <div id="feedbackToast" class="toast align-items-center text-bg-dark border-0 shadow-lg" role="alert"
+      aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center">
+          <i class="bi bi-check-circle-fill text-success fs-5 me-2"></i>
+          <span id="toastMessage">Thao tác thành công!</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+          aria-label="Đóng"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nút cuộn lên đầu trang -->
+  <button id="nutCuonLenDau" title="Cuộn lên đầu trang">
+    <i class="bi bi-arrow-up"></i>
+  </button>
+
+  <!-- ==================== 5. SCRIPTS ==================== -->
+  <!-- Bootstrap 5 Bundle JS (có Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- ======================================================== -->
+  <!-- JAVASCRIPT GỘP TOÀN BỘ DỰ ÁN (AUTH GUARD + MAIN LOGIC + AI) -->
+  <!-- ======================================================== -->
+  <script>
+    /* ==================== 1. QUẢN LÝ TÀI KHOẢN VÀ AUTH GUARD ==================== */
+    /**
+     * Quản lý danh sách tài khoản người dùng và Auth Guard - GreenSort
+     * Sử dụng LocalStorage để lưu trữ tài khoản (hỗ trợ Đăng ký mới, Đăng nhập, Kiểm tra mật khẩu)
+     */
+
+    const USERS_DB_KEY = 'greensort_registered_users';
+    const CURRENT_USER_KEY = 'greensort_current_user';
+
+    // Danh sách trang bắt buộc phải đăng nhập
+    const PROTECTED_PAGES = [
+      'cu-dan-tra-cuu-rac.html',
+      'cu-dan-diem-thu-gom.html',
+      'cu-dan-dat-lich-thu-gom.html',
+      'coordinator-request-board.html',
+      'collector-task-list.html'
+    ];
+
+    /**
+     * 1. Khởi tạo danh sách tài khoản mặc định (nếu LocalStorage chưa có)
+     */
+    function initUsersDatabase() {
+      const existing = localStorage.getItem(USERS_DB_KEY);
+      if (!existing) {
+        const defaultUsers = [
+          {
+            fullName: 'Nguyễn Văn An',
+            username: 'nguyenvana',
+            phone: '0912345678',
+            password: 'password123',
+            role: 'resident',
+            roleName: 'Người dân',
+            createdAt: new Date().toISOString()
+          },
+          {
+            fullName: 'Bác Nam (Tài xế)',
+            username: 'xe_thu_gom_02',
+            phone: '0987654321',
+            password: 'password123',
+            role: 'collector',
+            roleName: 'Thu gom viên',
+            createdAt: new Date().toISOString()
+          },
+          {
+            fullName: 'Phạm Thu Trang',
+            username: 'dieu_phoi_vien_01',
+            phone: '0933221100',
+            password: 'password123',
+            role: 'coordinator',
+            roleName: 'Điều phối viên',
+            createdAt: new Date().toISOString()
+          },
+          {
+            fullName: 'Trần Quản Trị',
+            username: 'admin',
+            phone: '0900000000',
+            password: 'password123',
+            role: 'admin',
+            roleName: 'Quản trị viên',
+            createdAt: new Date().toISOString()
+          }
+        ];
+        localStorage.setItem(USERS_DB_KEY, JSON.stringify(defaultUsers));
+      }
+    }
+
+    /**
+     * 2. Lấy danh sách tất cả tài khoản
+     */
+    function getAllUsers() {
+      initUsersDatabase();
+      try {
+        return JSON.parse(localStorage.getItem(USERS_DB_KEY)) || [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    /**
+     * 3. Đăng ký tài khoản mới (Sign Up)
+     */
+    function registerUser(userData) {
+      const users = getAllUsers();
+
+      // Kiểm tra trùng username hoặc số điện thoại
+      const isExist = users.some(u => u.username.toLowerCase() === userData.username.toLowerCase() || u.phone === userData.phone);
+      if (isExist) {
+        return { success: false, message: 'Tên tài khoản hoặc số điện thoại này đã được đăng ký trên hệ thống!' };
+      }
+
+      const newUser = {
+        fullName: userData.fullName,
+        username: userData.username.trim(),
+        phone: userData.phone.trim(),
+        password: userData.password,
+        role: userData.role || 'resident',
+        roleName: userData.role === 'resident' ? 'Người dân' : (userData.role === 'collector' ? 'Thu gom viên' : 'Điều phối viên'),
+        createdAt: new Date().toISOString()
+      };
+
+      users.push(newUser);
+      localStorage.setItem(USERS_DB_KEY, JSON.stringify(users));
+      return { success: true, message: 'Đăng ký tài khoản thành công! Bạn có thể đăng nhập ngay bây giờ.' };
+    }
+
+    /**
+     * 4. Xác thực đăng nhập (Login)
+     */
+    function authenticateUser(usernameOrPhone, password) {
+      const users = getAllUsers();
+      const input = usernameOrPhone.trim().toLowerCase();
+
+      const user = users.find(u => (u.username.toLowerCase() === input || u.phone === input));
+
+      if (!user) {
+        return { success: false, message: 'Tài khoản hoặc số điện thoại không tồn tại!' };
+      }
+
+      if (user.password !== password) {
+        return { success: false, message: 'Mật khẩu không chính xác, vui lòng thử lại!' };
+      }
+
+      // Lưu phiên đăng nhập hiện tại
+      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify({
+        fullName: user.fullName,
+        username: user.username,
+        phone: user.phone,
+        role: user.role,
+        roleName: user.roleName,
+        loginAt: new Date().toISOString()
+      }));
+
+      return { success: true, user: user };
+    }
+
+    /**
+     * 5. Lấy tài khoản đang đăng nhập hiện tại
+     */
+    function getCurrentUser() {
+      const userJson = localStorage.getItem(CURRENT_USER_KEY);
+      if (!userJson) return null;
+      try {
+        return JSON.parse(userJson);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    /**
+     * 6. Guard bảo vệ trang: nếu chưa đăng nhập thì tự động đá về dang-nhap.html
+     */
+    function checkAuthGuard() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+      if (PROTECTED_PAGES.includes(currentPage)) {
+        const user = getCurrentUser();
+        if (!user) {
+          console.warn('Bạn chưa đăng nhập! Đang chuyển hướng về dang-nhap.html...');
+          sessionStorage.setItem('redirect_after_login', currentPage);
+          window.location.href = 'dang-nhap.html';
+        } else {
+          updateUserHeaderUI(user);
+        }
+      }
+    }
+
+    /**
+     * 7. Đăng xuất (Logout)
+     */
+    function logoutUser() {
+      localStorage.removeItem(CURRENT_USER_KEY);
+      window.location.href = 'dang-nhap.html';
+    }
+
+    /**
+     * 8. Hiển thị thông tin người dùng lên Header
+     */
+    function updateUserHeaderUI(user) {
+      document.addEventListener('DOMContentLoaded', () => {
+        const userLabel = document.getElementById('currentUserDisplay');
+        if (userLabel) {
+          userLabel.textContent = `${user.fullName || user.username} (${user.roleName || user.role})`;
+        }
+      });
+    }
+
+    // Chạy khởi tạo và Auth Guard ngay khi nhúng script
+    initUsersDatabase();
+    checkAuthGuard();
+
+  </script>
+
+  <script>
+    /* ==================== 2. MAIN LOGIC, AI & TRA CỨU PHÂN LOẠI RÁC ==================== */
+    /**
+     * GreenSort - Hệ thống phân loại & điều phối thu gom thông minh
+     * Tệp JavaScript xử lý tương tác DOM, Lọc dữ liệu, Tra cứu và Mô phỏng AI
+     * Học phần: CSE122 - Phát triển ứng dụng Web cơ bản
+     */
+
+    // Dữ liệu rác mặc định dự phòng (nếu không fetch được JSON do bảo mật local file://)
+    const FALLBACK_WASTE_DATA = [
+      {
+        "id": "waste-01",
+        "name": "Vỏ lon bia / Nước ngọt nhôm",
+        "category": "recyclable",
+        "categoryName": "Rác tái chế",
+        "badgeClass": "text-bg-primary",
+        "binColor": "Thùng Xanh Dương",
+        "icon": "bi-cup-straw",
+        "tip": "Rửa sạch cặn đồ uống, dẫm bẹp để tiết kiệm diện tích chứa.",
+        "destination": "Nhà máy tái chế kim loại nhôm",
+        "decomposeTime": "80 - 200 năm",
+        "hazardous": false,
+        "instructions": "1. Tráng qua bằng nước sạch để tránh thu hút côn trùng.\n2. Ép bẹp vỏ lon phẳng lại.\n3. Cho vào túi rác tái chế hoặc thùng rác màu xanh."
+      },
+      {
+        "id": "waste-02",
+        "name": "Chai nhựa PET (Nước suối, trà xanh)",
+        "category": "recyclable",
+        "categoryName": "Rác tái chế",
+        "badgeClass": "text-bg-primary",
+        "binColor": "Thùng Xanh Dương",
+        "icon": "bi-droplet-half",
+        "tip": "Bỏ nắp chai riêng hoặc vặn chặt, tháo nhãn màng co nếu có thể.",
+        "destination": "Xưởng tái chế hạt nhựa rPET",
+        "decomposeTime": "450 năm",
+        "hazardous": false,
+        "instructions": "1. Đổ hết nước thừa bên trong.\n2. Tháo nắp và gỡ màng bọc nilon bên ngoài.\n3. Bóp dẹp thân chai để giảm thể tích chứa."
+      },
+      {
+        "id": "waste-03",
+        "name": "Vỏ chuối & Cuống rau củ quả",
+        "category": "organic",
+        "categoryName": "Rác hữu cơ",
+        "badgeClass": "text-bg-success",
+        "binColor": "Thùng Xanh Lá / Nâu",
+        "icon": "bi-flower1",
+        "tip": "Ủ phân hữu cơ vi sinh (compost) bón cho cây cảnh gia đình.",
+        "destination": "Nhà máy sản xuất phân bón hữu cơ vi sinh",
+        "decomposeTime": "2 - 6 tuần",
+        "hazardous": false,
+        "instructions": "1. Để ráo nước, không lẫn túi nilon hay ghim kim loại.\n2. Cho vào thùng ủ rác hữu cơ hoặc túi sinh học tự phân hủy."
+      },
+      {
+        "id": "waste-04",
+        "name": "Bã cà phê & Túi trà thảo mộc",
+        "category": "organic",
+        "categoryName": "Rác hữu cơ",
+        "badgeClass": "text-bg-success",
+        "binColor": "Thùng Xanh Lá / Nâu",
+        "icon": "bi-cup-hot-fill",
+        "tip": "Bã cà phê giúp khử mùi tủ lạnh rất tốt trước khi bỏ đi làm phân bón.",
+        "destination": "Ủ phân sinh học cải tạo đất",
+        "decomposeTime": "1 - 3 tháng",
+        "hazardous": false,
+        "instructions": "1. Nếu là túi trà, cần cắt bỏ dây nối và ghim bấm kim loại.\n2. Rải gốc cây hoặc gom vào ngăn rác thực phẩm."
+      },
+      {
+        "id": "waste-05",
+        "name": "Pin tiểu AA/AAA & Pin điện thoại cũ",
+        "category": "hazardous",
+        "categoryName": "Rác nguy hại",
+        "badgeClass": "text-bg-danger",
+        "binColor": "Thùng Đỏ / Điểm Thu Pin Riêng",
+        "icon": "bi-battery-charging",
+        "tip": "CỰC KỲ NGUY HIỂM: Chứa chì, thủy ngân, cadimi. Tuyệt đối không vứt chung!",
+        "destination": "Khu xử lý chất thải nguy hại chuyên dụng TLU / UBND",
+        "decomposeTime": "Hàng trăm năm gây ô nhiễm nguồn nước ngầm",
+        "hazardous": true,
+        "instructions": "1. Dán băng dính vào 2 đầu cực của pin để tránh chập cháy.\n2. Gom vào lọ thủy tinh hoặc hộp nhựa kín.\n3. Mang đến các điểm thu gom rác điện tử miễn phí."
+      },
+      {
+        "id": "waste-06",
+        "name": "Bóng đèn huỳnh quang / Bóng Compact hỏng",
+        "category": "hazardous",
+        "categoryName": "Rác nguy hại",
+        "badgeClass": "text-bg-danger",
+        "binColor": "Thùng Đỏ / Điểm Thu Gom",
+        "icon": "bi-lightbulb-fill",
+        "tip": "Bên trong có hơi thủy ngân. Nếu vỡ, tránh hít phải và quét dọn cẩn thận.",
+        "destination": "Lò đốt tiêu hủy chất thải nguy hại đạt chuẩn",
+        "decomposeTime": "Không phân hủy sinh học",
+        "hazardous": true,
+        "instructions": "1. Quấn giấy báo hoặc bọc chống sốc để tránh làm vỡ đèn.\n2. Đánh dấu rõ ràng nhãn 'Bóng đèn hỏng - Nguy hại'.\n3. Bàn giao cho trạm thu gom chất thải đặc thù."
+      },
+      {
+        "id": "waste-07",
+        "name": "Hộp xốp đựng cơm & Ly cà phê dùng 1 lần",
+        "category": "other",
+        "categoryName": "Rác vô cơ khác (Chôn lấp)",
+        "badgeClass": "text-bg-secondary",
+        "binColor": "Thùng Màu Xám / Đen",
+        "icon": "bi-box-seam",
+        "tip": "Đã dính nhiều dầu mỡ thực phẩm, hầu như không thể tái chế kinh tế.",
+        "destination": "Nhà máy điện rác hoặc bãi chôn lấp hợp vệ sinh",
+        "decomposeTime": "500 - 1000 năm",
+        "hazardous": false,
+        "instructions": "1. Vét sạch thức ăn thừa bỏ vào thùng hữu cơ.\n2. Xếp chồng hộp gọn gàng.\n3. Cho vào túi rác vô cơ chôn lấp thông thường."
+      },
+      {
+        "id": "waste-08",
+        "name": "Túi nilon rách, bẩn dính dầu mỡ",
+        "category": "other",
+        "categoryName": "Rác vô cơ khác (Chôn lấp)",
+        "badgeClass": "text-bg-secondary",
+        "binColor": "Thùng Màu Xám / Đen",
+        "icon": "bi-bag-x-fill",
+        "tip": "Hạn chế sử dụng, chuyển sang túi vải hoặc túi sinh học tự phân hủy.",
+        "destination": "Đốt rác phát điện hoặc bãi chôn lấp",
+        "decomposeTime": "400 - 500 năm",
+        "hazardous": false,
+        "instructions": "1. Cột chặt túi lại để không bay vương vãi ra môi trường.\n2. Thải bỏ theo lịch thu gom rác sinh hoạt hàng ngày."
+      },
+      {
+        "id": "waste-09",
+        "name": "Bìa carton & Thùng giấy bưu phẩm",
+        "category": "recyclable",
+        "categoryName": "Rác tái chế",
+        "badgeClass": "text-bg-primary",
+        "binColor": "Thùng Xanh Dương",
+        "icon": "bi-box",
+        "tip": "Giữ khô ráo, tháo bỏ băng dính dán trên thùng trước khi gấp gọn.",
+        "destination": "Nhà máy sản xuất bột giấy tái chế",
+        "decomposeTime": "2 - 5 tháng",
+        "hazardous": false,
+        "instructions": "1. Rạch băng keo, tháo ghim sắt.\n2. Gấp dẹp thùng carton phẳng phiu thành tệp.\n3. Buộc dây gọn gàng gửi cho người thu mua ve chai hoặc xe gom."
+      },
+      {
+        "id": "waste-10",
+        "name": "Dược phẩm, thuốc tây hết hạn sử dụng",
+        "category": "hazardous",
+        "categoryName": "Rác nguy hại",
+        "badgeClass": "text-bg-danger",
+        "binColor": "Thùng Đỏ Y Tế",
+        "icon": "bi-capsule",
+        "tip": "Tuyệt đối không xả xuống bồn cầu vì làm ô nhiễm hệ sinh thái nước ngầm.",
+        "destination": "Thiêu hủy y tế ở nhiệt độ cao",
+        "decomposeTime": "Hóa chất tồn lưu lâu dài",
+        "hazardous": true,
+        "instructions": "1. Giữ nguyên trong vỉ thuốc hoặc lọ đựng ban đầu.\n2. Cho vào túi zip riêng có dán nhãn 'Thuốc quá hạn'.\n3. Nộp lại tại các nhà thuốc hoặc trạm y tế phường có điểm thu hồi."
+      },
+      {
+        "id": "waste-11",
+        "name": "Xương gà, xương cá & Thức ăn thừa",
+        "category": "organic",
+        "categoryName": "Rác hữu cơ",
+        "badgeClass": "text-bg-success",
+        "binColor": "Thùng Xanh Lá / Nâu",
+        "icon": "bi-egg-fried",
+        "tip": "Gạn kiệt nước canh để tránh phát sinh mùi hôi thối và nước rỉ rác.",
+        "destination": "Ủ chế phẩm vi sinh hoặc thức ăn chăn nuôi xử lý nhiệt",
+        "decomposeTime": "1 - 2 tháng",
+        "hazardous": false,
+        "instructions": "1. Đổ qua rây lọc tách nước canh.\n2. Chứa trong thùng có nắp đậy kín mùi.\n3. Thải bỏ hàng ngày theo khung giờ thu gom rác hữu cơ."
+      },
+      {
+        "id": "waste-12",
+        "name": "Mảnh sành sứ vỡ, gương kính vỡ",
+        "category": "other",
+        "categoryName": "Rác vô cơ khác (Chôn lấp)",
+        "badgeClass": "text-bg-secondary",
+        "binColor": "Thùng Màu Xám / Đen",
+        "icon": "bi-gem",
+        "tip": "Gói thật kỹ bằng bìa carton để bảo vệ an toàn cho công nhân thu gom rác!",
+        "destination": "Bãi chôn lấp vật liệu trơ",
+        "decomposeTime": "Hàng ngàn năm",
+        "hazardous": false,
+        "instructions": "1. Dùng báo cũ hoặc xốp bọc quanh các cạnh sắc nhọn.\n2. Cho vào hộp cứng và ghi chú bên ngoài: 'VẬT SẮC NHỌN VỠ CẨN THẬN'.\n3. Để riêng cạnh thùng rác để người thu gom chú ý."
+      }
+    ];
+
+    // Khởi tạo trạng thái ứng dụng (State)
+    let wasteList = [];
+    let currentFilter = 'all';
+    let currentSearchQuery = '';
+
+    // DOM Elements
+    const wasteGridContainer = document.getElementById('wasteGrid');
+    const searchInput = document.getElementById('searchInput');
+    const searchCountBadge = document.getElementById('searchCountBadge');
+    const emptyStateBox = document.getElementById('emptyStateBox');
+    const filterButtons = document.querySelectorAll('.nut-loc-danh-muc');
+
+    // AI Elements
+    const aiInput = document.getElementById('aiWasteInput');
+    const btnAiAnalyze = document.getElementById('btnAiAnalyze');
+    const aiLoadingBox = document.getElementById('aiLoadingBox');
+    const aiResultBox = document.getElementById('aiResultBox');
+    const aiErrorBox = document.getElementById('aiErrorBox');
+
+    // Modal Elements
+    const wasteDetailModal = new bootstrap.Modal(document.getElementById('wasteDetailModal'));
+    const modalWasteName = document.getElementById('modalWasteName');
+    const modalWasteBadge = document.getElementById('modalWasteBadge');
+    const modalBinColor = document.getElementById('modalBinColor');
+    const modalDestination = document.getElementById('modalDestination');
+    const modalDecompose = document.getElementById('modalDecompose');
+    const modalInstructions = document.getElementById('modalInstructions');
+    const modalTip = document.getElementById('modalTip');
+
+    // Feedback Toast
+    const liveToast = new bootstrap.Toast(document.getElementById('feedbackToast'));
+    const toastMessage = document.getElementById('toastMessage');
+
+    /**
+     * 1. KHỞI CHẠY KHI TẢI TRANG
+     */
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadWasteData();
+      renderWasteCards();
+      initEventListeners();
+      initBackToTop();
+    });
+
+    /**
+     * 2. TẢI DỮ LIỆU TỪ JSON HOẶC DỰ PHÒNG
+     */
+    async function loadWasteData() {
+      try {
+        const response = await fetch('assets/data/waste-data.json');
+        if (response.ok) {
+          wasteList = await response.json();
+        } else {
+          wasteList = [...FALLBACK_WASTE_DATA];
+        }
+      } catch (error) {
+        // Trường hợp mở trực tiếp file:// trong trình duyệt không dùng local server
+        console.warn('Sử dụng dữ liệu nội bộ FALLBACK_WASTE_DATA do trình duyệt chặn fetch file://:', error);
+        wasteList = [...FALLBACK_WASTE_DATA];
+      }
+    }
+
+    /**
+     * 3. KẾT XUẤT (RENDER) DANH SÁCH THẺ RÁC VÀO DOM
+     */
+    function renderWasteCards() {
+      const query = currentSearchQuery.trim().toLowerCase();
+
+      // Lọc theo danh mục và từ khóa tìm kiếm
+      const filteredList = wasteList.filter(item => {
+        const matchCategory = (currentFilter === 'all') || (item.category === currentFilter);
+        const matchSearch = item.name.toLowerCase().includes(query) ||
+          item.categoryName.toLowerCase().includes(query) ||
+          item.tip.toLowerCase().includes(query);
+        return matchCategory && matchSearch;
+      });
+
+      // Cập nhật số lượng tìm thấy
+      searchCountBadge.textContent = `${filteredList.length} vật phẩm`;
+
+      // Xử lý trạng thái rỗng (Empty State)
+      if (filteredList.length === 0) {
+        wasteGridContainer.innerHTML = '';
+        emptyStateBox.classList.remove('d-none');
+        return;
+      } else {
+        emptyStateBox.classList.add('d-none');
+      }
+
+      // Tạo HTML các thẻ rác
+      wasteGridContainer.innerHTML = filteredList.map(item => `
+    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+      <div class="the-vat-pham-rac p-3 shadow-sm h-100">
+        <div class="d-flex align-items-start justify-content-between mb-2">
+          <div class="bieu-tuong-vat-pham the-loai-rac shadow-sm">
+            <i class="bi ${item.icon} text-success"></i>
+          </div>
+          <span class="badge ${item.badgeClass} rounded-pill">${item.categoryName}</span>
+        </div>
+        
+        <h3 class="h6 fw-bold text-dark mt-2 mb-1 text-truncate" title="${item.name}">${item.name}</h3>
+        
+        <p class="small text-muted mb-2 flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+          ${item.tip}
+        </p>
+
+        <div class="d-flex align-items-center justify-content-between pt-2 border-top">
+          <span class="small fw-semibold text-secondary">
+            <i class="bi bi-trash3 me-1"></i>${item.binColor.split('/')[0]}
+          </span>
+          <button class="btn btn-outline-success btn-sm rounded-pill px-3" onclick="openWasteModal('${item.id}')">
+            Xem chi tiết
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+    }
+
+    /**
+     * 4. MỞ MODAL XEM CHI TIẾT
+     */
+    window.openWasteModal = function (id) {
+      const item = wasteList.find(w => w.id === id);
+      if (!item) return;
+
+      modalWasteName.textContent = item.name;
+      modalWasteBadge.className = `badge ${item.badgeClass} rounded-pill fs-6 px-3 py-2`;
+      modalWasteBadge.textContent = item.categoryName;
+      modalBinColor.textContent = item.binColor;
+      modalDestination.textContent = item.destination;
+      modalDecompose.textContent = item.decomposeTime;
+      modalInstructions.innerHTML = item.instructions.replace(/\n/g, '<br>');
+      modalTip.textContent = item.tip;
+
+      wasteDetailModal.show();
+    };
+
+    /**
+     * 5. KHỞI TẠO CÁC SỰ KIỆN TƯƠNG TÁC (EVENT LISTENERS)
+     */
+    function initEventListeners() {
+      // Tìm kiếm tức thời (Real-time input search)
+      searchInput.addEventListener('input', (e) => {
+        currentSearchQuery = e.target.value;
+        renderWasteCards();
+      });
+
+      // Lọc theo Tab Category
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.getAttribute('data-filter');
+          renderWasteCards();
+        });
+      });
+
+      // Quick Tags ở Hero
+      document.querySelectorAll('.the-tim-nhanh').forEach(tag => {
+        tag.addEventListener('click', (e) => {
+          e.preventDefault();
+          const val = tag.getAttribute('data-val');
+          searchInput.value = val;
+          currentSearchQuery = val;
+          renderWasteCards();
+          document.getElementById('wasteLookupSection').scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      // AI-1 WASTE CLASSIFIER SIMULATOR (Mô phỏng trải nghiệm AI)
+      btnAiAnalyze.addEventListener('click', handleAiAnalyze);
+
+      // Nhấn Enter trong ô input AI
+      aiInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          handleAiAnalyze();
+        }
+      });
+
+      // Nút gửi feedback/phản hồi
+      const feedbackBtn = document.getElementById('btnSubmitFeedback');
+      if (feedbackBtn) {
+        feedbackBtn.addEventListener('click', () => {
+          showToast('Cảm ơn bạn! Đóng góp phân loại đã được gửi tới điều phối viên.');
+          wasteDetailModal.hide();
+        });
+      }
+    }
+
+    /**
+     * 6. XỬ LÝ MÔ PHỎNG AI-1: PHÂN LOẠI RÁC (WASTE CLASSIFIER)
+     * Áp dụng đúng nguyên tắc BTL-05: Nhập -> Đang xử lý -> Kết quả -> Lý do -> Người dùng kiểm soát
+     */
+    function handleAiAnalyze() {
+      const query = aiInput.value.trim();
+
+      if (!query) {
+        aiInput.classList.add('is-invalid');
+        aiInput.focus();
+        return;
+      }
+      aiInput.classList.remove('is-invalid');
+
+      // Bước 1: Hiển thị Skeleton/Loading
+      aiLoadingBox.classList.remove('d-none');
+      aiResultBox.classList.add('d-none');
+      aiErrorBox.classList.add('d-none');
+
+      // Mô phỏng độ trễ mạng AI suy luận (1 giây)
+      setTimeout(() => {
+        aiLoadingBox.classList.add('d-none');
+
+        // Thuật toán Rule-based NLP mô phỏng AI thông minh
+        const qLower = query.toLowerCase();
+        let result = null;
+
+        if (qLower.includes('pin') || qLower.includes('ắc quy') || qLower.includes('đèn') || qLower.includes('thuốc') || qLower.includes('sạc') || qLower.includes('nhiệt kế')) {
+          result = {
+            name: query,
+            category: 'hazardous',
+            categoryName: 'Rác nguy hại',
+            boxClass: 'hazardous',
+            badgeClass: 'text-bg-danger',
+            bin: 'Thùng Màu Đỏ / Trạm thu gom nguy hại TLU',
+            confidence: '98.5%',
+            reason: 'Vật phẩm có chứa kim loại nặng độc hại (chì, thủy ngân, axit) dễ gây ô nhiễm nguồn nước ngầm và cháy nổ nếu bị ép nén.',
+            instructions: 'Bọc kín hai đầu cực, cho vào hộp kín và nộp tại trạm thu gom rác nguy hại, không bỏ vào thùng rác gia đình.'
+          };
+        } else if (qLower.includes('lon') || qLower.includes('chai') || qLower.includes('giấy') || qLower.includes('bìa') || qLower.includes('nhôm') || qLower.includes('sắt') || qLower.includes('nhựa') || qLower.includes('sách')) {
+          result = {
+            name: query,
+            category: 'recyclable',
+            categoryName: 'Rác tái chế',
+            boxClass: 'recyclable',
+            badgeClass: 'text-bg-primary',
+            bin: 'Thùng Màu Xanh Dương (Tái chế)',
+            confidence: '96.2%',
+            reason: 'Vật liệu có giá trị tái sinh cao (nhôm, nhựa PET/HDPE, cellulose từ giấy) có thể thu hồi tạo ra sản phẩm mới.',
+            instructions: 'Làm sạch chất lỏng thừa, ép bẹp để giảm diện tích chứa trước khi cho vào thùng xanh.'
+          };
+        } else if (qLower.includes('cơm') || qLower.includes('thịt') || qLower.includes('cá') || qLower.includes('rau') || qLower.includes('chuối') || qLower.includes('vỏ') || qLower.includes('bã') || qLower.includes('trái cây')) {
+          result = {
+            name: query,
+            category: 'organic',
+            categoryName: 'Rác hữu cơ',
+            boxClass: 'organic',
+            badgeClass: 'text-bg-success',
+            bin: 'Thùng Màu Xanh Lá / Nâu (Hữu cơ)',
+            confidence: '99.1%',
+            reason: 'Chất hữu cơ dễ phân hủy sinh học, có khả năng ủ làm phân bón hữu cơ compost hoặc chế biến thức ăn chăn nuôi.',
+            instructions: 'Chắt ráo nước canh để tránh phát sinh mùi hôi, cho vào túi rác phân hủy sinh học.'
+          };
+        } else {
+          // Trường hợp rác vô cơ chôn lấp khác hoặc vật phẩm chung
+          result = {
+            name: query,
+            category: 'other',
+            categoryName: 'Rác vô cơ khác (Chôn lấp / Không tái chế)',
+            boxClass: 'other',
+            badgeClass: 'text-bg-secondary',
+            bin: 'Thùng Màu Xám / Đen',
+            confidence: '89.4%',
+            reason: 'Vật phẩm hỗn hợp khó phân hủy, đã dính bẩn hoặc không có đơn vị tái chế kinh tế khả thi.',
+            instructions: 'Cho vào bao rác sinh hoạt thông thường chuyển tới khu xử lý đốt rác phát điện hoặc bãi chôn lấp.'
+          };
+        }
+
+        // Hiển thị kết quả AI vào DOM
+        renderAiResult(result);
+      }, 900);
+    }
+
+    /**
+     * 7. RENDER KẾT QUẢ AI VÀ TƯƠNG TÁC KIỂM SOÁT
+     */
+    function renderAiResult(data) {
+      aiResultBox.className = `hop-ket-qua-ai p-4 mt-3 ${data.boxClass}`;
+      aiResultBox.innerHTML = `
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+      <div>
+        <span class="badge ${data.badgeClass} rounded-pill fs-6 px-3 py-2 me-2">
+          ${data.categoryName}
+        </span>
+        <span class="badge bg-white text-dark border rounded-pill py-2 px-3">
+          <i class="bi bi-magic text-success me-1"></i>Độ phù hợp: <strong>${data.confidence}</strong>
+        </span>
+      </div>
+      <div class="small text-muted">
+        <i class="bi bi-clock-history me-1"></i>Mô hình: <strong>GreenSort-v2.5 (Vision & NLP)</strong>
+      </div>
+    </div>
+
+    <h4 class="h5 fw-bold text-dark mb-2">
+      <i class="bi bi-check2-circle text-success me-2"></i>Đề xuất cho: "${data.name}"
+    </h4>
+
+    <div class="p-3 bg-white rounded-3 border mb-3">
+      <div class="row g-2">
+        <div class="col-md-6">
+          <span class="text-muted small">Thùng bỏ quy định:</span>
+          <p class="fw-bold text-dark mb-1"><i class="bi bi-trash3-fill me-1 text-primary"></i>${data.bin}</p>
+        </div>
+        <div class="col-md-6">
+          <span class="text-muted small">Cách chuẩn bị:</span>
+          <p class="fw-bold text-dark mb-1">${data.instructions}</p>
+        </div>
+      </div>
+      <div class="mt-2 pt-2 border-top">
+        <span class="text-muted small"><strong>Giải thích của AI:</strong> ${data.reason}</span>
+      </div>
+    </div>
+
+    <!-- Người dùng kiểm soát (User Control theo BTL-05) -->
+    <div class="d-flex flex-wrap align-items-center gap-2">
+      <button class="btn btn-success btn-sm px-3 rounded-pill" onclick="acceptAiResult('${data.name}', '${data.categoryName}')">
+        <i class="bi bi-check-lg me-1"></i>Chấp nhận kết quả
+      </button>
+      <button class="btn btn-outline-secondary btn-sm px-3 rounded-pill" onclick="triggerManualEdit('${data.name}')">
+        <i class="bi bi-pencil me-1"></i>Sửa loại rác thủ công
+      </button>
+      <button class="btn btn-outline-danger btn-sm px-3 rounded-pill" onclick="reportAiError('${data.name}')">
+        <i class="bi bi-flag me-1"></i>Báo lỗi phân loại
+      </button>
+    </div>
+  `;
+
+      aiResultBox.classList.remove('d-none');
+    }
+
+    /**
+     * 8. CÁC HÀNH ĐỘNG KIỂM SOÁT NGƯỜI DÙNG KHI AI ĐƯA RA KẾT QUẢ
+     */
+    window.acceptAiResult = function (name, category) {
+      showToast(`Đã lưu "${name}" vào lịch sử phân loại thành công! (+10 Điểm Xanh thưởng 🌱)`);
+    };
+
+    window.triggerManualEdit = function (name) {
+      showToast(`Chuyển sang chế độ chỉnh sửa thủ công cho "${name}".`);
+      searchInput.value = name;
+      currentSearchQuery = name;
+      renderWasteCards();
+      document.getElementById('wasteLookupSection').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    window.reportAiError = function (name) {
+      showToast(`Đã ghi nhận báo cáo lỗi cho "${name}". Đội ngũ điều phối viên sẽ kiểm tra lại!`);
+    };
+
+    /**
+     * 9. TOAST THÔNG BÁO TƯƠNG TÁC
+     */
+    function showToast(message) {
+      toastMessage.textContent = message;
+      liveToast.show();
+    }
+
+    /**
+     * 10. NÚT BACK TO TOP
+     */
+    function initBackToTop() {
+      const btn = document.getElementById('nutCuonLenDau');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          btn.style.display = 'block';
+        } else {
+          btn.style.display = 'none';
+        }
+      });
+
+      btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+  </script>
+
+  <!-- Helper lọc nhanh từ danh mục card -->
+  <script>
+    function filterByCategory(cat) {
+      document.querySelectorAll('.nut-loc-danh-muc').forEach(btn => {
+        if (btn.getAttribute('data-filter') === cat) {
+          btn.click();
+        }
+      });
+      document.getElementById('wasteLookupSection').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+
+</html>

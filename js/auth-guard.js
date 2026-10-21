@@ -1,179 +1,466 @@
 /**
- * Quản lý danh sách tài khoản người dùng và Auth Guard - GreenSort
- * Sử dụng LocalStorage để lưu trữ tài khoản (hỗ trợ Đăng ký mới, Đăng nhập, Kiểm tra mật khẩu)
+ * GreenSort - Hệ thống phân loại & điều phối thu gom thông minh
+ * Tệp JavaScript: Quản lý Xác Thực & Phân Quyền Vai Trò (kiem-tra-quyen.js)
+ * 
+ * Học phần: CSE122 - Phát triển ứng dụng Web cơ bản
+ * Khoa Công nghệ thông tin - Đại học Thủy Lợi (TLU)
+ * Nhóm sinh viên thực hiện: BTL-05
+ * 
+ * 4 Vai trò người dùng trong hệ thống:
+ *   1. resident (Người dân)
+ *   2. collector (Thu gom viên)
+ *   3. coordinator (Điều phối viên)
+ *   4. admin (Quản trị viên)
+ * Người dùng vai trò nào CHỈ ĐƯỢC PHÉP truy cập trang của vai trò đó!
  */
 
-const USERS_DB_KEY = 'greensort_registered_users';
-const CURRENT_USER_KEY = 'greensort_current_user';
+// Tên khóa lưu trữ trong LocalStorage
+const KHOA_CSDL_NGUOI_DUNG = 'greensort_registered_users';
+const KHOA_PHIEN_DANG_NHAP = 'greensort_current_user';
 
-// Danh sách trang bắt buộc phải đăng nhập
-const PROTECTED_PAGES = [
-  'resident-waste-guide.html',
-  'resident-collection-points.html',
-  'resident-pickup-request.html',
-  'coordinator-request-board.html',
-  'collector-task-list.html'
+// Bản đồ phân quyền chi tiết cho từng vai trò (hỗ trợ cả tên tiếng Việt và tên cũ)
+const DANH_SACH_QUYEN_THEO_VAI_TRO = {
+  resident: [
+    'cu-dan-tra-cuu-rac.html',
+    'cu-dan-diem-thu-gom.html',
+    'cu-dan-dat-lich-thu-gom.html',
+    'resident-waste-guide.html',
+    'resident-collection-points.html',
+    'resident-pickup-request.html'
+  ],
+  collector: [
+    'thu-gom-danh-sach-nhiem-vu.html',
+    'thu-gom-lo-trinh-tuyen-duong.html',
+    'thu-gom-chi-tiet-don.html',
+    'collector-task-list.html',
+    'collector-route-view.html',
+    'collector-request-detail.html'
+  ],
+  coordinator: [
+    'dieu-phoi-bang-yeu-cau.html',
+    'dieu-phoi-quan-ly-diem-gom.html',
+    'dieu-phoi-thong-ke-bao-cao.html',
+    'coordinator-request-board.html',
+    'coordinator-point-management.html',
+    'coordinator-analytics.html'
+  ],
+  admin: [
+    'quan-tri-bang-dieu-khien.html',
+    'quan-tri-danh-muc-rac.html',
+    'quan-tri-nguoi-dung.html',
+    'admin-dashboard.html',
+    'admin-waste-types.html',
+    'admin-users.html'
+  ]
+};
+
+// Trang chủ mặc định khi đăng nhập theo từng vai trò
+const TRANG_CHU_THEO_VAI_TRO = {
+  resident: 'cu-dan-tra-cuu-rac.html',
+  collector: 'thu-gom-danh-sach-nhiem-vu.html',
+  coordinator: 'dieu-phoi-bang-yeu-cau.html',
+  admin: 'quan-tri-bang-dieu-khien.html'
+};
+
+// Tên tiếng Việt hiển thị
+const TEN_GOI_VAI_TRO = {
+  resident: 'Người dân',
+  collector: 'Thu gom viên',
+  coordinator: 'Điều phối viên',
+  admin: 'Quản trị viên'
+};
+
+// Danh sách các trang bắt buộc bảo vệ (yêu cầu đăng nhập)
+const TAT_CA_TRANG_BAO_VE = [
+  ...DANH_SACH_QUYEN_THEO_VAI_TRO.resident,
+  ...DANH_SACH_QUYEN_THEO_VAI_TRO.collector,
+  ...DANH_SACH_QUYEN_THEO_VAI_TRO.coordinator,
+  ...DANH_SACH_QUYEN_THEO_VAI_TRO.admin
+];
+
+// Danh sách trang công khai không cần đăng nhập
+const TRANG_CONG_KHAI = [
+  'index.html',
+  'dang-nhap.html',
+  'login.html',
+  'dang-ky.html',
+  'register.html',
+  'quen-mat-khau.html',
+  'forgot-password.html',
+  '404.html',
+  '403.html'
 ];
 
 /**
- * 1. Khởi tạo danh sách tài khoản mặc định (nếu LocalStorage chưa có)
+ * 1. Khởi tạo danh sách tài khoản mẫu ban đầu (Seed Users)
  */
-function initUsersDatabase() {
-  const existing = localStorage.getItem(USERS_DB_KEY);
-  if (!existing) {
-    const defaultUsers = [
-      {
-        fullName: 'Nguyễn Văn An',
-        username: 'nguyenvana',
-        phone: '0912345678',
-        password: 'password123',
-        role: 'resident',
-        roleName: 'Người dân',
-        createdAt: new Date().toISOString()
-      },
-      {
-        fullName: 'Bác Nam (Tài xế)',
-        username: 'xe_thu_gom_02',
-        phone: '0987654321',
-        password: 'password123',
-        role: 'collector',
-        roleName: 'Thu gom viên',
-        createdAt: new Date().toISOString()
-      },
-      {
-        fullName: 'Phạm Thu Trang',
-        username: 'dieu_phoi_vien_01',
-        phone: '0933221100',
-        password: 'password123',
-        role: 'coordinator',
-        roleName: 'Điều phối viên',
-        createdAt: new Date().toISOString()
+function khoiTaoCoSoDuLieuNguoiDung() {
+  const duLieuDaCo = localStorage.getItem(KHOA_CSDL_NGUOI_DUNG);
+  let danhSachHienTai = [];
+  try {
+    danhSachHienTai = duLieuDaCo ? JSON.parse(duLieuDaCo) : [];
+    if (!Array.isArray(danhSachHienTai)) danhSachHienTai = [];
+  } catch (loi) {
+    danhSachHienTai = [];
+  }
+
+  // 4 Tài khoản mẫu mặc định đại diện cho 4 vai trò
+  const danhSachTaiKhoanMau = [
+    {
+      fullName: 'Nguyễn Văn An',
+      username: 'nguyenvana',
+      phone: '0912345678',
+      password: 'password123',
+      role: 'resident',
+      roleName: 'Người dân',
+      disabled: false,
+      createdAt: new Date().toISOString()
+    },
+    {
+      fullName: 'Bác Nam (Tài xế)',
+      username: 'xe_thu_gom_02',
+      phone: '0987654321',
+      password: 'password123',
+      role: 'collector',
+      roleName: 'Thu gom viên',
+      disabled: false,
+      createdAt: new Date().toISOString()
+    },
+    {
+      fullName: 'Phạm Thu Trang',
+      username: 'dieu_phoi_vien_01',
+      phone: '0933221100',
+      password: 'password123',
+      role: 'coordinator',
+      roleName: 'Điều phối viên',
+      disabled: false,
+      createdAt: new Date().toISOString()
+    },
+    {
+      fullName: 'Trần Quản Trị',
+      username: 'admin',
+      phone: '0900000000',
+      password: 'password123',
+      role: 'admin',
+      roleName: 'Quản trị viên',
+      disabled: false,
+      createdAt: new Date().toISOString()
+    }
+  ];
+
+  let coThayDoi = false;
+  if (danhSachHienTai.length === 0) {
+    danhSachHienTai = danhSachTaiKhoanMau;
+    coThayDoi = true;
+  } else {
+    // Đảm bảo 4 tài khoản mẫu luôn sẵn sàng để kiểm thử
+    danhSachTaiKhoanMau.forEach(tkMau => {
+      const viTri = danhSachHienTai.findIndex(u => u.username && u.username.toLowerCase() === tkMau.username.toLowerCase());
+      if (viTri === -1) {
+        danhSachHienTai.push(tkMau);
+        coThayDoi = true;
+      } else if (tkMau.username === 'admin') {
+        if (danhSachHienTai[viTri].role !== 'admin' || danhSachHienTai[viTri].disabled || !danhSachHienTai[viTri].password) {
+          danhSachHienTai[viTri].role = 'admin';
+          danhSachHienTai[viTri].roleName = 'Quản trị viên';
+          danhSachHienTai[viTri].disabled = false;
+          danhSachHienTai[viTri].password = 'password123';
+          coThayDoi = true;
+        }
       }
-    ];
-    localStorage.setItem(USERS_DB_KEY, JSON.stringify(defaultUsers));
+    });
+  }
+
+  if (coThayDoi) {
+    localStorage.setItem(KHOA_CSDL_NGUOI_DUNG, JSON.stringify(danhSachHienTai));
   }
 }
 
 /**
- * 2. Lấy danh sách tất cả tài khoản
+ * 2. Lấy toàn bộ danh sách tài khoản
  */
-function getAllUsers() {
-  initUsersDatabase();
+function layTatCaNguoiDung() {
+  khoiTaoCoSoDuLieuNguoiDung();
   try {
-    return JSON.parse(localStorage.getItem(USERS_DB_KEY)) || [];
-  } catch (e) {
+    return JSON.parse(localStorage.getItem(KHOA_CSDL_NGUOI_DUNG)) || [];
+  } catch (loi) {
     return [];
   }
 }
 
 /**
- * 3. Đăng ký tài khoản mới (Sign Up)
+ * 3. Đăng ký tài khoản người dân mới
  */
-function registerUser(userData) {
-  const users = getAllUsers();
-  
-  // Kiểm tra trùng username hoặc số điện thoại
-  const isExist = users.some(u => u.username.toLowerCase() === userData.username.toLowerCase() || u.phone === userData.phone);
-  if (isExist) {
-    return { success: false, message: 'Tên tài khoản hoặc số điện thoại này đã được đăng ký trên hệ thống!' };
+function dangKyTaiKhoanMoi(thongTin) {
+  const danhSach = layTatCaNguoiDung();
+
+  // Kiểm tra trùng tên tài khoản hoặc số điện thoại
+  const daTonTai = danhSach.some(u =>
+    u.username.toLowerCase() === thongTin.username.toLowerCase() ||
+    u.phone === thongTin.phone
+  );
+  if (daTonTai) {
+    return { success: false, message: 'Tên tài khoản hoặc số điện thoại này đã được đăng ký!' };
   }
 
-  const newUser = {
-    fullName: userData.fullName,
-    username: userData.username.trim(),
-    phone: userData.phone.trim(),
-    password: userData.password,
-    role: userData.role || 'resident',
-    roleName: userData.role === 'resident' ? 'Người dân' : (userData.role === 'collector' ? 'Thu gom viên' : 'Điều phối viên'),
+  // Kiểm tra tên tài khoản hợp lệ
+  if (!/^[a-zA-Z0-9_]{4,20}$/.test(thongTin.username)) {
+    return { success: false, message: 'Tên tài khoản phải từ 4-20 ký tự, chỉ gồm chữ cái, số và dấu gạch dưới.' };
+  }
+
+  // Kiểm tra độ dài mật khẩu
+  if (!thongTin.password || thongTin.password.length < 6) {
+    return { success: false, message: 'Mật khẩu phải có ít nhất 6 ký tự.' };
+  }
+
+  const vaiTroHopLe = ['resident', 'collector', 'coordinator', 'admin'];
+  const vaiTro = (thongTin.role && vaiTroHopLe.includes(thongTin.role)) ? thongTin.role : 'resident';
+  const tenVaiTro = TEN_GOI_VAI_TRO[vaiTro] || 'Người dân';
+
+  const taiKhoanMoi = {
+    fullName: (thongTin.fullName || '').trim(),
+    username: (thongTin.username || '').trim(),
+    phone: (thongTin.phone || '').trim(),
+    password: thongTin.password,
+    role: vaiTro,
+    roleName: tenVaiTro,
+    disabled: false,
     createdAt: new Date().toISOString()
   };
 
-  users.push(newUser);
-  localStorage.setItem(USERS_DB_KEY, JSON.stringify(users));
-  return { success: true, message: 'Đăng ký tài khoản thành công! Bạn có thể đăng nhập ngay bây giờ.' };
+  danhSach.push(taiKhoanMoi);
+  localStorage.setItem(KHOA_CSDL_NGUOI_DUNG, JSON.stringify(danhSach));
+  return { success: true, message: `Tạo tài khoản thành công cho "${taiKhoanMoi.fullName}"!` };
 }
 
 /**
- * 4. Xác thực đăng nhập (Login)
+ * 4. Xác thực đăng nhập
  */
-function authenticateUser(usernameOrPhone, password) {
-  const users = getAllUsers();
-  const input = usernameOrPhone.trim().toLowerCase();
-  
-  const user = users.find(u => (u.username.toLowerCase() === input || u.phone === input));
-  
-  if (!user) {
-    return { success: false, message: 'Tài khoản hoặc số điện thoại không tồn tại!' };
-  }
-  
-  if (user.password !== password) {
-    return { success: false, message: 'Mật khẩu không chính xác, vui lòng thử lại!' };
+function xacThucDangNhap(tenDangNhapHoacSdt, matKhau) {
+  khoiTaoCoSoDuLieuNguoiDung();
+  const danhSach = layTatCaNguoiDung();
+  const chuoiNhap = (tenDangNhapHoacSdt || '').trim().toLowerCase();
+
+  const taiKhoan = danhSach.find(u => {
+    const uName = (u.username || '').toLowerCase();
+    const phone = (u.phone || '').trim();
+    return uName === chuoiNhap || phone === chuoiNhap;
+  });
+
+  if (!taiKhoan) {
+    return {
+      success: false,
+      thanhCong: false,
+      message: 'Tài khoản hoặc số điện thoại không tồn tại!',
+      thongBao: 'Tài khoản hoặc số điện thoại không tồn tại!'
+    };
   }
 
-  // Lưu phiên đăng nhập hiện tại
-  localStorage.setItem(CURRENT_USER_KEY, JSON.stringify({
-    fullName: user.fullName,
-    username: user.username,
-    phone: user.phone,
-    role: user.role,
-    roleName: user.roleName,
+  if (taiKhoan.disabled) {
+    return {
+      success: false,
+      thanhCong: false,
+      message: 'Tài khoản đã bị vô hiệu hóa bởi Quản trị viên!',
+      thongBao: 'Tài khoản đã bị vô hiệu hóa bởi Quản trị viên!'
+    };
+  }
+
+  if (taiKhoan.password !== matKhau) {
+    return {
+      success: false,
+      thanhCong: false,
+      message: 'Mật khẩu không chính xác, vui lòng thử lại!',
+      thongBao: 'Mật khẩu không chính xác, vui lòng thử lại!'
+    };
+  }
+
+  // Lưu thông tin phiên đăng nhập
+  const phien = {
+    fullName: taiKhoan.fullName,
+    username: taiKhoan.username,
+    phone: taiKhoan.phone,
+    role: taiKhoan.role,
+    roleName: taiKhoan.roleName || TEN_GOI_VAI_TRO[taiKhoan.role] || taiKhoan.role,
     loginAt: new Date().toISOString()
-  }));
+  };
+  localStorage.setItem(KHOA_PHIEN_DANG_NHAP, JSON.stringify(phien));
 
-  return { success: true, user: user };
+  const trangDich = TRANG_CHU_THEO_VAI_TRO[taiKhoan.role] || 'cu-dan-tra-cuu-rac.html';
+  return {
+    success: true,
+    thanhCong: true,
+    user: taiKhoan,
+    nguoiDung: taiKhoan,
+    redirectUrl: trangDich,
+    duongDanChuyenHuong: trangDich
+  };
 }
 
 /**
  * 5. Lấy tài khoản đang đăng nhập hiện tại
  */
-function getCurrentUser() {
-  const userJson = localStorage.getItem(CURRENT_USER_KEY);
-  if (!userJson) return null;
+function layNguoiDungHienTai() {
+  const chuoi = localStorage.getItem(KHOA_PHIEN_DANG_NHAP);
+  if (!chuoi) return null;
   try {
-    return JSON.parse(userJson);
-  } catch (e) {
+    return JSON.parse(chuoi);
+  } catch (loi) {
     return null;
   }
 }
 
 /**
- * 6. Guard bảo vệ trang: nếu chưa đăng nhập thì tự động đá về login.html
+ * 6. Kiểm tra quyền truy cập trang nghiêm ngặt theo vai trò
  */
-function checkAuthGuard() {
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-  
-  if (PROTECTED_PAGES.includes(currentPage)) {
-    const user = getCurrentUser();
-    if (!user) {
-      console.warn('Bạn chưa đăng nhập! Đang chuyển hướng về login.html...');
-      sessionStorage.setItem('redirect_after_login', currentPage);
-      window.location.href = 'login.html';
-    } else {
-      updateUserHeaderUI(user);
+function kiemTraQuyenTruyCap() {
+  const duongDanTrang = window.location.pathname.split('/').pop() || 'index.html';
+
+  // Bỏ qua các trang công khai
+  if (TRANG_CONG_KHAI.includes(duongDanTrang)) return;
+
+  if (TAT_CA_TRANG_BAO_VE.includes(duongDanTrang)) {
+    const nguoiDung = layNguoiDungHienTai();
+
+    // Chưa đăng nhập -> Chuyển về trang đăng nhập
+    if (!nguoiDung) {
+      sessionStorage.setItem('greensort_redirect_after_login', duongDanTrang);
+      window.location.href = 'dang-nhap.html';
+      return;
     }
+
+    // Kiểm tra quyền theo vai trò
+    const trangDuocPhep = DANH_SACH_QUYEN_THEO_VAI_TRO[nguoiDung.role] || [];
+    if (!trangDuocPhep.includes(duongDanTrang)) {
+      window.location.href = `403.html?page=${encodeURIComponent(duongDanTrang)}&role=${encodeURIComponent(nguoiDung.role)}`;
+      return;
+    }
+
+    // Cập nhật tên người dùng lên thanh tiêu đề
+    capNhatThanhDieuHuong(nguoiDung);
   }
 }
 
 /**
- * 7. Đăng xuất (Logout)
+ * 7. Cập nhật tên và vai trò người dùng lên thanh điều hướng
  */
-function logoutUser() {
-  localStorage.removeItem(CURRENT_USER_KEY);
-  window.location.href = 'login.html';
+function capNhatThanhDieuHuong(nguoiDung) {
+  const capNhat = () => {
+    const nhanTen = document.querySelectorAll('#currentUserDisplay');
+    const tenHienThi = `${nguoiDung.fullName || nguoiDung.username} (${nguoiDung.roleName || TEN_GOI_VAI_TRO[nguoiDung.role] || nguoiDung.role})`;
+    nhanTen.forEach(nhan => {
+      if (nhan.textContent !== tenHienThi) nhan.textContent = tenHienThi;
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', capNhat);
+  } else {
+    capNhat();
+  }
 }
 
 /**
- * 8. Hiển thị thông tin người dùng lên Header
+ * 8. Đăng xuất khỏi hệ thống
  */
-function updateUserHeaderUI(user) {
-  document.addEventListener('DOMContentLoaded', () => {
-    const userLabel = document.getElementById('currentUserDisplay');
-    if (userLabel) {
-      userLabel.textContent = `${user.fullName || user.username} (${user.roleName || user.role})`;
+function dangXuat() {
+  localStorage.removeItem(KHOA_PHIEN_DANG_NHAP);
+  window.location.href = 'dang-nhap.html';
+}
+
+/**
+ * 9. Đặt lại mật khẩu mới
+ */
+function datLaiMatKhau(tenDangNhapHoacSdt, matKhauMoi) {
+  const danhSach = layTatCaNguoiDung();
+  const chuoi = tenDangNhapHoacSdt.trim().toLowerCase();
+  const viTri = danhSach.findIndex(u =>
+    u.username.toLowerCase() === chuoi || u.phone === chuoi
+  );
+
+  if (viTri === -1) {
+    return { success: false, message: 'Tài khoản hoặc số điện thoại không tồn tại!' };
+  }
+
+  if (!matKhauMoi || matKhauMoi.length < 6) {
+    return { success: false, message: 'Mật khẩu mới phải có ít nhất 6 ký tự.' };
+  }
+
+  danhSach[viTri].password = matKhauMoi;
+  danhSach[viTri].passwordResetAt = new Date().toISOString();
+  localStorage.setItem(KHOA_CSDL_NGUOI_DUNG, JSON.stringify(danhSach));
+
+  return { success: true, message: `Đặt lại mật khẩu thành công cho tài khoản "${danhSach[viTri].username}"!` };
+}
+
+/**
+ * 10. Chuyển trang mượt mà không chớp nháy
+ */
+function khoiTaoChuyenTrangMuot() {
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('javascript:') || href.startsWith('tel:') || href.startsWith('mailto:') || link.target === '_blank') {
+      return;
     }
+    if (link.getAttribute('data-bs-toggle') || link.getAttribute('data-bs-target')) {
+      return;
+    }
+    if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+
+    const fileHienTai = window.location.pathname.split('/').pop() || 'index.html';
+    const fileDich = href.split('/').pop();
+    if (fileDich === fileHienTai) {
+      e.preventDefault();
+      return;
+    }
+
+    if (href.endsWith('.html') || href.includes('.html?')) {
+      const mainEl = document.querySelector('main');
+      if (mainEl && !document.body.classList.contains('dang-chuyen-trang')) {
+        e.preventDefault();
+        document.body.classList.add('dang-chuyen-trang');
+        setTimeout(() => {
+          window.location.href = href;
+        }, 65);
+      }
+    }
+  });
+
+  window.addEventListener('pageshow', () => {
+    document.body.classList.remove('dang-chuyen-trang');
   });
 }
 
-// Chạy khởi tạo và Auth Guard ngay khi nhúng script
-initUsersDatabase();
-checkAuthGuard();
+// ==========================================================================
+// CÁC HÀM VÀ BÍ DANH TƯƠNG THÍCH TOÀN CỤC
+// ==========================================================================
+window.USERS_DB_KEY = KHOA_CSDL_NGUOI_DUNG;
+const USERS_DB_KEY = KHOA_CSDL_NGUOI_DUNG;
+window.CURRENT_USER_KEY = KHOA_PHIEN_DANG_NHAP;
+const CURRENT_USER_KEY = KHOA_PHIEN_DANG_NHAP;
+
+window.initUsersDatabase = khoiTaoCoSoDuLieuNguoiDung;
+window.getAllUsers = layTatCaNguoiDung;
+window.registerUser = dangKyTaiKhoanMoi;
+window.authenticateUser = xacThucDangNhap;
+window.getCurrentUser = layNguoiDungHienTai;
+window.checkAuthGuard = kiemTraQuyenTruyCap;
+window.updateNavbarByRole = capNhatThanhDieuHuong;
+window.logoutUser = dangXuat;
+window.resetPassword = datLaiMatKhau;
+
+window.khoiTaoCoSoDuLieuNguoiDung = khoiTaoCoSoDuLieuNguoiDung;
+window.layTatCaNguoiDung = layTatCaNguoiDung;
+window.dangKyTaiKhoanMoi = dangKyTaiKhoanMoi;
+window.xacThucDangNhap = xacThucDangNhap;
+window.layNguoiDungHienTai = layNguoiDungHienTai;
+window.kiemTraQuyenTruyCap = kiemTraQuyenTruyCap;
+window.capNhatThanhDieuHuong = capNhatThanhDieuHuong;
+window.dangXuat = dangXuat;
+window.datLaiMatKhau = datLaiMatKhau;
+
+// Khởi chạy tự động
+khoiTaoCoSoDuLieuNguoiDung();
+kiemTraQuyenTruyCap();
+khoiTaoChuyenTrangMuot();
