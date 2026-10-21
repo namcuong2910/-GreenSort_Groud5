@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreenSort - Danh Sách Nhiệm Vụ Thu Gom (Collector Task List)</title>
+
+  <!-- Google Fonts & Bootstrap 5.3 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/giao-dien.css">
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+  <!-- HEADER -->
+  <header class="sticky-top bg-white border-bottom shadow-sm">
+    <div class="container-fluid px-4 py-2">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <a href="thu-gom-danh-sach-nhiem-vu.html" class="d-flex align-items-center text-decoration-none logo-thuong-hieu">
+          <span class="fs-3 me-2">🌱</span>
+          <span class="fw-bold">Green<span class="text-success">Sort</span></span>
+          <span class="badge bg-warning-subtle text-dark ms-2 border border-warning-subtle"><i class="bi bi-truck me-1"></i>Thu gom viên</span>
+        </a>
+
+        <nav class="d-none d-lg-flex align-items-center gap-2">
+          <a href="thu-gom-danh-sach-nhiem-vu.html" class="btn btn-sm btn-warning text-dark fw-semibold rounded-pill px-3">
+            <i class="bi bi-list-task me-1"></i>Nhiệm vụ hôm nay
+          </a>
+          <a href="thu-gom-lo-trinh-tuyen-duong.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+            <i class="bi bi-map-fill me-1"></i>Bản đồ Tuyến thu gom
+          </a>
+          <a href="thu-gom-chi-tiet-don.html?id=REQ-102" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+            <i class="bi bi-patch-check-fill me-1"></i>Biên bản Nghiệm thu
+          </a>
+        </nav>
+
+        <div class="d-flex align-items-center gap-2">
+          <div class="dropdown">
+            <button class="btn btn-outline-warning text-dark btn-sm dropdown-toggle rounded-pill px-3 fw-semibold" type="button" data-bs-toggle="dropdown">
+              <i class="bi bi-truck me-1"></i><span id="currentUserDisplay">Bác Nam (Tài xế) (Thu gom viên)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+              <li><h6 class="dropdown-header">Tài khoản Thu gom viên:</h6></li>
+              <li><a class="dropdown-item active bg-warning text-dark fw-bold" href="thu-gom-danh-sach-nhiem-vu.html"><i class="bi bi-list-task me-2"></i>Nhiệm vụ hôm nay</a></li>
+              <li><a class="dropdown-item" href="thu-gom-lo-trinh-tuyen-duong.html"><i class="bi bi-map-fill me-2"></i>Bản đồ Tuyến thu gom</a></li>
+              <li><a class="dropdown-item" href="thu-gom-chi-tiet-don.html?id=REQ-102"><i class="bi bi-patch-check-fill me-2"></i>Nghiệm thu đơn</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><button class="dropdown-item text-danger" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</button></li>
+            </ul>
+          </div>
+          <button class="btn btn-sm btn-light border text-danger rounded-pill px-3" onclick="logoutUser()" title="Đăng xuất khỏi hệ thống">
+            <i class="bi bi-box-arrow-right me-1"></i>Đăng xuất
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-grow-1 p-3 p-md-4">
+    <div class="container" style="max-width: 920px;">
+      
+      <!-- Lộ trình trong ngày - Card tiến độ động -->
+      <div class="card p-4 border-0 shadow-sm rounded-4 bg-white mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div>
+            <h1 class="h4 fw-bold text-dark mb-0">Nhiệm Vụ Thu Gom Của Tuyến Xe 02</h1>
+            <small class="text-muted">Khu vực: Quận Đống Đa & Hoàn Kiếm • Lộ trình thu gom tối ưu theo thứ tự điểm dừng</small>
+          </div>
+          <span class="badge bg-success-subtle text-success rounded-pill px-3 py-2 fw-semibold" id="progressSummaryBadge">
+            Tiến độ: Đang tính toán...
+          </span>
+        </div>
+
+        <div class="progress mb-2" style="height: 10px;">
+          <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" id="taskProgressBar" role="progressbar" style="width: 0%"></div>
+        </div>
+        <div class="d-flex justify-content-between small text-muted">
+          <span id="weightLoadedText">Đã tải: 0 kg / 500 kg dung tích xe</span>
+          <span id="percentText">0%</span>
+        </div>
+      </div>
+
+      <!-- Thanh bộ lọc trạng thái nhiệm vụ -->
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+        <h2 class="h5 fw-bold text-dark mb-0">Các Điểm Thu Gom Cần Ghé (Theo Lộ Trình Tuyến)</h2>
+        <div class="btn-group btn-group-sm" role="group">
+          <button type="button" class="btn btn-outline-secondary active task-nut-loc-danh-muc nut-loc-danh-muc" data-filter="all">Tất cả</button>
+          <button type="button" class="btn btn-outline-secondary task-nut-loc-danh-muc nut-loc-danh-muc" data-filter="pending">Chờ / Đang tới</button>
+          <button type="button" class="btn btn-outline-secondary task-nut-loc-danh-muc nut-loc-danh-muc" data-filter="completed">Đã xong</button>
+        </div>
+      </div>
+      
+      <!-- Danh sách nhiệm vụ từng điểm dừng (Render động từ KhoDuLieu) -->
+      <div class="d-flex flex-column gap-3" id="collectorTasks">
+        <!-- Rendered dynamically -->
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="bg-dark text-white py-3 text-center small text-white-50 mt-auto">
+    GreenSort Thu Gom Viên &bull; Ứng dụng Vận hành Hiện trường &bull; Học phần CSE122
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/kiem-tra-quyen.js"></script>
+  <script src="js/du-lieu.js"></script>
+  <script>
+    let currentFilter = 'all';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCollectorTasks();
+      setupFilterButtons();
+    });
+
+    function setupFilterButtons() {
+      const buttons = document.querySelectorAll('.nut-loc-nhiem-vu');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => b.classList.remove('active', 'btn-success', 'text-white'));
+          btn.classList.add('active');
+          currentFilter = btn.getAttribute('data-filter');
+          loadCollectorTasks();
+        });
+      });
+    }
+
+    function loadCollectorTasks() {
+      const container = document.getElementById('collectorTasks');
+      const allRequests = KhoDuLieu.pickupRequests.getAll();
+
+      // Tính toán tiến độ toàn bộ
+      const total = allRequests.length;
+      const completedList = allRequests.filter(r => r.status === 'completed');
+      const completedCount = completedList.length;
+      const percent = total > 0 ? Math.round((completedCount / total) * 100) : 0;
+      
+      const totalWeight = allRequests.reduce((acc, r) => {
+        const w = parseFloat(r.actualWeight || r.estimatedWeight) || 5;
+        return acc + w;
+      }, 0);
+
+      const completedWeight = completedList.reduce((acc, r) => {
+        const w = parseFloat(r.actualWeight || r.estimatedWeight) || 5;
+        return acc + w;
+      }, 0);
+
+      // Cập nhật thanh tiến độ
+      document.getElementById('progressSummaryBadge').textContent = `Tiến độ: ${completedCount}/${total} điểm (${percent}%)`;
+      const pBar = document.getElementById('taskProgressBar');
+      pBar.style.width = `${percent}%`;
+      document.getElementById('weightLoadedText').textContent = `Đã tải: ${completedWeight} kg / 500 kg dung tích xe`;
+      document.getElementById('percentText').textContent = `${percent}% hoàn thành`;
+
+      // Lọc theo tab
+      let displayRequests = allRequests;
+      if (currentFilter === 'pending') {
+        displayRequests = allRequests.filter(r => r.status !== 'completed');
+      } else if (currentFilter === 'completed') {
+        displayRequests = allRequests.filter(r => r.status === 'completed');
+      }
+
+      container.innerHTML = '';
+
+      // TRẠNG THÁI RỖNG (EMPTY STATE)
+      if (displayRequests.length === 0) {
+        container.innerHTML = `
+          <div class="card border-0 shadow-sm rounded-4 p-5 text-center bg-white">
+            <div class="mb-3">
+              <i class="bi bi-check-circle-fill text-success" style="font-size: 3.5rem;"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-1">
+              ${currentFilter === 'pending' ? 'Tuyệt vời! Không còn đơn nào cần thu gom!' : 'Chưa có nhiệm vụ nào trong mục này.'}
+            </h5>
+            <p class="text-secondary small mb-3">
+              ${currentFilter === 'pending' ? 'Toàn bộ điểm dừng trên tuyến số 02 đã được xử lý hoặc chưa có lệnh điều phối mới.' : 'Dữ liệu sẽ tự động xuất hiện khi có yêu cầu được điều phối.'}
+            </p>
+            <div>
+              <button class="btn btn-outline-success btn-sm rounded-pill px-4" onclick="currentFilter='all'; document.querySelectorAll('.nut-loc-nhiem-vu')[0].click();">
+                <i class="bi bi-arrow-repeat me-1"></i>Xem tất cả nhiệm vụ
+              </button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      // Render từng điểm thu gom
+      displayRequests.forEach((req, idx) => {
+        const isDone = req.status === 'completed';
+        const isCurrent = !isDone && idx === 0;
+        const prio = req.priorityScore || 50;
+
+        let borderClass = 'bg-white';
+        let statusBadge = '<span class="badge bg-secondary rounded-pill mb-1">Điểm dừng ' + (idx + 1) + ' &bull; Chờ ghé</span>';
+        let prioBadge = '<span class="badge bg-secondary rounded-pill">Ưu tiên P3</span>';
+
+        if (isDone) {
+          borderClass = 'bg-white border-start border-4 border-success';
+          statusBadge = '<span class="badge bg-success rounded-pill mb-1"><i class="bi bi-check-circle me-1"></i>Điểm dừng ' + (idx + 1) + ' &bull; Đã hoàn thành</span>';
+        } else if (isCurrent) {
+          borderClass = 'bg-white border-start border-4 border-warning shadow-sm';
+          statusBadge = '<span class="badge bg-warning text-dark rounded-pill mb-1"><i class="bi bi-geo-fill me-1"></i>Điểm dừng ' + (idx + 1) + ' &bull; Đang tới</span>';
+        }
+
+        if (prio >= 70) {
+          prioBadge = `<span class="badge bg-danger rounded-pill"><i class="bi bi-exclamation-triangle me-1"></i>P1 Khẩn cấp (${prio}đ)</span>`;
+        } else if (prio >= 45) {
+          prioBadge = `<span class="badge bg-primary rounded-pill">P2 Ưu tiên (${prio}đ)</span>`;
+        }
+
+        const card = document.createElement('div');
+        card.className = `card border-0 shadow-sm rounded-4 p-3 ${borderClass}`;
+        card.innerHTML = `
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              ${statusBadge}
+              <h3 class="h6 fw-bold mb-0 text-dark">${req.address || 'Hà Nội'}</h3>
+              <small class="text-muted"><i class="bi bi-person me-1"></i>Người gửi: <strong>${req.requesterName || req.senderName || 'Cư dân'}</strong></small>
+            </div>
+            ${prioBadge}
+          </div>
+          
+          <div class="p-2 rounded bg-light mb-2 small text-muted">
+            <div>Phân loại rác: <strong class="text-dark">${req.category || req.wasteType || 'Rác tái chế'}</strong> &bull; Ước lượng: <strong class="text-dark">${req.actualWeight || req.estimatedWeight || 5} kg</strong></div>
+            ${req.notes ? `<div class="fst-italic text-secondary mt-1">&ldquo;${req.notes}&rdquo;</div>` : ''}
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center pt-2 border-top flex-wrap gap-2">
+            <a href="tel:${req.phone || '0988888888'}" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+              <i class="bi bi-telephone-fill text-success me-1"></i>${req.phone || 'Gọi cư dân'}
+            </a>
+            
+            <div class="d-flex gap-2">
+              <a href="thu-gom-lo-trinh-tuyen-duong.html" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                <i class="bi bi-map me-1"></i>Bản đồ tuyến
+              </a>
+              
+              ${isDone ? `
+                <a href="thu-gom-chi-tiet-don.html?id=${req.id}" class="btn btn-sm btn-outline-success rounded-pill px-3">
+                  <i class="bi bi-eye me-1"></i>Xem biên bản
+                </a>
+              ` : `
+                <a href="thu-gom-chi-tiet-don.html?id=${req.id}" class="btn btn-sm btn-success rounded-pill px-3 text-white fw-semibold">
+                  <i class="bi bi-camera me-1"></i>Nghiệm thu
+                </a>
+              `}
+            </div>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>
