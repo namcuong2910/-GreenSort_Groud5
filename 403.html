@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>403 - Quyền Truy Cập Bị Từ Chối | GreenSort</title>
+
+  <!-- Google Fonts & Bootstrap 5.3 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .khung-chua-tu-choi {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 50%, #f8fafc 100%);
+      padding: 2rem;
+    }
+    .the-tu-choi-truy-cap {
+      max-width: 580px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 40px -15px rgba(220, 38, 38, 0.15);
+      border: 1px solid rgba(220, 38, 38, 0.2);
+    }
+    .huy-hieu-tu-choi {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fca5a5;
+    }
+  </style>
+</head>
+<body class="khung-chua-tu-choi">
+
+  <div class="card the-tu-choi-truy-cap p-4 p-md-5 text-center">
+    <div class="mb-3">
+      <span style="font-size: 4.5rem;">⛔</span>
+    </div>
+    
+    <span class="badge huy-hieu-tu-choi rounded-pill px-3 py-2 fw-bold text-uppercase mx-auto mb-2">
+      <i class="bi bi-shield-lock-fill me-1"></i>Mã lỗi HTTP 403: Forbidden
+    </span>
+    
+    <h1 class="h3 fw-bold text-dark mt-2 mb-2">Quyền Truy Cập Bị Từ Chối!</h1>
+    
+    <p class="text-secondary small mb-4">
+      Tài khoản của bạn không được phân quyền để truy cập vào phân hệ này. Hệ thống <strong>GreenSort</strong> áp dụng cơ chế kiểm soát truy cập phân cấp nghiêm ngặt (RBAC) theo đúng đặc tả BTL-05.
+    </p>
+
+    <!-- Hộp thông tin chi tiết vai trò -->
+    <div class="p-3 bg-light rounded-3 border text-start small mb-4" id="roleInfoBox">
+      <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+        <span class="text-muted">Tài khoản hiện tại:</span>
+        <strong class="text-dark" id="displayUsername">Chưa xác định</strong>
+      </div>
+      <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+        <span class="text-muted">Vai trò hiện tại:</span>
+        <span class="badge bg-secondary" id="displayCurrentRole">Khách</span>
+      </div>
+      <div class="d-flex justify-content-between">
+        <span class="text-muted">Trang cố gắng truy cập:</span>
+        <code class="text-danger fw-semibold" id="displayAttemptedPage">--</code>
+      </div>
+    </div>
+
+    <!-- Nút điều hướng -->
+    <div class="d-grid gap-2 col-11 mx-auto">
+      <a href="#" id="btnReturnHome" class="btn btn-success rounded-pill py-2 text-white fw-bold">
+        <i class="bi bi-arrow-left-circle me-2"></i>Quay về Trang chính của bạn
+      </a>
+      <button class="btn btn-outline-danger rounded-pill py-2" onclick="logoutUser()">
+        <i class="bi bi-box-arrow-right me-2"></i>Đăng xuất & Đổi tài khoản khác
+      </button>
+    </div>
+
+    <div class="mt-4 pt-3 border-top text-muted small">
+      Hệ thống GreenSort &bull; Kiểm soát bảo mật vai trò RBAC &bull; Học phần CSE122
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/auth-guard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = getCurrentUser();
+      const params = new URLSearchParams(window.location.search);
+      const page = params.get('page') || 'Trang nội bộ';
+      const role = params.get('role') || (user ? user.role : 'khách');
+
+      document.getElementById('displayAttemptedPage').textContent = page;
+
+      if (user) {
+        document.getElementById('displayUsername').textContent = `${user.fullName || user.username} (@${user.username})`;
+        const roleLabel = user.roleName || ROLE_NAMES[user.role] || user.role;
+        document.getElementById('displayCurrentRole').textContent = roleLabel;
+        document.getElementById('displayCurrentRole').className = 'badge bg-success';
+        
+        // Cập nhật nút quay về trang của role hiện tại
+        const homePage = ROLE_HOME_PAGES[user.role] || 'resident-waste-guide.html';
+        document.getElementById('btnReturnHome').href = homePage;
+        document.getElementById('btnReturnHome').innerHTML = `<i class="bi bi-house-door me-2"></i>Về phân hệ của ${roleLabel}`;
+      } else {
+        document.getElementById('displayUsername').textContent = 'Chưa đăng nhập';
+        document.getElementById('displayCurrentRole').textContent = 'Vãng lai';
+        document.getElementById('btnReturnHome').href = 'login.html';
+        document.getElementById('btnReturnHome').innerHTML = '<i class="bi bi-box-arrow-in-right me-2"></i>Tới trang Đăng nhập';
+      }
+    });
+  </script>
+</body>
+</html>
