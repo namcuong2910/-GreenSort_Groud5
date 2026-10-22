@@ -1,2 +1,1 @@
-https://www.figma.com/design/GreenSort-Waste-Management-System
-(File thiết kế Figma chi tiết 4 vai trò: Resident, Collector, Coordinator, Admin chuẩn kích thước Desktop 1440px và Mobile 375px)
+https://www.figma.com/design/n5rfJtPNwhQhga23ZF7XzT/Untitled?node-id=0-1&p=f&t=w26xr9QxzFsx90qM-0
