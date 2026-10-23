@@ -65,9 +65,19 @@ body {
 
 /* Header cố định vị trí, chống giật rung (contain layout) */
 header.sticky-top {
-  contain: layout paint;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
   background-color: #ffffff !important;
 }
+/* Đảm bảo menu thả xuống (dropdown) luôn nổi lên trên và hiển thị trọn vẹn */
+.dropdown-menu {
+  z-index: 1055 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 0.75rem !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
 
 /* Hiệu ứng chuyển cảnh trang mượt mà không bị chớp hay giật */
 main {
@@ -98,6 +108,12 @@ body.dang-chuyen-trang main {
 }
 
 /* Khung vai trò người dùng có độ rộng ổn định chống giật ngang header */
+
+/* Badge vai trò và thông tin người dùng trên header (Phương án A) */
+.badge #currentUserDisplay {
+  white-space: nowrap;
+}
+
 .dropdown .dropdown-toggle.rounded-pill {
   white-space: nowrap;
   min-width: 170px;

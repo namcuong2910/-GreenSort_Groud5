@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', async () => {
  */
 async function taiDuLieuRac() {
   try {
-    const phanHoi = await fetch('assets/data/du-lieu-rac.json').catch(() => fetch('assets/data/waste-data.json'));
+    const phanHoi = await fetch('assets/data/du-lieu-rac.json').catch(() => fetch('assets/data/du-lieu-rac.json'));
     if (phanHoi && phanHoi.ok) {
       danhSachRac = await phanHoi.json();
     } else {

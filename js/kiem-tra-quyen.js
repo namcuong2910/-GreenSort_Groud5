@@ -24,33 +24,33 @@ const DANH_SACH_QUYEN_THEO_VAI_TRO = {
     'cu-dan-tra-cuu-rac.html',
     'cu-dan-diem-thu-gom.html',
     'cu-dan-dat-lich-thu-gom.html',
-    'resident-waste-guide.html',
-    'resident-collection-points.html',
-    'resident-pickup-request.html'
+    'cu-dan-tra-cuu-rac.html',
+    'cu-dan-diem-thu-gom.html',
+    'cu-dan-dat-lich-thu-gom.html'
   ],
   collector: [
     'thu-gom-danh-sach-nhiem-vu.html',
     'thu-gom-lo-trinh-tuyen-duong.html',
     'thu-gom-chi-tiet-don.html',
-    'collector-task-list.html',
-    'collector-route-view.html',
-    'collector-request-detail.html'
+    'thu-gom-danh-sach-nhiem-vu.html',
+    'thu-gom-lo-trinh-tuyen-duong.html',
+    'thu-gom-chi-tiet-don.html'
   ],
   coordinator: [
     'dieu-phoi-bang-yeu-cau.html',
     'dieu-phoi-quan-ly-diem-gom.html',
     'dieu-phoi-thong-ke-bao-cao.html',
-    'coordinator-request-board.html',
-    'coordinator-point-management.html',
-    'coordinator-analytics.html'
+    'dieu-phoi-bang-yeu-cau.html',
+    'dieu-phoi-quan-ly-diem-gom.html',
+    'dieu-phoi-thong-ke-bao-cao.html'
   ],
   admin: [
     'quan-tri-bang-dieu-khien.html',
     'quan-tri-danh-muc-rac.html',
     'quan-tri-nguoi-dung.html',
-    'admin-dashboard.html',
-    'admin-waste-types.html',
-    'admin-users.html'
+    'quan-tri-bang-dieu-khien.html',
+    'quan-tri-danh-muc-rac.html',
+    'quan-tri-nguoi-dung.html'
   ]
 };
 
@@ -82,11 +82,11 @@ const TAT_CA_TRANG_BAO_VE = [
 const TRANG_CONG_KHAI = [
   'index.html',
   'dang-nhap.html',
-  'login.html',
+  'dang-nhap.html',
   'dang-ky.html',
-  'register.html',
+  'dang-ky.html',
   'quen-mat-khau.html',
-  'forgot-password.html',
+  'quen-mat-khau.html',
   '404.html',
   '403.html'
 ];

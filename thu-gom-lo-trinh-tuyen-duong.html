@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreenSort - Bản Đồ Lộ Trình Thu Gom Thông Minh (Collector Route View)</title>
+  <meta name="description" content="Xem lộ trình di chuyển tối ưu hóa thứ tự các điểm dừng tuần tự và mô phỏng vị trí xe thu gom trên bản đồ số.">
+
+  <!-- Google Fonts & Bootstrap 5.3 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/giao-dien.css">
+
+  <style>
+    .khung-ban-do {
+      height: 480px;
+      background: #e5e7eb;
+      border-radius: 1.25rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+    }
+    .thong-ke-tren-ban-do {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border-radius: 1rem;
+      padding: 0.75rem 1.25rem;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+    }
+    .diem-dung-tuyen-duong {
+      border-left: 3px solid #cbd5e1;
+      padding-left: 1.25rem;
+      position: relative;
+      padding-bottom: 1.5rem;
+    }
+    .diem-dung-tuyen-duong:last-child {
+      border-left: 3px solid transparent;
+      padding-bottom: 0;
+    }
+    .dau-moc-diem-dung {
+      position: absolute;
+      left: -13px;
+      top: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid #16a34a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #16a34a;
+    }
+    .diem-dung-tuyen-duong.completed .dau-moc-diem-dung {
+      background: #16a34a;
+      color: #ffffff;
+    }
+    .diem-dung-tuyen-duong.current {
+      border-left-color: #f59e0b;
+    }
+    .diem-dung-tuyen-duong.current .dau-moc-diem-dung {
+      border-color: #f59e0b;
+      color: #f59e0b;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.5); }
+      70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+    }
+    /* SVG Map styling */
+    .tuyen-duong-thu-gom {
+      stroke: #16a34a;
+      stroke-width: 4;
+      stroke-dasharray: 8 4;
+      animation: dashMove 20s linear infinite;
+      fill: none;
+    }
+    @keyframes dashMove {
+      from { stroke-dashoffset: 200; }
+      to { stroke-dashoffset: 0; }
+    }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+  <!-- HEADER -->
+  <header class="sticky-top bg-white border-bottom shadow-sm">
+    <div class="container-fluid px-4 py-2">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <a href="thu-gom-danh-sach-nhiem-vu.html" class="d-flex align-items-center text-decoration-none logo-thuong-hieu">
+          <span class="fs-3 me-2">🌱</span>
+          <span class="fw-bold">Green<span class="text-success">Sort</span></span>
+          <span class="badge bg-warning-subtle text-dark ms-2 border border-warning-subtle"><i class="bi bi-truck me-1"></i>Thu gom viên</span>
+        </a>
+
+        <nav class="d-none d-lg-flex align-items-center gap-2">
+          <a href="thu-gom-danh-sach-nhiem-vu.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+            <i class="bi bi-list-task me-1"></i>Nhiệm vụ hôm nay
+          </a>
+          <a href="thu-gom-lo-trinh-tuyen-duong.html" class="btn btn-sm btn-warning text-dark fw-semibold rounded-pill px-3">
+            <i class="bi bi-map-fill me-1"></i>Bản đồ Tuyến thu gom
+          </a>
+          <a href="thu-gom-chi-tiet-don.html?id=REQ-102" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+            <i class="bi bi-patch-check-fill me-1"></i>Biên bản Nghiệm thu
+          </a>
+        </nav>
+
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge bg-warning-subtle text-dark border border-warning-subtle px-3 py-2 rounded-pill fw-semibold shadow-sm d-inline-flex align-items-center">
+            <i class="bi bi-truck text-warning-emphasis me-1"></i><span id="currentUserDisplay">Bác Nam (Tài xế) (Thu gom viên)</span>
+          </span>
+          <button class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-semibold shadow-sm" onclick="logoutUser()" title="Đăng xuất khỏi hệ thống">
+            <i class="bi bi-box-arrow-right me-1"></i>Đăng xuất
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-grow-1 p-3 p-md-4">
+    <div class="container-fluid">
+      
+      <!-- Top info bar -->
+      <div class="card p-3 border-0 shadow-sm rounded-4 bg-white mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-warning-subtle text-warning p-3 rounded-circle">
+              <i class="bi bi-truck fs-3"></i>
+            </div>
+            <div>
+              <h5 class="fw-bold text-dark mb-0">Tuyến Số 02: Ba Đình - Đống Đa - Hoàn Kiếm</h5>
+              <small class="text-muted">Phương tiện: Xe ép rác 5 tấn (29C-888.99) • Tài xế: Bác Nam</small>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fs-6">
+              <i class="bi bi-lightning-charge-fill me-1"></i>Lộ trình tối ưu: Tiết kiệm 4.2 km & 25% nhiên liệu
+            </span>
+            <button class="btn btn-primary rounded-pill px-3" onclick="simulateGpsMove()">
+              <i class="bi bi-cursor-fill me-1"></i>Mô phỏng GPS di chuyển
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <!-- MAP VIEW (SVG Simulated Realtime Map) -->
+        <div class="col-lg-8">
+          <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+            <div class="khung-ban-do position-relative">
+              
+              <!-- Floating stats over map -->
+              <div class="thong-ke-tren-ban-do">
+                <div class="d-flex gap-4">
+                  <div>
+                    <small class="text-muted d-block">Tổng quãng đường</small>
+                    <strong class="text-dark">12.8 km</strong>
+                  </div>
+                  <div>
+                    <small class="text-muted d-block">Thời gian dự kiến</small>
+                    <strong class="text-success">45 phút</strong>
+                  </div>
+                  <div>
+                    <small class="text-muted d-block">Tải trọng xe</small>
+                    <strong class="text-primary" id="truckLoadText">65% (3.2 / 5.0 Tấn)</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Interactive Simulated Map SVG -->
+              <svg width="100%" height="100%" viewBox="0 0 800 480" xmlns="http://www.w3.org/2000/svg" style="background: #f1f5f9;">
+                <!-- Grid background representing streets -->
+                <defs>
+                  <pattern id="streetGrid" width="80" height="80" patternUnits="userSpaceOnUse">
+                    <rect width="80" height="80" fill="#f8fafc" />
+                    <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#e2e8f0" stroke-width="2" />
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#streetGrid)" />
+
+                <!-- River/Lake Landmark -->
+                <path d="M 500,50 Q 560,180 520,320 T 480,480" fill="none" stroke="#bae6fd" stroke-width="45" opacity="0.6" />
+                <text x="520" y="220" fill="#0284c7" font-size="12" font-weight="600" opacity="0.8">Hồ Hoàn Kiếm / Sông Hồng</text>
+
+                <!-- City Major Roads -->
+                <path d="M 50,120 L 750,120" stroke="#cbd5e1" stroke-width="8" />
+                <path d="M 50,260 L 750,260" stroke="#cbd5e1" stroke-width="8" />
+                <path d="M 50,380 L 750,380" stroke="#cbd5e1" stroke-width="8" />
+                <path d="M 220,50 L 220,450" stroke="#cbd5e1" stroke-width="8" />
+                <path d="M 420,50 L 420,450" stroke="#cbd5e1" stroke-width="8" />
+                <path d="M 640,50 L 640,450" stroke="#cbd5e1" stroke-width="8" />
+
+                <!-- Tuyen duong toi uu -->
+                <path id="routeLine" class="tuyen-duong-thu-gom" d="M 120,120 L 220,120 L 220,260 L 420,260 L 420,380 L 640,380" />
+
+                <!-- Stops Nodes -->
+                <!-- Stop 1: Start (Depot) -->
+                <g transform="translate(120, 120)">
+                  <circle r="14" fill="#16a34a" />
+                  <text text-anchor="middle" dy="4" fill="#ffffff" font-size="10" font-weight="bold">1</text>
+                  <text y="28" text-anchor="middle" fill="#0f172a" font-size="11" font-weight="bold">Điểm tập kết Giảng Võ</text>
+                </g>
+
+                <!-- Stop 2: REQ-001 -->
+                <g transform="translate(220, 260)">
+                  <circle r="14" fill="#16a34a" />
+                  <text text-anchor="middle" dy="4" fill="#ffffff" font-size="10" font-weight="bold">2</text>
+                  <text y="28" text-anchor="middle" fill="#0f172a" font-size="11" font-weight="bold">120 Hoàng Hoa Thám</text>
+                </g>
+
+                <!-- Stop 3: REQ-002 (Current active) -->
+                <g id="currentStopPin" transform="translate(420, 260)">
+                  <circle r="18" fill="#f59e0b" opacity="0.3" class="animate-ping" />
+                  <circle r="14" fill="#f59e0b" />
+                  <text text-anchor="middle" dy="4" fill="#ffffff" font-size="10" font-weight="bold">3</text>
+                  <text y="28" text-anchor="middle" fill="#d97706" font-size="11" font-weight="bold">45 Lý Thường Kiệt (Đang đến)</text>
+                </g>
+
+                <!-- Stop 4: Treatment Facility -->
+                <g transform="translate(640, 380)">
+                  <circle r="14" fill="#0284c7" />
+                  <text text-anchor="middle" dy="4" fill="#ffffff" font-size="10" font-weight="bold">4</text>
+                  <text y="28" text-anchor="middle" fill="#0f172a" font-size="11" font-weight="bold">Khu XL Nam Sơn</text>
+                </g>
+
+                <!-- GPS Moving Truck Marker -->
+                <g id="truckIconMarker" transform="translate(320, 260)">
+                  <rect x="-18" y="-12" width="36" height="24" rx="4" fill="#1e293b" />
+                  <circle cx="-8" cy="12" r="4" fill="#000" />
+                  <circle cx="8" cy="12" r="4" fill="#000" />
+                  <text text-anchor="middle" dy="4" fill="#fff" font-size="10">🚛</text>
+                </g>
+              </svg>
+
+            </div>
+
+            <!-- Action footer inside map card -->
+            <div class="p-3 bg-white border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
+              <span class="text-muted small"><i class="bi bi-info-circle me-1"></i>Lộ trình được tự động xếp theo độ ưu tiên SLA và giảm lượng khí thải CO2.</span>
+              <a href="thu-gom-danh-sach-nhiem-vu.html" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                <i class="bi bi-arrow-left me-1"></i>Quay lại danh sách nhiệm vụ
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE: ITINERARY / STOP BY STOP -->
+        <div class="col-lg-4">
+          <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
+            <h5 class="fw-bold mb-3">Thứ tự dừng thu gom (Itinerary)</h5>
+
+            <div class="mt-2">
+              <!-- Stop 1 -->
+              <div class="diem-dung-tuyen-duong completed">
+                <div class="dau-moc-diem-dung"><i class="bi bi-check"></i></div>
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <strong class="text-dark d-block">Trạm xuất phát: Giảng Võ</strong>
+                    <small class="text-muted">Khởi hành lúc 07:30</small>
+                  </div>
+                  <span class="badge bg-success-subtle text-success">Đã xong</span>
+                </div>
+              </div>
+
+              <!-- Stop 2 -->
+              <div class="diem-dung-tuyen-duong completed">
+                <div class="dau-moc-diem-dung"><i class="bi bi-check"></i></div>
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <strong class="text-dark d-block">Số 120 Hoàng Hoa Thám</strong>
+                    <small class="text-muted">Đơn REQ-001 • Rác Tái Chế (25 kg)</small>
+                  </div>
+                  <span class="badge bg-success-subtle text-success">Đã xong</span>
+                </div>
+                <div class="mt-2">
+                  <a href="thu-gom-chi-tiet-don.html?id=REQ-001" class="btn btn-sm btn-light border py-0 px-2 text-primary" style="font-size: 0.75rem;">
+                    Xem biên bản #REQ-001
+                  </a>
+                </div>
+              </div>
+
+              <!-- Stop 3 (Current) -->
+              <div class="diem-dung-tuyen-duong current">
+                <div class="dau-moc-diem-dung">3</div>
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <strong class="text-dark d-block">Số 45 Lý Thường Kiệt</strong>
+                    <small class="text-muted">Đơn REQ-002 • Rác Điện Tử (8 kg)</small>
+                    <div class="mt-1">
+                      <span class="badge bg-danger-subtle text-danger">Ưu tiên cao (88đ)</span>
+                    </div>
+                  </div>
+                  <span class="badge bg-warning text-dark">Đang tới</span>
+                </div>
+                <div class="mt-2 d-flex gap-2">
+                  <a href="thu-gom-chi-tiet-don.html?id=REQ-002" class="btn btn-sm btn-primary rounded-pill px-3 py-1">
+                    Cập nhật đơn này
+                  </a>
+                </div>
+              </div>
+
+              <!-- Stop 4 -->
+              <div class="diem-dung-tuyen-duong">
+                <div class="dau-moc-diem-dung">4</div>
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <strong class="text-dark d-block">Khu xử lý rác Nam Sơn</strong>
+                    <small class="text-muted">Trút rác & Cân tải trọng xuất bến</small>
+                  </div>
+                  <span class="badge bg-secondary-subtle text-secondary">Chờ đến</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Summary bottom info -->
+            <div class="mt-auto pt-3 border-top">
+              <div class="p-3 bg-light rounded-3">
+                <div class="d-flex justify-content-between small text-muted mb-1">
+                  <span>Tiến độ hoàn thành:</span>
+                  <span class="fw-bold text-dark">50% (2/4 trạm)</span>
+                </div>
+                <div class="progress" style="height: 6px;">
+                  <div class="progress-bar bg-success" style="width: 50%;"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-top py-3 text-center text-muted small mt-auto">
+    <div class="container">
+      GreenSort Platform &copy; 2026 - Lộ trình di chuyển thông minh cho Thu gom viên.
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/kiem-tra-quyen.js"></script>
+  <script src="js/du-lieu.js"></script>
+  <script>
+    let truckPos = 320;
+    let forward = true;
+
+    function simulateGpsMove() {
+      const truck = document.getElementById('truckIconMarker');
+      if (forward) {
+        truckPos += 30;
+        if (truckPos >= 420) forward = false;
+      } else {
+        truckPos -= 30;
+        if (truckPos <= 220) forward = true;
+      }
+      truck.setAttribute('transform', `translate(${truckPos}, 260)`);
+    }
+  </script>
+</body>
+</html>

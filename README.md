@@ -27,21 +27,21 @@ Toàn bộ hệ thống được Việt hóa chuẩn mực, hỗ trợ song song
 
 | Vai trò | Tệp tiếng Việt chính thức | Tệp tiếng Anh tương thích | Chức năng nghiệp vụ chính |
 |---|---|---|---|
-| **Xác thực** | `dang-nhap.html` | `login.html` | Đăng nhập hệ thống, chọn nhanh 4 vai trò, lưu phiên |
-| **Xác thực** | `dang-ky.html` | `register.html` | Đăng ký tài khoản người dân mới kèm validation |
-| **Xác thực** | `quen-mat-khau.html` | `forgot-password.html` | Khôi phục mật khẩu xác thực qua SĐT |
-| **Người dân** | `cu-dan-tra-cuu-rac.html` | `resident-waste-guide.html` | Tra cứu cách phân loại rác & **AI-1 Waste Classifier** |
-| **Người dân** | `cu-dan-diem-thu-gom.html` | `resident-collection-points.html` | Tìm kiếm trạm thu gom rác & xem mức đầy thùng rác |
-| **Người dân** | `cu-dan-dat-lich-thu-gom.html` | `resident-pickup-request.html` | Đặt lịch xe thu gom rác cồng kềnh (Đầy đủ CRUD) |
-| **Thu gom viên** | `thu-gom-danh-sach-nhiem-vu.html` | `collector-task-list.html` | Xem danh sách ca làm việc và nhiệm vụ thu gom hàng ngày |
-| **Thu gom viên** | `thu-gom-lo-trinh-tuyen-duong.html` | `collector-route-view.html` | Bản đồ lộ trình di chuyển tối ưu hóa bằng **AI-3 Route Suggestion** |
-| **Thu gom viên** | `thu-gom-chi-tiet-don.html` | `collector-request-detail.html` | Check-in hoàn thành, cân khối lượng & chụp ảnh minh chứng |
-| **Điều phối viên** | `dieu-phoi-bang-yeu-cau.html` | `coordinator-request-board.html` | Bảng Kanban tiếp nhận, phân công tài xế & **AI-2 Priority Scorer** |
-| **Điều phối viên** | `dieu-phoi-quan-ly-diem-gom.html` | `coordinator-point-management.html` | Giám sát sức chứa % các điểm gom rác công cộng |
-| **Điều phối viên** | `dieu-phoi-thong-ke-bao-cao.html` | `coordinator-analytics.html` | Biểu đồ báo cáo khối lượng rác, tỷ lệ hoàn thành SLA |
-| **Quản trị viên** | `quan-tri-bang-dieu-khien.html` | `admin-dashboard.html` | Bảng điều khiển KPI vận hành toàn diện hệ thống |
-| **Quản trị viên** | `quan-tri-danh-muc-rac.html` | `admin-waste-types.html` | Thêm, sửa, xóa, tìm kiếm danh mục phân loại rác (CRUD) |
-| **Quản trị viên** | `quan-tri-nguoi-dung.html` | `admin-users.html` | Quản lý danh sách tài khoản, phân quyền, khóa/mở tài khoản (CRUD) |
+| **Xác thực** | `dang-nhap.html` | `dang-nhap.html` | Đăng nhập hệ thống, chọn nhanh 4 vai trò, lưu phiên |
+| **Xác thực** | `dang-ky.html` | `dang-ky.html` | Đăng ký tài khoản người dân mới kèm validation |
+| **Xác thực** | `quen-mat-khau.html` | `quen-mat-khau.html` | Khôi phục mật khẩu xác thực qua SĐT |
+| **Người dân** | `cu-dan-tra-cuu-rac.html` | `cu-dan-tra-cuu-rac.html` | Tra cứu cách phân loại rác & **AI-1 Waste Classifier** |
+| **Người dân** | `cu-dan-diem-thu-gom.html` | `cu-dan-diem-thu-gom.html` | Tìm kiếm trạm thu gom rác & xem mức đầy thùng rác |
+| **Người dân** | `cu-dan-dat-lich-thu-gom.html` | `cu-dan-dat-lich-thu-gom.html` | Đặt lịch xe thu gom rác cồng kềnh (Đầy đủ CRUD) |
+| **Thu gom viên** | `thu-gom-danh-sach-nhiem-vu.html` | `thu-gom-danh-sach-nhiem-vu.html` | Xem danh sách ca làm việc và nhiệm vụ thu gom hàng ngày |
+| **Thu gom viên** | `thu-gom-lo-trinh-tuyen-duong.html` | `thu-gom-lo-trinh-tuyen-duong.html` | Bản đồ lộ trình di chuyển tối ưu hóa bằng **AI-3 Route Suggestion** |
+| **Thu gom viên** | `thu-gom-chi-tiet-don.html` | `thu-gom-chi-tiet-don.html` | Check-in hoàn thành, cân khối lượng & chụp ảnh minh chứng |
+| **Điều phối viên** | `dieu-phoi-bang-yeu-cau.html` | `dieu-phoi-bang-yeu-cau.html` | Bảng Kanban tiếp nhận, phân công tài xế & **AI-2 Priority Scorer** |
+| **Điều phối viên** | `dieu-phoi-quan-ly-diem-gom.html` | `dieu-phoi-quan-ly-diem-gom.html` | Giám sát sức chứa % các điểm gom rác công cộng |
+| **Điều phối viên** | `dieu-phoi-thong-ke-bao-cao.html` | `dieu-phoi-thong-ke-bao-cao.html` | Biểu đồ báo cáo khối lượng rác, tỷ lệ hoàn thành SLA |
+| **Quản trị viên** | `quan-tri-bang-dieu-khien.html` | `quan-tri-bang-dieu-khien.html` | Bảng điều khiển KPI vận hành toàn diện hệ thống |
+| **Quản trị viên** | `quan-tri-danh-muc-rac.html` | `quan-tri-danh-muc-rac.html` | Thêm, sửa, xóa, tìm kiếm danh mục phân loại rác (CRUD) |
+| **Quản trị viên** | `quan-tri-nguoi-dung.html` | `quan-tri-nguoi-dung.html` | Quản lý danh sách tài khoản, phân quyền, khóa/mở tài khoản (CRUD) |
 
 ---
 
@@ -92,18 +92,18 @@ baitapchinhthuc/
 │
 ├── css/
 │   ├── giao-dien.css                    # CSS thuần Việt, biến màu & chuyển động
-│   └── style.css                        # CSS tương thích
+│   └── giao-dien.css                        # CSS tương thích
 ├── js/
 │   ├── du-lieu.js                       # Module trung tâm KhoDuLieu (LocalStorage CRUD)
 │   ├── kiem-tra-quyen.js                # Auth guard kiểm soát phân quyền 4 vai trò
 │   ├── chinh.js                         # Xử lý tương tác giao diện và AI
-│   ├── api.js                           # Alias tương thích ngược
-│   ├── auth-guard.js                    # Alias tương thích ngược
-│   └── main.js                          # Alias tương thích ngược
+│   ├── du-lieu.js                           # Alias tương thích ngược
+│   ├── kiem-tra-quyen.js                    # Alias tương thích ngược
+│   └── chinh.js                          # Alias tương thích ngược
 └── assets/
     └── data/
         ├── du-lieu-rac.json             # CSDL danh mục phân loại rác thải
-        └── waste-data.json              # Dữ liệu tương thích
+        └── du-lieu-rac.json              # Dữ liệu tương thích
 ```
 
 ---
