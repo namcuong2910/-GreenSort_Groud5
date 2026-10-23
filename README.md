@@ -14,8 +14,8 @@
 | STT | Họ và tên | Mã sinh viên | Tài khoản GitHub | Vai trò đảm nhận trong dự án | Màn hình chính | Trách nhiệm chéo |
 |:---:|---|:---:|:---:|---|---|---|
 | **1** | **Bùi Văn Nam Cường** *(Trưởng nhóm)* | **2551060590** | `namcuong2910` | **🌿 Người dân (Resident)** & Cụm màn hình xác thực | `cu-dan-tra-cuu-rac.html`<br>`cu-dan-diem-thu-gom.html`<br>`cu-dan-dat-lich-thu-gom.html`<br>`dang-nhap.html`, `dang-ky.html` | Xây dựng Design System, biến màu CSS (`giao-dien.css`), Navigation và AI-1 Waste Classifier |
-| **2** | **Trần Đức Anh** | Thành viên | `Tran_Duc_Anh` | **🚛 Thu gom viên (Collector)** | `thu-gom-danh-sach-nhiem-vu.html`<br>`thu-gom-lo-trinh-tuyen-duong.html`<br>`thu-gom-chi-tiet-don.html` | Quản lý module dữ liệu trung tâm `du-lieu.js`, LocalStorage CRUD và AI-3 Route Suggestion |
-| **3** | **Nguyễn Xuân Hùng** | Thành viên | `Nguyen_Xuan_Hung` | **📋 Điều phối viên & ⚙️ Quản trị viên** | `dieu-phoi-bang-yeu-cau.html`<br>`dieu-phoi-quan-ly-diem-gom.html`<br>`dieu-phoi-thong-ke-bao-cao.html`<br>`quan-tri-bang-dieu-khien.html`<br>`quan-tri-danh-muc-rac.html`<br>`quan-tri-nguoi-dung.html` | Quản lý kiểm thử Responsive, tích hợp phân quyền `kiem-tra-quyen.js`, phát hành GitHub Pages và AI-2 Priority Scorer |
+| **2** | **Nguyễn Xuân Hùng** | Thành viên | `Nguyen_Xuan_Hung` | **🚛 Thu gom viên (Collector)** | `thu-gom-danh-sach-nhiem-vu.html`<br>`thu-gom-lo-trinh-tuyen-duong.html`<br>`thu-gom-chi-tiet-don.html` | Quản lý module dữ liệu trung tâm `du-lieu.js`, LocalStorage CRUD và AI-3 Route Suggestion |
+| **3** | **Trần Đức Anh** | Thành viên | `Tran_Duc_Anh` | **📋 Điều phối viên & 🛡️ Quản trị viên** | `dieu-phoi-bang-yeu-cau.html`<br>`dieu-phoi-quan-ly-diem-gom.html`<br>`dieu-phoi-thong-ke-bao-cao.html`<br>`quan-tri-bang-dieu-khien.html`<br>`quan-tri-danh-muc-rac.html`<br>`quan-tri-nguoi-dung.html` | Quản lý kiểm thử Responsive, tích hợp phân quyền `kiem-tra-quyen.js`, phát hành GitHub Pages và AI-2 Priority Scorer |
 
 ---
 
