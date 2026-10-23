@@ -116,10 +116,20 @@
         </nav>
 
         <div class="d-flex align-items-center gap-2">
-          <span class="badge bg-warning-subtle text-dark border border-warning-subtle px-3 py-2 rounded-pill fw-semibold shadow-sm d-inline-flex align-items-center">
-            <i class="bi bi-truck text-warning-emphasis me-1"></i><span id="currentUserDisplay">Bác Nam (Tài xế) (Thu gom viên)</span>
-          </span>
-          <button class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-semibold shadow-sm" onclick="logoutUser()" title="Đăng xuất khỏi hệ thống">
+          <div class="dropdown">
+            <button class="btn btn-outline-warning text-dark btn-sm dropdown-toggle rounded-pill px-3 fw-semibold" type="button" data-bs-toggle="dropdown">
+              <i class="bi bi-truck me-1"></i><span id="currentUserDisplay">Bác Nam (Tài xế) (Thu gom viên)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+              <li><h6 class="dropdown-header">Tài khoản Thu gom viên:</h6></li>
+              <li><a class="dropdown-item" href="thu-gom-danh-sach-nhiem-vu.html"><i class="bi bi-list-task me-2"></i>Nhiệm vụ hôm nay</a></li>
+              <li><a class="dropdown-item active bg-warning text-dark fw-bold" href="thu-gom-lo-trinh-tuyen-duong.html"><i class="bi bi-map-fill me-2"></i>Bản đồ Tuyến thu gom</a></li>
+              <li><a class="dropdown-item" href="thu-gom-chi-tiet-don.html?id=REQ-102"><i class="bi bi-patch-check-fill me-2"></i>Nghiệm thu đơn</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><button class="dropdown-item text-danger" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</button></li>
+            </ul>
+          </div>
+          <button class="btn btn-sm btn-light border text-danger rounded-pill px-3" onclick="logoutUser()" title="Đăng xuất khỏi hệ thống">
             <i class="bi bi-box-arrow-right me-1"></i>Đăng xuất
           </button>
         </div>
@@ -147,6 +157,9 @@
             <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fs-6">
               <i class="bi bi-lightning-charge-fill me-1"></i>Lộ trình tối ưu: Tiết kiệm 4.2 km & 25% nhiên liệu
             </span>
+            <button class="btn btn-warning text-dark fw-bold rounded-pill px-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalAI3Optimizer">
+              <i class="bi bi-cpu-fill me-1"></i>Tối ưu lộ trình AI-3
+            </button>
             <button class="btn btn-primary rounded-pill px-3" onclick="simulateGpsMove()">
               <i class="bi bi-cursor-fill me-1"></i>Mô phỏng GPS di chuyển
             </button>
@@ -165,11 +178,11 @@
                 <div class="d-flex gap-4">
                   <div>
                     <small class="text-muted d-block">Tổng quãng đường</small>
-                    <strong class="text-dark">12.8 km</strong>
+                    <strong class="text-dark" id="displayDistanceText">12.8 km</strong>
                   </div>
                   <div>
                     <small class="text-muted d-block">Thời gian dự kiến</small>
-                    <strong class="text-success">45 phút</strong>
+                    <strong class="text-success" id="displayDurationText">45 phút</strong>
                   </div>
                   <div>
                     <small class="text-muted d-block">Tải trọng xe</small>
@@ -343,6 +356,105 @@
     </div>
   </main>
 
+  <!-- MODAL AI-3: ROUTE SUGGESTION & OPTIMIZER -->
+  <div class="modal fade" id="modalAI3Optimizer" tabindex="-1" aria-labelledby="modalAI3Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header bg-success text-white rounded-top-4">
+          <h5 class="modal-title fw-bold" id="modalAI3Label">
+            <i class="bi bi-cpu-fill me-2"></i>AI-3: Gợi Ý & Tối Ưu Hóa Tuyến Đường Thu Gom (Route Suggestion)
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="p-3 bg-light rounded-3 border mb-4">
+            <div class="d-flex align-items-center gap-2 text-success fw-bold mb-1">
+              <i class="bi bi-magic fs-5"></i>
+              <span>Thuật toán AI Gom Cụm Địa Lý & Quãng Đường Ngắn Nhất (Clustering & TSP)</span>
+            </div>
+            <p class="small text-secondary mb-0">
+              Trợ lý AI-3 tự động gom cụm các điểm dừng trong cùng quận (Đống Đa - Ba Đình), phân tích mật độ giao thông giờ cao điểm và tự động đẩy các đơn rác nguy hại (Pin, điện tử) lên thứ tự ưu tiên cao nhằm đạt chuẩn SLA.
+            </p>
+          </div>
+
+          <h6 class="fw-bold text-dark mb-3">So sánh hiệu quả trước và sau khi tối ưu hóa bằng AI-3:</h6>
+          <div class="row g-3 mb-4 text-center">
+            <div class="col-md-4">
+              <div class="p-3 rounded-3 bg-light border">
+                <small class="text-muted d-block mb-1">Quãng đường di chuyển</small>
+                <div class="text-decoration-line-through text-muted small">17.6 km</div>
+                <div class="fs-5 fw-bold text-success">12.8 km</div>
+                <span class="badge bg-success-subtle text-success rounded-pill mt-1">Giảm 4.8 km (26%)</span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 rounded-3 bg-light border">
+                <small class="text-muted d-block mb-1">Thời gian hoàn thành ca</small>
+                <div class="text-decoration-line-through text-muted small">80 phút</div>
+                <div class="fs-5 fw-bold text-success">45 phút</div>
+                <span class="badge bg-success-subtle text-success rounded-pill mt-1">Nhanh hơn 35 phút</span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 rounded-3 bg-light border">
+                <small class="text-muted d-block mb-1">Phát thải CO2 (ESG)</small>
+                <div class="text-decoration-line-through text-muted small">24.8 kg CO2</div>
+                <div class="fs-5 fw-bold text-success">12.4 kg CO2</div>
+                <span class="badge bg-success-subtle text-success rounded-pill mt-1">Cắt giảm 50%</span>
+              </div>
+            </div>
+          </div>
+
+          <h6 class="fw-bold text-dark mb-2">Thứ tự các trạm dừng tối ưu AI-3 đề xuất:</h6>
+          <div class="list-group list-group-flush border rounded-3 mb-3">
+            <div class="list-group-item d-flex justify-content-between align-items-center py-2">
+              <div>
+                <span class="badge bg-secondary me-2">Trạm 1</span>
+                <strong>Trạm xuất phát: Giảng Võ</strong>
+                <small class="text-muted d-block ps-4">Khởi hành lúc 07:30 • Kiểm tra xe & cân xuất bến</small>
+              </div>
+              <span class="badge bg-light text-muted border">0 km</span>
+            </div>
+            <div class="list-group-item d-flex justify-content-between align-items-center py-2">
+              <div>
+                <span class="badge bg-primary me-2">Trạm 2</span>
+                <strong>Số 120 Hoàng Hoa Thám (Đơn #REQ-001)</strong>
+                <small class="text-muted d-block ps-4">Rác tái chế (25 kg) • Đã thu gom xong</small>
+              </div>
+              <span class="badge bg-success-subtle text-success">3.2 km (Xong)</span>
+            </div>
+            <div class="list-group-item d-flex justify-content-between align-items-center py-2 bg-warning-subtle">
+              <div>
+                <span class="badge bg-warning text-dark me-2">Trạm 3</span>
+                <strong>Số 45 Lý Thường Kiệt (Đơn #REQ-002)</strong>
+                <small class="text-dark d-block ps-4">Rác điện tử & Pin cũ (8.5 kg) • <em>Ưu tiên P1 do có pin độc hại</em></small>
+              </div>
+              <span class="badge bg-danger text-white">4.1 km (Đang tới)</span>
+            </div>
+            <div class="list-group-item d-flex justify-content-between align-items-center py-2">
+              <div>
+                <span class="badge bg-secondary me-2">Trạm 4</span>
+                <strong>Khu xử lý rác Nam Sơn</strong>
+                <small class="text-muted d-block ps-4">Trút rác, cân tải trọng xe xuất bến & hoàn thành ca</small>
+              </div>
+              <span class="badge bg-light text-muted border">5.5 km</span>
+            </div>
+          </div>
+
+          <div class="alert alert-info py-2 px-3 small mb-0">
+            <i class="bi bi-info-circle-fill me-1"></i><strong>Lý do AI sắp xếp thứ tự này:</strong> Điểm REQ-002 được đưa lên vị trí số 3 vì chứa rác nguy hại đạt điểm ưu tiên khẩn cấp 88/100, đồng thời gom cùng trục đường tránh khung giờ cấm xe tải.
+          </div>
+        </div>
+        <div class="modal-footer bg-light rounded-bottom-4">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Đóng</button>
+          <button type="button" class="btn btn-success text-white fw-bold rounded-pill px-4" onclick="applyAiRoute()">
+            <i class="bi bi-check2-circle me-1"></i>Áp dụng lộ trình tối ưu này
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <footer class="bg-white border-top py-3 text-center text-muted small mt-auto">
     <div class="container">
@@ -368,6 +480,12 @@
         if (truckPos <= 220) forward = true;
       }
       truck.setAttribute('transform', `translate(${truckPos}, 260)`);
+    }
+
+    function applyAiRoute() {
+      const modal = bootstrap.Modal.getInstance(document.getElementById('modalAI3Optimizer'));
+      if (modal) modal.hide();
+      alert('✅ Đã áp dụng lộ trình tối ưu AI-3 thành công!\nHệ thống đã lưu thứ tự các trạm dừng vào máy tính bảng trên xe.');
     }
   </script>
 </body>
