@@ -209,20 +209,20 @@
           <div class="d-flex justify-content-between align-items-start mb-2">
             <div>
               ${statusBadge}
-              <h3 class="h6 fw-bold mb-0 text-dark">${req.address || 'Hà Nội'}</h3>
-              <small class="text-muted"><i class="bi bi-person me-1"></i>Người gửi: <strong>${req.requesterName || req.senderName || 'Cư dân'}</strong></small>
+              <h3 class="h6 fw-bold mb-0 text-dark">${escapeHTML(req.address || 'Hà Nội')}</h3>
+              <small class="text-muted"><i class="bi bi-person me-1"></i>Người gửi: <strong>${escapeHTML(req.requesterName || req.senderName || 'Cư dân')}</strong></small>
             </div>
             ${prioBadge}
           </div>
           
           <div class="p-2 rounded bg-light mb-2 small text-muted">
-            <div>Phân loại rác: <strong class="text-dark">${req.category || req.wasteType || 'Rác tái chế'}</strong> &bull; Ước lượng: <strong class="text-dark">${req.actualWeight || req.estimatedWeight || 5} kg</strong></div>
-            ${req.notes ? `<div class="fst-italic text-secondary mt-1">&ldquo;${req.notes}&rdquo;</div>` : ''}
+            <div>Phân loại rác: <strong class="text-dark">${escapeHTML(req.category || req.wasteType || 'Rác tái chế')}</strong> &bull; Ước lượng: <strong class="text-dark">${req.actualWeight || req.estimatedWeight || 5} kg</strong></div>
+            ${req.notes ? `<div class="fst-italic text-secondary mt-1">&ldquo;${escapeHTML(req.notes)}&rdquo;</div>` : ''}
           </div>
 
           <div class="d-flex justify-content-between align-items-center pt-2 border-top flex-wrap gap-2">
             <a href="tel:${req.phone || '0988888888'}" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
-              <i class="bi bi-telephone-fill text-success me-1"></i>${req.phone || 'Gọi cư dân'}
+              <i class="bi bi-telephone-fill text-success me-1"></i>${escapeHTML(req.phone || 'Gọi cư dân')}
             </a>
             
             <div class="d-flex gap-2">

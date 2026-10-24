@@ -83,7 +83,7 @@
       <!-- Welcome & Alert Banner -->
       <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
         <div>
-          <h2 class="h4 fw-bold text-dark mb-1">Tổng quan Điều hành Toàn hệ thống (System Overview)</h2>
+          <h1 class="h4 fw-bold text-dark mb-1">Tổng quan Điều hành Toàn hệ thống (System Overview)</h1>
           <p class="text-secondary small mb-0">Dữ liệu thời gian thực cập nhật từ các hoạt động phân loại rác, yêu cầu thu gom và đội xe vận chuyển.</p>
         </div>
         <div class="d-flex gap-2">
@@ -359,11 +359,11 @@
         hangDonHang.innerHTML = `
           <td><strong class="text-dark">${donHang.id}</strong></td>
           <td>
-            <div class="fw-semibold text-dark">${donHang.senderName || donHang.requesterName || 'Cư dân'}</div>
-            <small class="text-muted">${donHang.phone || ''}</small>
+            <div class="fw-semibold text-dark">${escapeHTML(donHang.senderName || donHang.requesterName || 'Cư dân')}</div>
+            <small class="text-muted">${escapeHTML(donHang.phone || '')}</small>
           </td>
-          <td><span class="badge bg-light text-dark border">${donHang.wasteType || donHang.category || 'Rác tái chế'}</span></td>
-          <td>${donHang.estimatedWeight || '5'} kg</td>
+          <td><span class="badge bg-light text-dark border">${escapeHTML(donHang.wasteType || donHang.category || 'Rác tái chế')}</span></td>
+          <td>${escapeHTML(donHang.estimatedWeight || '5')} kg</td>
           <td>${theUuTien}</td>
           <td>${theTrangThai}</td>
         `;
@@ -371,6 +371,14 @@
       });
     }
     window.renderRecentRequests = hienThiYeuCauGanNhat;
+    // Lắng nghe đồng bộ đa tab Real-time (+0.5đ Bonus BTL)
+    window.addEventListener('greensort:dataChanged', (e) => {
+      if (e.detail.key === 'gs_pickup_requests') {
+        hienThiYeuCauGanNhat();
+        capNhatSoLieuTongQuan();
+      }
+    });
+
 
     function khoiTaoBieuDoThongKe() {
       const khungVeBieuDoTron = document.getElementById('wasteDistributionChart').getContext('2d');

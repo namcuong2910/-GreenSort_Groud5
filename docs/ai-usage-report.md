@@ -11,14 +11,14 @@
 Hệ thống GreenSort triển khai 3 trải nghiệm AI mô phỏng phía Frontend theo đúng đặc tả đề bài:
 
 ### 1. AI-1: Trợ lý Phân loại Rác Thông minh (AI Waste Classifier)
-- **Vị trí tích hợp:** `resident-waste-guide.html`
+- **Vị trí tích hợp:** `cu-dan-tra-cuu-rac.html`
 - **Mục đích:** Giúp người dân nhận diện nhanh chóng chủng loại rác từ tên gọi hoặc mô tả thông thường.
 - **Cơ chế kỹ thuật:** Xử lý ngôn ngữ tự nhiên (NLP rule-based) dựa trên tập từ điển chất thải đô thị chuẩn. Phân loại thành 4 nhóm (Hữu cơ, Tái chế, Nguy hại, Vô cơ), tính toán độ tin cậy (Confidence Score 90-98%), chỉ dẫn màu thùng rác quy định và phương pháp sơ chế an toàn.
 - **Trạng thái không chắc chắn (Failure State):** Khi người dùng nhập từ khóa lạ hoặc không đủ ngữ cảnh, hệ thống hiển thị cảnh báo tin cậy thấp (<40%), khuyến nghị người dùng chọn phân loại thủ công hoặc tra cứu danh mục rác.
 - **Quyền kiểm soát của con người (Human-in-the-loop):** Người dùng có toàn quyền xác nhận, chỉnh sửa loại rác hoặc gửi báo cáo phản ánh lên hệ thống.
 
 ### 2. AI-2: Thuật toán Chấm Điểm Ưu Tiên Tự Động (AI Priority Scorer)
-- **Vị trí tích hợp:** `resident-pickup-request.html` & `coordinator-request-board.html`
+- **Vị trí tích hợp:** `cu-dan-dat-lich-thu-gom.html` & `dieu-phoi-bang-yeu-cau.html`
 - **Mục đích:** Đảm bảo các đơn phế thải nguy hại hoặc gây ách tắc giao thông đô thị được tự động đẩy lên mức ưu tiên cao nhất trong hàng đợi SLA.
 - **Quy tắc tính điểm (0 - 100):**
   - Điểm nền tảng (Base): 30 điểm
@@ -27,7 +27,7 @@ Hệ thống GreenSort triển khai 3 trải nghiệm AI mô phỏng phía Front
   - Phế thải cồng kềnh thông thường: +20 điểm $\rightarrow$ Tiêu chuẩn P3 (<48h)
 
 ### 3. AI-3: Thuật toán Tối Ưu Hóa Tuyến Đường & Gom Cụm Điểm Dừng (AI Route Optimizer & Clustering)
-- **Vị trí tích hợp:** `coordinator-request-board.html` & `collector-route-view.html`
+- **Vị trí tích hợp:** `dieu-phoi-bang-yeu-cau.html` & `thu-gom-lo-trinh-tuyen-duong.html`
 - **Mục đích:** Hỗ trợ Điều phối viên gom cụm các yêu cầu thu gom lân cận về mặt địa lý (theo khu vực Đống Đa, Hoàn Kiếm, Ba Đình) và sắp xếp thứ tự di chuyển tối ưu cho xe ép rác.
 - **Hiệu quả đo lường:** Rút ngắn 4.8 km quãng đường di chuyển (giảm 26%), tiết kiệm 35 phút hành trình và cắt giảm 12.4 kg phát thải CO2 (đáp ứng tiêu chuẩn xanh ESG).
 
