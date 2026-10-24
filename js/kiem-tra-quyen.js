@@ -510,8 +510,7 @@ function khoiTaoThanhChuyenVaiTroDemo() {
         <span class="ms-auto text-muted cursor-pointer" id="switcherToggleIcon"><i class="bi bi-chevron-down"></i></span>
       </div>
       <div class="greensort-switcher-body" id="switcherBody">
-        <div class="small text-muted mb-2"><i class="bi bi-people-fill me-1"></i>Chuyển vai trò báo cáo 6 phút:</div>
-        <div class="d-grid gap-1">
+                <div class="d-grid gap-1">
           <button class="btn btn-sm ${vaiTro === 'resident' ? 'btn-success text-white' : 'btn-outline-success'} text-start py-1" onclick="chuyenNhanhVaiTro('resident')">
             <i class="bi bi-person-fill me-1"></i>🌱 <strong>SV1:</strong> Cư dân (Nam Cường)
           </button>
