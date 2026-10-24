@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreenSort - Đăng Nhập Hệ Thống Phân Loại & Điều Phối Rác</title>
+  <meta name="description" content="Đăng nhập tài khoản GreenSort dành cho Người dân, Nhân viên thu gom, Điều phối viên và Quản trị viên.">
+
+  <!-- Google Fonts & Bootstrap 5.3 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .nen-xac-thuc {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #e0f2fe 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .the-xac-thuc {
+      border: 1px solid rgba(22, 163, 74, 0.2);
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+      background: #ffffff;
+      width: 100%;
+      max-width: 520px;
+      overflow: hidden;
+    }
+    .the-dang-nhap-nhanh {
+      border: 1.5px solid #e2e8f0;
+      border-radius: 0.75rem;
+      padding: 0.65rem 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #fff;
+    }
+    .the-dang-nhap-nhanh:hover {
+      border-color: #16a34a;
+      background: #f0fdf4;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.1);
+    }
+    .the-dang-nhap-nhanh.selected {
+      border-color: #16a34a;
+      background: #f0fdf4;
+      box-shadow: 0 0 0 1px #16a34a;
+    }
+    .duong-phan-cach-dang-nhap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #94a3b8;
+      font-size: 0.78rem;
+      margin: 1rem 0;
+    }
+    .duong-phan-cach-dang-nhap::before,
+    .duong-phan-cach-dang-nhap::after,
+    .duong-phan-cach-dang-nhap::before,
+    .duong-phan-cach-dang-nhap::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+  </style>
+</head>
+<body class="nen-xac-thuc">
+
+  <div class="the-xac-thuc p-4 p-md-5">
+    
+    <!-- Logo & Brand Header -->
+    <div class="text-center mb-4">
+      <a href="login.html" class="text-decoration-none d-inline-flex align-items-center mb-2">
+        <span class="fs-1 me-2">🌱</span>
+        <span class="fs-2 fw-bold text-dark">Green<span class="text-success">Sort</span></span>
+      </a>
+      <h1 class="h5 fw-bold text-dark mb-1">Đăng Nhập Hệ Thống</h1>
+      <p class="text-muted small mb-0">Hệ thống phân loại rác & điều phối thu gom thông minh</p>
+    </div>
+
+    <!-- ===== ĐĂNG NHẬP NHANH VỚI TÀI KHOẢN THỬ NGHIỆM ===== -->
+    <div class="mb-2">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <span class="badge bg-warning-subtle text-dark border border-warning-subtle px-2 py-1" style="font-size: 0.7rem;">
+          <i class="bi bi-lightning-charge-fill me-1"></i>DEMO
+        </span>
+        <label class="form-label small fw-semibold text-muted mb-0">Đăng nhập nhanh (tài khoản thử nghiệm):</label>
+      </div>
+      <div class="row g-2" id="quickLoginSelector">
+        <div class="col-6">
+          <div class="the-dang-nhap-nhanh d-flex align-items-center gap-2" data-role="resident" data-username="nguyenvana" data-password="password123" data-redirect="resident-waste-guide.html">
+            <span class="fs-5">🌿</span>
+            <div class="small lh-sm">
+              <strong class="d-block text-dark">Người dân</strong>
+              <small class="text-muted" style="font-size: 0.68rem;">nguyenvana</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="the-dang-nhap-nhanh d-flex align-items-center gap-2" data-role="collector" data-username="xe_thu_gom_02" data-password="password123" data-redirect="collector-task-list.html">
+            <span class="fs-5">🚛</span>
+            <div class="small lh-sm">
+              <strong class="d-block text-dark">Thu gom viên</strong>
+              <small class="text-muted" style="font-size: 0.68rem;">xe_thu_gom_02</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="the-dang-nhap-nhanh selected d-flex align-items-center gap-2" data-role="coordinator" data-username="dieu_phoi_vien_01" data-password="password123" data-redirect="coordinator-request-board.html">
+            <span class="fs-5">📋</span>
+            <div class="small lh-sm">
+              <strong class="d-block text-dark">Điều phối viên</strong>
+              <small class="text-muted" style="font-size: 0.68rem;">dieu_phoi_vien_01</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="the-dang-nhap-nhanh d-flex align-items-center gap-2" data-role="admin" data-username="admin" data-password="password123" data-redirect="admin-dashboard.html">
+            <span class="fs-5">⚙️</span>
+            <div class="small lh-sm">
+              <strong class="d-block text-dark">Quản trị viên</strong>
+              <small class="text-muted" style="font-size: 0.68rem;">admin</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hoặc đăng nhập bằng tài khoản cá nhân -->
+    <div class="duong-phan-cach-dang-nhap">
+      <span>hoặc đăng nhập bằng tài khoản cá nhân</span>
+    </div>
+
+    <!-- Alert thông báo -->
+    <div id="loginAlert" class="alert d-none small py-2 mb-3" role="alert"></div>
+
+    <!-- Form Đăng nhập (Có Form Validation) -->
+    <form id="loginForm" class="needs-validation" novalidate>
+      
+      <div class="mb-3">
+        <label for="usernameInput" class="form-label small fw-semibold">Tài khoản / Số điện thoại <span class="text-danger">*</span></label>
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
+          <input type="text" class="form-control border-start-0 ps-0" id="usernameInput" placeholder="Nhập username hoặc số điện thoại" value="dieu_phoi_vien_01" required>
+        </div>
+        <div class="invalid-feedback">Vui lòng nhập tên tài khoản hoặc số điện thoại.</div>
+      </div>
+
+      <div class="mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <label for="passwordInput" class="form-label small fw-semibold mb-0">Mật khẩu <span class="text-danger">*</span></label>
+          <a href="forgot-password.html" class="small text-success text-decoration-none">Quên mật khẩu?</a>
+        </div>
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+          <input type="password" class="form-control border-start-0 border-end-0 ps-0" id="passwordInput" placeholder="Nhập mật khẩu" value="password123" required>
+          <button class="btn btn-outline-secondary border-start-0 bg-white" type="button" id="togglePassword">
+            <i class="bi bi-eye text-muted"></i>
+          </button>
+        </div>
+        <div class="invalid-feedback">Vui lòng nhập mật khẩu.</div>
+      </div>
+
+      <div class="form-check mb-4">
+        <input class="form-check-input" type="checkbox" id="rememberMe" checked>
+        <label class="form-check-label small text-muted" for="rememberMe">
+          <i class="bi bi-shield-lock me-1"></i>Lưu tên đăng nhập & mật khẩu trên thiết bị này
+        </label>
+      </div>
+
+      <!-- Nút Đăng nhập -->
+      <button type="submit" class="btn btn-success w-100 rounded-pill py-2 fw-bold mb-3 shadow-sm" id="btnLoginSubmit">
+        <i class="bi bi-box-arrow-in-right me-2"></i>Đăng Nhập Vào Hệ Thống
+      </button>
+
+      <!-- Chuyển sang Tạo tài khoản mới -->
+      <div class="text-center pt-2 border-top">
+        <span class="small text-muted">Bạn chưa có tài khoản?</span>
+        <a href="register.html" class="small text-success fw-bold text-decoration-none ms-1">
+          <i class="bi bi-person-plus me-1"></i>Tạo tài khoản mới ngay
+        </a>
+      </div>
+
+    </form>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/auth-guard.js"></script>
+  <script>
+    // ===== XỬ LÝ ĐĂNG NHẬP NHANH (QUICK LOGIN) =====
+    const danhSachTheDangNhapNhanh = document.querySelectorAll('.the-dang-nhap-nhanh');
+    
+    danhSachTheDangNhapNhanh.forEach(theChon => {
+      theChon.addEventListener('click', () => {
+        // Đánh dấu thẻ đã chọn
+        danhSachTheDangNhapNhanh.forEach(theKhac => theKhac.classList.remove('selected'));
+        theChon.classList.add('selected');
+        
+        // Tự động điền cả tên tài khoản và mật khẩu
+        const tenTaiKhoan = theChon.getAttribute('data-username');
+        const matKhau = theChon.getAttribute('data-password');
+        document.getElementById('usernameInput').value = tenTaiKhoan;
+        document.getElementById('passwordInput').value = matKhau;
+
+        // Hiển thị gợi ý vai trò kèm nút đăng nhập ngay
+        const hopThongBao = document.getElementById('loginAlert');
+        const tenVaiTro = theChon.querySelector('strong').textContent;
+        hopThongBao.className = 'alert alert-info small py-2 mb-3 d-flex align-items-center justify-content-between flex-wrap gap-2';
+        hopThongBao.innerHTML = `<div><i class="bi bi-lightning-charge-fill text-warning me-1"></i>Đã chọn <strong>${tenVaiTro}</strong> (${tenTaiKhoan})</div><button type="button" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-bold" onclick="document.getElementById('btnLoginSubmit').click()"><i class="bi bi-box-arrow-in-right me-1"></i>Đăng nhập ngay</button>`;
+        hopThongBao.classList.remove('d-none');
+      });
+    });
+
+    // ===== ẨN / HIỆN MẬT KHẨU =====
+    const nutAnHienMatKhau = document.getElementById('togglePassword');
+    const oNhapMatKhau = document.getElementById('passwordInput');
+    nutAnHienMatKhau.addEventListener('click', () => {
+      const kieuHienThi = oNhapMatKhau.getAttribute('type') === 'password' ? 'text' : 'password';
+      oNhapMatKhau.setAttribute('type', kieuHienThi);
+      nutAnHienMatKhau.innerHTML = kieuHienThi === 'password' ? '<i class="bi bi-eye text-muted"></i>' : '<i class="bi bi-eye-slash text-muted"></i>';
+    });
+
+    // ===== TỰ ĐỘNG ĐIỀN THÔNG TIN ĐÃ LƯU (REMEMBER ME) =====
+    const thongTinDangNhapDaLuu = JSON.parse(localStorage.getItem('greensort_saved_login') || 'null');
+    if (thongTinDangNhapDaLuu) {
+      document.getElementById('usernameInput').value = thongTinDangNhapDaLuu.username;
+      document.getElementById('passwordInput').value = thongTinDangNhapDaLuu.password;
+      document.getElementById('rememberMe').checked = true;
+      // Đánh dấu đúng thẻ vai trò tương ứng
+      if (thongTinDangNhapDaLuu.role) {
+        danhSachTheDangNhapNhanh.forEach(theVaiTro => {
+          if (theVaiTro.getAttribute('data-role') === thongTinDangNhapDaLuu.role) {
+            theVaiTro.classList.add('selected');
+          }
+        });
+      }
+      const hopThongBao = document.getElementById('loginAlert');
+      hopThongBao.className = 'alert alert-info small py-2 mb-3 d-flex align-items-center';
+      hopThongBao.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i>Đã tự động điền thông tin đăng nhập đã lưu. Nhấn <strong class="ms-1">Đăng Nhập</strong> để tiếp tục.';
+      hopThongBao.classList.remove('d-none');
+    }
+
+    // ===== TỰ ĐỘNG ĐIỀN TÀI KHOẢN KHI VỪA ĐĂNG KÝ XONG =====
+    const thamSoDuongDan = new URLSearchParams(window.location.search);
+    const taiKhoanVuaDangKy = thamSoDuongDan.get('user');
+    if (taiKhoanVuaDangKy) {
+      document.getElementById('usernameInput').value = taiKhoanVuaDangKy;
+      const hopThongBao = document.getElementById('loginAlert');
+      hopThongBao.className = 'alert alert-success small py-2 mb-3 d-flex align-items-center';
+      hopThongBao.innerHTML = `<i class="bi bi-check-circle-fill me-2"></i>Tài khoản <strong class="mx-1">"${taiKhoanVuaDangKy}"</strong> đã được tạo thành công! Hãy nhập mật khẩu để đăng nhập.`;
+      hopThongBao.classList.remove('d-none');
+    }
+
+    // ===== XỬ LÝ ĐĂNG NHẬP: VALIDATION & XÁC THỰC =====
+    const bieuMauDangNhap = document.getElementById('loginForm');
+    const hopThongBaoDangNhap = document.getElementById('loginAlert');
+
+    bieuMauDangNhap.addEventListener('submit', function(suKien) {
+      suKien.preventDefault();
+      if (!bieuMauDangNhap.checkValidity()) {
+        suKien.stopPropagation();
+        bieuMauDangNhap.classList.add('was-validated');
+        return;
+      }
+
+      const tenDangNhap = document.getElementById('usernameInput').value.trim();
+      const matKhauNhap = document.getElementById('passwordInput').value;
+      const nutDangNhap = document.getElementById('btnLoginSubmit');
+      
+      // Trạng thái chờ xử lý (Loading)
+      nutDangNhap.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang kiểm tra thông tin...';
+      nutDangNhap.disabled = true;
+
+      // Mô phỏng độ trễ xác thực
+      setTimeout(() => {
+        const ketQuaXacThuc = authenticateUser(tenDangNhap, matKhauNhap);
+        nutDangNhap.innerHTML = '<i class="bi bi-box-arrow-in-right me-2"></i>Đăng Nhập Vào Hệ Thống';
+        nutDangNhap.disabled = false;
+
+        if (ketQuaXacThuc.success) {
+          // Kiểm tra tài khoản bị vô hiệu hóa
+          if (ketQuaXacThuc.user.disabled) {
+            hopThongBaoDangNhap.className = 'alert alert-danger small py-2 mb-3 d-flex align-items-center';
+            hopThongBaoDangNhap.innerHTML = '<i class="bi bi-slash-circle me-2"></i>Tài khoản đã bị vô hiệu hóa bởi Quản trị viên. Vui lòng liên hệ hỗ trợ.';
+            hopThongBaoDangNhap.classList.remove('d-none');
+            return;
+          }
+
+          // Lưu thông tin đăng nhập nếu chọn ghi nhớ
+          const ghiNhoDangNhap = document.getElementById('rememberMe').checked;
+          if (ghiNhoDangNhap) {
+            localStorage.setItem('greensort_saved_login', JSON.stringify({
+              username: tenDangNhap,
+              password: matKhauNhap,
+              role: ketQuaXacThuc.user.role,
+              savedAt: new Date().toISOString()
+            }));
+          } else {
+            localStorage.removeItem('greensort_saved_login');
+          }
+
+          // Trạng thái thành công
+          hopThongBaoDangNhap.className = 'alert alert-success small py-2 mb-3 d-flex align-items-center';
+          hopThongBaoDangNhap.innerHTML = `<i class="bi bi-check-circle-fill me-2"></i>Xin chào <strong class="mx-1">${ketQuaXacThuc.user.fullName || ketQuaXacThuc.user.username}</strong> (${ketQuaXacThuc.user.roleName})! ${ghiNhoDangNhap ? '<span class="badge bg-success-subtle text-success ms-1"><i class="bi bi-floppy me-1"></i>Đã lưu</span> ' : ''}Đang chuyển hướng...`;
+          hopThongBaoDangNhap.classList.remove('d-none');
+
+          // Chuyển hướng theo đúng vai trò thực tế
+          setTimeout(() => {
+            const trangChuTheoVaiTro = {
+              admin: 'admin-dashboard.html',
+              collector: 'collector-task-list.html',
+              coordinator: 'coordinator-request-board.html',
+              resident: 'resident-waste-guide.html'
+            };
+            window.location.href = trangChuTheoVaiTro[ketQuaXacThuc.user.role] || 'resident-waste-guide.html';
+          }, 800);
+
+        } else {
+          // Trạng thái lỗi
+          hopThongBaoDangNhap.className = 'alert alert-danger small py-2 mb-3 d-flex align-items-center';
+          hopThongBaoDangNhap.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-2"></i>${ketQuaXacThuc.message}`;
+          hopThongBaoDangNhap.classList.remove('d-none');
+        }
+      }, 600);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreenSort - Quản Lý Danh Mục Loại Rác (Admin Waste Types)</title>
+  <meta name="description" content="Quản lý danh mục phân loại rác, hướng dẫn xử lý, hệ số điểm thưởng và quy tắc phân loại hệ thống GreenSort.">
+
+  <!-- Google Fonts & Bootstrap 5.3 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .the-loai-rac {
+      border: 1px solid #e2e8f0;
+      border-radius: 1rem;
+      transition: all 0.2s ease;
+      background: #ffffff;
+    }
+    .the-loai-rac:hover {
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+      border-color: #16a34a;
+    }
+    .huy-hieu-bieu-tuong {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.75rem;
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+  <!-- HEADER -->
+  <header class="sticky-top bg-white border-bottom shadow-sm">
+    <div class="container-fluid px-4 py-2">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <a href="admin-dashboard.html" class="d-flex align-items-center text-decoration-none logo-thuong-hieu">
+          <span class="fs-3 me-2">🌱</span>
+          <span class="fw-bold">Green<span class="text-success">Sort</span></span>
+          <span class="badge bg-danger-subtle text-danger ms-2 border border-danger-subtle"><i class="bi bi-shield-lock-fill me-1"></i>Quản trị viên</span>
+        </a>
+
+        <nav class="d-none d-lg-flex align-items-center gap-2">
+          <a href="admin-dashboard.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+            <i class="bi bi-speedometer2 me-1"></i>Dashboard KPI
+          </a>
+          <a href="admin-waste-types.html" class="btn btn-sm btn-success text-white fw-semibold rounded-pill px-3">
+            <i class="bi bi-recycle me-1"></i>Danh mục Rác
+          </a>
+          <a href="admin-users.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+            <i class="bi bi-people me-1"></i>Người dùng & Vai trò
+          </a>
+        </nav>
+
+        <div class="d-flex align-items-center gap-2">
+          <div class="dropdown">
+            <button class="btn btn-outline-danger btn-sm dropdown-toggle rounded-pill px-3 fw-semibold" type="button" data-bs-toggle="dropdown">
+              <i class="bi bi-shield-lock me-1"></i><span id="currentUserDisplay">Trần Quản Trị (Quản trị viên)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+              <li><h6 class="dropdown-header text-uppercase text-muted small">Tài khoản Quản trị:</h6></li>
+              <li><a class="dropdown-item" href="admin-dashboard.html"><i class="bi bi-speedometer2 me-2"></i>Admin Dashboard</a></li>
+              <li><a class="dropdown-item active bg-danger text-white" href="admin-waste-types.html"><i class="bi bi-recycle me-2"></i>Quản lý Danh mục Rác</a></li>
+              <li><a class="dropdown-item" href="admin-users.html"><i class="bi bi-people me-2"></i>Quản lý Tài khoản & Quyền</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><button class="dropdown-item text-danger" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</button></li>
+            </ul>
+          </div>
+          <button class="btn btn-sm btn-light border text-danger rounded-pill px-3" onclick="logoutUser()" title="Đăng xuất khỏi hệ thống">
+            <i class="bi bi-box-arrow-right me-1"></i>Đăng xuất
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-grow-1 p-4">
+    <div class="container-fluid">
+      
+      <!-- Top header actions -->
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div>
+          <h2 class="h4 fw-bold text-dark mb-1">Quản lý Danh mục Loại Rác & Quy tắc Phân loại</h2>
+          <p class="text-secondary small mb-0">Cấu hình danh mục phân loại rác, điểm thưởng cho người dân và tiêu chuẩn xử lý rác đô thị.</p>
+        </div>
+        <button class="btn btn-success rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#wasteTypeModal" onclick="openAddModal()">
+          <i class="bi bi-plus-circle me-2"></i>Thêm danh mục mới
+        </button>
+      </div>
+
+      <!-- FILTER & SEARCH -->
+      <div class="card border-0 shadow-sm rounded-4 p-3 mb-4 bg-white">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-6 col-lg-4">
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
+              <input type="text" id="searchWasteInput" class="form-control border-start-0" placeholder="Tìm kiếm tên rác, từ khóa, ví dụ..." oninput="filterWasteCards()">
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <select id="colorFilter" class="form-select" onchange="filterWasteCards()">
+              <option value="">Tất cả màu thùng rác</option>
+              <option value="green">Màu xanh lá (Hữu cơ)</option>
+              <option value="yellow">Màu vàng (Tái chế)</option>
+              <option value="red">Màu đỏ / cam (Nguy hại)</option>
+              <option value="blue">Màu xanh dương (Điện tử)</option>
+            </select>
+          </div>
+          <div class="col-md-12 col-lg-5 text-lg-end text-muted small">
+            Đang hiển thị <span id="wasteCountBadge" class="fw-bold text-dark">0</span> loại rác trong hệ thống
+          </div>
+        </div>
+      </div>
+
+      <!-- LIST OF WASTE CARDS -->
+      <div class="row g-4" id="wasteCardsGrid">
+        <!-- Dynamic list rendered here -->
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MODAL: ADD / EDIT WASTE TYPE -->
+  <div class="modal fade" id="wasteTypeModal" tabindex="-1" aria-labelledby="wasteTypeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-bottom-0 pb-0">
+          <h5 class="modal-title fw-bold" id="wasteTypeModalLabel">Thêm danh mục rác mới</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="wasteTypeForm" onsubmit="saveWasteType(event)">
+          <div class="modal-body p-4">
+            <input type="hidden" id="editWasteId">
+
+            <div class="row g-3">
+              <div class="col-md-8">
+                <label class="form-label small fw-semibold">Tên loại rác <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="wasteName" required placeholder="Ví dụ: Rác hữu cơ sinh hoạt">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-semibold">Icon / Emoji <span class="text-danger">*</span></label>
+                <input type="text" class="form-control text-center" id="wasteIcon" required placeholder="🍎" maxlength="4">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold">Màu sắc đại diện thùng rác</label>
+                <select class="form-select" id="wasteColorCode">
+                  <option value="success">Xanh lá (Hữu cơ)</option>
+                  <option value="warning">Vàng (Tái chế)</option>
+                  <option value="danger">Đỏ (Nguy hại)</option>
+                  <option value="info">Xanh dương (Điện tử)</option>
+                  <option value="secondary">Xám (Rác còn lại)</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold">Điểm thưởng tích lũy (cho mỗi kg)</label>
+                <input type="number" class="form-control" id="wastePoints" required value="10" min="0">
+              </div>
+
+              <div class="col-12">
+                <label class="form-label small fw-semibold">Mô tả ngắn</label>
+                <textarea class="form-control" id="wasteDescription" rows="2" placeholder="Tóm tắt đặc tính loại rác này..."></textarea>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label small fw-semibold">Các ví dụ minh họa (phân cách bằng dấu phẩy)</label>
+                <input type="text" class="form-control" id="wasteExamples" placeholder="Vỏ chuối, rau củ thừa, bã trà, lá cây...">
+              </div>
+
+              <div class="col-12">
+                <label class="form-label small fw-semibold">Hướng dẫn xử lý đúng cách</label>
+                <textarea class="form-control" id="wasteGuide" rows="2" placeholder="Để ráo nước, gói kín trong túi sinh học..."></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-top-0 pt-0">
+            <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Hủy bỏ</button>
+            <button type="submit" class="btn btn-success rounded-pill px-4 text-white">Lưu thông tin</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-top py-3 text-center text-muted small mt-auto">
+    <div class="container">
+      GreenSort Platform &copy; 2026 - Quản trị danh mục loại rác chuẩn hoá BTL-05.
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/auth-guard.js"></script>
+  <script src="js/api.js"></script>
+  <script>
+    let danhSachLoaiRacHienTai = [];
+
+    function taiDanhSachLoaiRac() {
+      danhSachLoaiRacHienTai = GreenSortAPI.wasteTypes.getAll();
+      hienThiDanhSachTheLoaiRac(danhSachLoaiRacHienTai);
+    }
+    window.loadWasteTypes = taiDanhSachLoaiRac;
+
+    // Khởi tạo ngay lập tức không chờ để chống giật trang
+    taiDanhSachLoaiRac();
+
+    function hienThiDanhSachTheLoaiRac(danhSach) {
+      const khungChuaThe = document.getElementById('wasteCardsGrid');
+      const theDemSoLuong = document.getElementById('wasteCountBadge');
+      theDemSoLuong.textContent = danhSach.length;
+      khungChuaThe.innerHTML = '';
+
+      if (danhSach.length === 0) {
+        khungChuaThe.innerHTML = `
+          <div class="col-12 text-center py-5">
+            <i class="bi bi-inbox fs-1 text-muted"></i>
+            <p class="text-secondary mt-2">Không tìm thấy loại rác nào phù hợp với tìm kiếm.</p>
+          </div>
+        `;
+        return;
+      }
+
+      danhSach.forEach(loaiRac => {
+        const cotThe = document.createElement('div');
+        cotThe.className = 'col-md-6 col-xl-4';
+        
+        let mauChuDao = loaiRac.colorCode;
+        if (!mauChuDao) {
+          if (loaiRac.code === 'organic') mauChuDao = 'success';
+          else if (loaiRac.code === 'recyclable') mauChuDao = 'primary';
+          else if (loaiRac.code === 'hazardous') mauChuDao = 'danger';
+          else if (loaiRac.code === 'bulky') mauChuDao = 'warning';
+          else mauChuDao = 'secondary';
+        }
+
+        let bieuTuong = loaiRac.icon || '🌱';
+        if (typeof bieuTuong === 'string' && (bieuTuong.startsWith('bi-') || bieuTuong.startsWith('bi '))) {
+          const cleanClass = bieuTuong.startsWith('bi-') ? bieuTuong : bieuTuong.replace(/^bi\s+/, '');
+          bieuTuong = `<i class="bi ${cleanClass}"></i>`;
+        }
+
+        cotThe.innerHTML = `
+          <div class="card the-loai-rac p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <div class="huy-hieu-bieu-tuong bg-${mauChuDao}-subtle text-${mauChuDao}">
+                  ${bieuTuong}
+                </div>
+                <div class="d-flex gap-1">
+                  <button class="btn btn-sm btn-light text-primary border-0 rounded-circle" title="Chỉnh sửa" onclick="moHopThoaiChinhSua('${loaiRac.id}')">
+                    <i class="bi bi-pencil-square"></i>
+                  </button>
+                  <button class="btn btn-sm btn-light text-danger border-0 rounded-circle" title="Xóa" onclick="xoaLoaiRac('${loaiRac.id}')">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+
+              <h5 class="fw-bold text-dark mb-1">${loaiRac.name}</h5>
+              <div class="mb-2">
+                <span class="badge bg-${mauChuDao}-subtle text-${mauChuDao} border border-${mauChuDao}-subtle">
+                  +${loaiRac.pointsPerKg || 10} điểm / kg
+                </span>
+              </div>
+              <p class="text-secondary small mb-3">${loaiRac.description || 'Chưa có mô tả'}</p>
+
+              <div class="p-2 rounded bg-light small mb-3">
+                <strong class="text-dark d-block mb-1"><i class="bi bi-lightbulb text-warning me-1"></i>Ví dụ phổ biến:</strong>
+                <span class="text-muted">${Array.isArray(loaiRac.examples) ? loaiRac.examples.join(', ') : (loaiRac.examples || 'Đang cập nhật')}</span>
+              </div>
+            </div>
+
+            <div class="pt-3 border-top mt-2 small text-muted">
+              <strong class="text-dark">Cách xử lý:</strong> ${loaiRac.disposalGuide || 'Theo quy định chung'}
+            </div>
+          </div>
+        `;
+        khungChuaThe.appendChild(cotThe);
+      });
+    }
+
+    function locTheLoaiRac() {
+      const tuKhoa = document.getElementById('searchWasteInput').value.toLowerCase().trim();
+      const danhSachDaLoc = danhSachLoaiRacHienTai.filter(loaiRac => {
+        const khopTen = loaiRac.name.toLowerCase().includes(tuKhoa);
+        const khopMoTa = (loaiRac.description || '').toLowerCase().includes(tuKhoa);
+        const khopViDu = Array.isArray(loaiRac.examples) ? loaiRac.examples.join(' ').toLowerCase().includes(tuKhoa) : false;
+        return khopTen || khopMoTa || khopViDu;
+      });
+      hienThiDanhSachTheLoaiRac(danhSachDaLoc);
+    }
+    window.filterWasteCards = locTheLoaiRac;
+
+    function moHopThoaiThemMoi() {
+      document.getElementById('wasteTypeForm').reset();
+      document.getElementById('editWasteId').value = '';
+      document.getElementById('wasteTypeModalLabel').textContent = 'Thêm danh mục rác mới';
+    }
+    window.openAddModal = moHopThoaiThemMoi;
+
+    function moHopThoaiChinhSua(maLoaiRac) {
+      const loaiRac = danhSachLoaiRacHienTai.find(x => x.id === maLoaiRac);
+      if (!loaiRac) return;
+
+      document.getElementById('editWasteId').value = loaiRac.id;
+      document.getElementById('wasteName').value = loaiRac.name;
+      document.getElementById('wasteIcon').value = loaiRac.icon || '🌱';
+      document.getElementById('wasteColorCode').value = loaiRac.colorCode || 'success';
+      document.getElementById('wastePoints').value = loaiRac.pointsPerKg || 10;
+      document.getElementById('wasteDescription').value = loaiRac.description || '';
+      document.getElementById('wasteExamples').value = Array.isArray(loaiRac.examples) ? loaiRac.examples.join(', ') : (loaiRac.examples || '');
+      document.getElementById('wasteGuide').value = loaiRac.disposalGuide || '';
+
+      document.getElementById('wasteTypeModalLabel').textContent = 'Chỉnh sửa: ' + loaiRac.name;
+      const hopThoaiModal = new bootstrap.Modal(document.getElementById('wasteTypeModal'));
+      hopThoaiModal.show();
+    }
+    window.openEditModal = moHopThoaiChinhSua;
+
+    function luuLoaiRac(suKien) {
+      suKien.preventDefault();
+      const maLoaiRac = document.getElementById('editWasteId').value;
+      const mangViDu = document.getElementById('wasteExamples').value.split(',').map(s => s.trim()).filter(Boolean);
+
+      const duLieu = {
+        name: document.getElementById('wasteName').value,
+        icon: document.getElementById('wasteIcon').value,
+        colorCode: document.getElementById('wasteColorCode').value,
+        pointsPerKg: parseInt(document.getElementById('wastePoints').value) || 10,
+        description: document.getElementById('wasteDescription').value,
+        examples: mangViDu,
+        disposalGuide: document.getElementById('wasteGuide').value
+      };
+
+      if (maLoaiRac) {
+        GreenSortAPI.wasteTypes.update(maLoaiRac, duLieu);
+      } else {
+        GreenSortAPI.wasteTypes.create(duLieu);
+      }
+
+      bootstrap.Modal.getInstance(document.getElementById('wasteTypeModal')).hide();
+      taiDanhSachLoaiRac();
+    }
+    window.saveWasteType = luuLoaiRac;
+
+    function xoaLoaiRac(maLoaiRac) {
+      if (confirm('Bạn có chắc chắn muốn xóa danh mục loại rác này không?')) {
+        GreenSortAPI.wasteTypes.delete(maLoaiRac);
+        taiDanhSachLoaiRac();
+      }
+    }
+    window.deleteWasteType = xoaLoaiRac;
+  </script>
+</body>
+</html>
