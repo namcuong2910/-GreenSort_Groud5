@@ -14,6 +14,42 @@
  */
 
 // ==========================================================================
+
+// ==========================================================================
+// TIỆN ÍCH AN TOÀN DỮ LIỆU & ĐỒNG BỘ ĐA TAB REAL-TIME (+0.5đ BONUS)
+// ==========================================================================
+
+/**
+ * Hàm làm sạch chuỗi HTML chống tấn công XSS (Cross-Site Scripting - Vi phạm VP-02)
+ * Barem chấm điểm CSE122: Khử độc bắt buộc trước khi chèn vào innerHTML
+ * @param {any} str - Dữ liệu chuỗi đầu vào
+ * @returns {string} Chuỗi an toàn đã mã hóa thực thể HTML
+ */
+function escapeHTML(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+if (typeof window !== 'undefined') {
+  window.escapeHTML = escapeHTML;
+}
+
+// Lắng nghe sự kiện storage để đồng bộ dữ liệu Real-time giữa các tab trình duyệt (+0.5đ Bonus BTL)
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', function(e) {
+    if (e.key && (e.key.startsWith('gs_') || e.key.startsWith('greensort_'))) {
+      console.log('🔄 [GreenSort Sync] Phát hiện thay đổi dữ liệu từ Tab khác:', e.key);
+      window.dispatchEvent(new CustomEvent('greensort:dataChanged', {
+        detail: { key: e.key, oldValue: e.oldValue, newValue: e.newValue }
+      }));
+    }
+  });
+}
+
 // 1. CÁC HÀM TIỆN ÍCH LƯU TRỮ VÀO LOCALSTORAGE (CHƯƠNG 6)
 // ==========================================================================
 

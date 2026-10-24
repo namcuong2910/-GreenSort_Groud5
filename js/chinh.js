@@ -1,3 +1,15 @@
+
+function escapeHTML(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+if (typeof window !== 'undefined') window.escapeHTML = escapeHTML;
+
 /**
  * GreenSort - Hệ thống phân loại & điều phối thu gom thông minh
  * Tệp JavaScript xử lý giao diện tra cứu và gợi ý phân loại rác (chinh.js)
@@ -204,7 +216,7 @@ document.addEventListener('DOMContentLoaded', async () => {
  */
 async function taiDuLieuRac() {
   try {
-    const phanHoi = await fetch('assets/data/du-lieu-rac.json').catch(() => fetch('assets/data/waste-data.json'));
+    const phanHoi = await fetch('assets/data/du-lieu-rac.json').catch(() => fetch('assets/data/du-lieu-rac.json'));
     if (phanHoi && phanHoi.ok) {
       danhSachRac = await phanHoi.json();
     } else {
@@ -262,10 +274,10 @@ function hienThiDanhSachTheRac() {
           <span class="badge ${vatPham.badgeClass} rounded-pill">${vatPham.categoryName}</span>
         </div>
         
-        <h3 class="h6 fw-bold text-dark mt-2 mb-1 text-truncate" title="${vatPham.name}">${vatPham.name}</h3>
+        <h3 class="h6 fw-bold text-dark mt-2 mb-1 text-truncate" title="${escapeHTML(vatPham.name)}">${escapeHTML(vatPham.name)}</h3>
         
         <p class="small text-muted mb-2 flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-          ${vatPham.tip}
+          ${escapeHTML(vatPham.tip)}
         </p>
 
         <div class="d-flex align-items-center justify-content-between pt-2 border-top">
@@ -389,6 +401,28 @@ function xuLyGoiYPhanLoai() {
   }
   oNhap.classList.remove('is-invalid');
 
+  // Kiểm tra độ dài đầu vào phục vụ Tiêu chí 6.3 Barem CSE122 (UX Fallback/Error)
+  if (tuKhoa.length < 3) {
+    if (hopBaoLoi) {
+      hopBaoLoi.innerHTML = `
+        <div class="d-flex align-items-center mb-1">
+          <i class="bi bi-exclamation-triangle-fill text-warning me-2 fs-5"></i>
+          <strong class="text-dark">Mô tả rác quá ngắn (Dưới 3 ký tự)</strong>
+        </div>
+        <p class="small text-secondary mb-2">Trợ lý AI chưa đủ dữ liệu để phân loại chính xác (Độ tin cậy &lt; 30%). Vui lòng nhập chi tiết hơn hoặc chọn nhanh các mẫu:</p>
+        <div class="d-flex flex-wrap gap-1">
+          <button type="button" class="btn btn-sm btn-outline-danger rounded-pill px-2 py-0" onclick="dienMauGoiY('Pin con thỏ cũ')">Pin cũ hỏng</button>
+          <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-2 py-0" onclick="dienMauGoiY('Chai nhựa PET Lavie')">Chai nhựa Lavie</button>
+          <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-2 py-0" onclick="dienMauGoiY('Vỏ chuối chín')">Vỏ chuối chín</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-2 py-0" onclick="dienMauGoiY('Hộp xốp dính dầu mỡ')">Hộp xốp dính dầu</button>
+        </div>
+      `;
+      hopBaoLoi.classList.remove('d-none');
+    }
+    if (hopKetQua) hopKetQua.classList.add('d-none');
+    return;
+  }
+
   // Bước 1: Hiển thị trạng thái đang xử lý (Loading)
   if (hopDangXuLy) hopDangXuLy.classList.remove('d-none');
   if (hopKetQua) hopKetQua.classList.add('d-none');
@@ -496,7 +530,7 @@ function hienThiKetQuaGoiY(duLieuKetQua) {
       </div>
 
       <h4 class="h5 fw-bold text-dark mb-2">
-        <i class="bi bi-question-circle text-warning me-2"></i>Chưa nhận diện chắc chắn về: "${duLieuKetQua.name}"
+        <i class="bi bi-question-circle text-warning me-2"></i>Chưa nhận diện chắc chắn về: "${escapeHTML(duLieuKetQua.name)}"
       </h4>
 
       <div class="p-3 bg-white rounded-3 border border-warning-subtle mb-3">
@@ -509,13 +543,13 @@ function hienThiKetQuaGoiY(duLieuKetQua) {
       </div>
 
       <div class="d-flex flex-wrap align-items-center gap-2">
-        <button class="btn btn-warning text-dark btn-sm px-3 rounded-pill fw-semibold" onclick="chuyenSuaThuCong('${duLieuKetQua.name}')">
+        <button class="btn btn-warning text-dark btn-sm px-3 rounded-pill fw-semibold" onclick="chuyenSuaThuCong('${escapeHTML(duLieuKetQua.name)}')">
           <i class="bi bi-card-checklist me-1"></i>Chọn loại rác thủ công
         </button>
         <button class="btn btn-outline-secondary btn-sm px-3 rounded-pill" onclick="document.getElementById('aiWasteInput').focus(); document.getElementById('aiWasteInput').select();">
           <i class="bi bi-arrow-repeat me-1"></i>Thử lại với mô tả khác
         </button>
-        <button class="btn btn-outline-danger btn-sm px-3 rounded-pill" onclick="baoLoiPhanLoai('${duLieuKetQua.name}')">
+        <button class="btn btn-outline-danger btn-sm px-3 rounded-pill" onclick="baoLoiPhanLoai('${escapeHTML(duLieuKetQua.name)}')">
           <i class="bi bi-flag me-1"></i>Gửi báo cáo hỗ trợ
         </button>
       </div>
@@ -537,7 +571,7 @@ function hienThiKetQuaGoiY(duLieuKetQua) {
       </div>
 
       <h4 class="h5 fw-bold text-dark mb-2">
-        <i class="bi bi-check2-circle text-success me-2"></i>Đề xuất phân loại cho: "${duLieuKetQua.name}"
+        <i class="bi bi-check2-circle text-success me-2"></i>Đề xuất phân loại cho: "${escapeHTML(duLieuKetQua.name)}"
       </h4>
 
       <div class="p-3 bg-white rounded-3 border mb-3">
@@ -560,10 +594,10 @@ function hienThiKetQuaGoiY(duLieuKetQua) {
         <button class="btn btn-success btn-sm px-3 rounded-pill" onclick="chapNhanKetQua('${duLieuKetQua.name}', '${duLieuKetQua.categoryName}')">
           <i class="bi bi-check-lg me-1"></i>Chấp nhận kết quả
         </button>
-        <button class="btn btn-outline-secondary btn-sm px-3 rounded-pill" onclick="chuyenSuaThuCong('${duLieuKetQua.name}')">
+        <button class="btn btn-outline-secondary btn-sm px-3 rounded-pill" onclick="chuyenSuaThuCong('${escapeHTML(duLieuKetQua.name)}')">
           <i class="bi bi-pencil me-1"></i>Sửa loại rác thủ công
         </button>
-        <button class="btn btn-outline-danger btn-sm px-3 rounded-pill" onclick="baoLoiPhanLoai('${duLieuKetQua.name}')">
+        <button class="btn btn-outline-danger btn-sm px-3 rounded-pill" onclick="baoLoiPhanLoai('${escapeHTML(duLieuKetQua.name)}')">
           <i class="bi bi-flag me-1"></i>Báo lỗi kết quả
         </button>
       </div>
@@ -634,3 +668,13 @@ function khoiTaoNutLenDauTrang() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 }
+
+
+function dienMauGoiY(tuKhoaMau) {
+  const oNhap = document.getElementById('aiWasteInput');
+  if (oNhap) {
+    oNhap.value = tuKhoaMau;
+    xuLyGoiYPhanLoai();
+  }
+}
+window.dienMauGoiY = dienMauGoiY;

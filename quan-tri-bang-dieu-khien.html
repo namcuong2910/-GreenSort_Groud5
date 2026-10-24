@@ -65,20 +65,10 @@
         </nav>
 
         <div class="d-flex align-items-center gap-2">
-          <div class="dropdown">
-            <button class="btn btn-outline-danger btn-sm dropdown-toggle rounded-pill px-3 fw-semibold" type="button" data-bs-toggle="dropdown">
-              <i class="bi bi-shield-lock me-1"></i><span id="currentUserDisplay">Trần Quản Trị (Quản trị viên)</span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-              <li><h6 class="dropdown-header text-uppercase text-muted small">Tài khoản Quản trị:</h6></li>
-              <li><a class="dropdown-item active bg-danger text-white" href="quan-tri-bang-dieu-khien.html"><i class="bi bi-speedometer2 me-2"></i>Admin Dashboard</a></li>
-              <li><a class="dropdown-item" href="quan-tri-danh-muc-rac.html"><i class="bi bi-recycle me-2"></i>Quản lý Danh mục Rác</a></li>
-              <li><a class="dropdown-item" href="quan-tri-nguoi-dung.html"><i class="bi bi-people me-2"></i>Quản lý Tài khoản & Quyền</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><button class="dropdown-item text-danger" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</button></li>
-            </ul>
-          </div>
-          <button class="btn btn-sm btn-light border text-danger rounded-pill px-3" onclick="logoutUser()" title="Đăng xuất khỏi hệ thống">
+          <span class="badge bg-danger-subtle text-danger-emphasis border border-danger-subtle px-3 py-2 rounded-pill fw-semibold shadow-sm d-inline-flex align-items-center">
+            <i class="bi bi-shield-lock text-danger me-1"></i><span id="currentUserDisplay">Trần Quản Trị (Quản trị viên)</span>
+          </span>
+          <button class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-semibold shadow-sm" onclick="logoutUser()" title="Đăng xuất khỏi hệ thống">
             <i class="bi bi-box-arrow-right me-1"></i>Đăng xuất
           </button>
         </div>
@@ -93,7 +83,7 @@
       <!-- Welcome & Alert Banner -->
       <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
         <div>
-          <h2 class="h4 fw-bold text-dark mb-1">Tổng quan Điều hành Toàn hệ thống (System Overview)</h2>
+          <h1 class="h4 fw-bold text-dark mb-1">Tổng quan Điều hành Toàn hệ thống (System Overview)</h1>
           <p class="text-secondary small mb-0">Dữ liệu thời gian thực cập nhật từ các hoạt động phân loại rác, yêu cầu thu gom và đội xe vận chuyển.</p>
         </div>
         <div class="d-flex gap-2">
@@ -217,7 +207,7 @@
           <div class="card the-quan-tri p-4 bg-white">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <h5 class="fw-bold mb-0">Yêu cầu thu gom gần nhất</h5>
-              <a href="coordinator-request-board.html" class="btn btn-sm btn-link text-decoration-none text-success fw-semibold">
+              <a href="dieu-phoi-bang-yeu-cau.html" class="btn btn-sm btn-link text-decoration-none text-success fw-semibold">
                 Xem toàn bộ <i class="bi bi-arrow-right"></i>
               </a>
             </div>
@@ -289,7 +279,7 @@
                 <a href="quan-tri-nguoi-dung.html" class="btn btn-outline-primary btn-sm text-start">
                   <i class="bi bi-person-plus-fill me-2"></i>Thêm tài xế / Điều phối viên mới
                 </a>
-                <a href="coordinator-analytics.html" class="btn btn-outline-dark btn-sm text-start">
+                <a href="dieu-phoi-thong-ke-bao-cao.html" class="btn btn-outline-dark btn-sm text-start">
                   <i class="bi bi-file-earmark-pdf-fill me-2"></i>Xuất báo cáo ESG & Tác động môi trường
                 </a>
               </div>
@@ -369,11 +359,11 @@
         hangDonHang.innerHTML = `
           <td><strong class="text-dark">${donHang.id}</strong></td>
           <td>
-            <div class="fw-semibold text-dark">${donHang.senderName || donHang.requesterName || 'Cư dân'}</div>
-            <small class="text-muted">${donHang.phone || ''}</small>
+            <div class="fw-semibold text-dark">${escapeHTML(donHang.senderName || donHang.requesterName || 'Cư dân')}</div>
+            <small class="text-muted">${escapeHTML(donHang.phone || '')}</small>
           </td>
-          <td><span class="badge bg-light text-dark border">${donHang.wasteType || donHang.category || 'Rác tái chế'}</span></td>
-          <td>${donHang.estimatedWeight || '5'} kg</td>
+          <td><span class="badge bg-light text-dark border">${escapeHTML(donHang.wasteType || donHang.category || 'Rác tái chế')}</span></td>
+          <td>${escapeHTML(donHang.estimatedWeight || '5')} kg</td>
           <td>${theUuTien}</td>
           <td>${theTrangThai}</td>
         `;
@@ -381,6 +371,14 @@
       });
     }
     window.renderRecentRequests = hienThiYeuCauGanNhat;
+    // Lắng nghe đồng bộ đa tab Real-time (+0.5đ Bonus BTL)
+    window.addEventListener('greensort:dataChanged', (e) => {
+      if (e.detail.key === 'gs_pickup_requests') {
+        hienThiYeuCauGanNhat();
+        capNhatSoLieuTongQuan();
+      }
+    });
+
 
     function khoiTaoBieuDoThongKe() {
       const khungVeBieuDoTron = document.getElementById('wasteDistributionChart').getContext('2d');

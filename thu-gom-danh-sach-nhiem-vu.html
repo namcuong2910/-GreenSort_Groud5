@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -38,20 +38,10 @@
         </nav>
 
         <div class="d-flex align-items-center gap-2">
-          <div class="dropdown">
-            <button class="btn btn-outline-warning text-dark btn-sm dropdown-toggle rounded-pill px-3 fw-semibold" type="button" data-bs-toggle="dropdown">
-              <i class="bi bi-truck me-1"></i><span id="currentUserDisplay">Bác Nam (Tài xế) (Thu gom viên)</span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-              <li><h6 class="dropdown-header">Tài khoản Thu gom viên:</h6></li>
-              <li><a class="dropdown-item active bg-warning text-dark fw-bold" href="thu-gom-danh-sach-nhiem-vu.html"><i class="bi bi-list-task me-2"></i>Nhiệm vụ hôm nay</a></li>
-              <li><a class="dropdown-item" href="thu-gom-lo-trinh-tuyen-duong.html"><i class="bi bi-map-fill me-2"></i>Bản đồ Tuyến thu gom</a></li>
-              <li><a class="dropdown-item" href="thu-gom-chi-tiet-don.html?id=REQ-102"><i class="bi bi-patch-check-fill me-2"></i>Nghiệm thu đơn</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><button class="dropdown-item text-danger" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</button></li>
-            </ul>
-          </div>
-          <button class="btn btn-sm btn-light border text-danger rounded-pill px-3" onclick="logoutUser()" title="Đăng xuất khỏi hệ thống">
+          <span class="badge bg-warning-subtle text-dark border border-warning-subtle px-3 py-2 rounded-pill fw-semibold shadow-sm d-inline-flex align-items-center">
+            <i class="bi bi-truck text-warning-emphasis me-1"></i><span id="currentUserDisplay">Bác Nam (Tài xế) (Thu gom viên)</span>
+          </span>
+          <button class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-semibold shadow-sm" onclick="logoutUser()" title="Đăng xuất khỏi hệ thống">
             <i class="bi bi-box-arrow-right me-1"></i>Đăng xuất
           </button>
         </div>
@@ -88,9 +78,9 @@
       <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
         <h2 class="h5 fw-bold text-dark mb-0">Các Điểm Thu Gom Cần Ghé (Theo Lộ Trình Tuyến)</h2>
         <div class="btn-group btn-group-sm" role="group">
-          <button type="button" class="btn btn-outline-secondary active task-nut-loc-danh-muc nut-loc-danh-muc" data-filter="all">Tất cả</button>
-          <button type="button" class="btn btn-outline-secondary task-nut-loc-danh-muc nut-loc-danh-muc" data-filter="pending">Chờ / Đang tới</button>
-          <button type="button" class="btn btn-outline-secondary task-nut-loc-danh-muc nut-loc-danh-muc" data-filter="completed">Đã xong</button>
+          <button type="button" class="btn btn-success text-white active nut-loc-nhiem-vu" data-filter="all">Tất cả</button>
+          <button type="button" class="btn btn-outline-secondary nut-loc-nhiem-vu" data-filter="pending">Chờ / Đang tới</button>
+          <button type="button" class="btn btn-outline-secondary nut-loc-nhiem-vu" data-filter="completed">Đã xong</button>
         </div>
       </div>
       
@@ -121,8 +111,8 @@
       const buttons = document.querySelectorAll('.nut-loc-nhiem-vu');
       buttons.forEach(btn => {
         btn.addEventListener('click', () => {
-          buttons.forEach(b => b.classList.remove('active', 'btn-success', 'text-white'));
-          btn.classList.add('active');
+          buttons.forEach(b => { b.classList.remove('active', 'btn-success', 'text-white'); b.classList.add('btn-outline-secondary'); });
+          btn.classList.remove('btn-outline-secondary'); btn.classList.add('active', 'btn-success', 'text-white');
           currentFilter = btn.getAttribute('data-filter');
           loadCollectorTasks();
         });
@@ -219,20 +209,20 @@
           <div class="d-flex justify-content-between align-items-start mb-2">
             <div>
               ${statusBadge}
-              <h3 class="h6 fw-bold mb-0 text-dark">${req.address || 'Hà Nội'}</h3>
-              <small class="text-muted"><i class="bi bi-person me-1"></i>Người gửi: <strong>${req.requesterName || req.senderName || 'Cư dân'}</strong></small>
+              <h3 class="h6 fw-bold mb-0 text-dark">${escapeHTML(req.address || 'Hà Nội')}</h3>
+              <small class="text-muted"><i class="bi bi-person me-1"></i>Người gửi: <strong>${escapeHTML(req.requesterName || req.senderName || 'Cư dân')}</strong></small>
             </div>
             ${prioBadge}
           </div>
           
           <div class="p-2 rounded bg-light mb-2 small text-muted">
-            <div>Phân loại rác: <strong class="text-dark">${req.category || req.wasteType || 'Rác tái chế'}</strong> &bull; Ước lượng: <strong class="text-dark">${req.actualWeight || req.estimatedWeight || 5} kg</strong></div>
-            ${req.notes ? `<div class="fst-italic text-secondary mt-1">&ldquo;${req.notes}&rdquo;</div>` : ''}
+            <div>Phân loại rác: <strong class="text-dark">${escapeHTML(req.category || req.wasteType || 'Rác tái chế')}</strong> &bull; Ước lượng: <strong class="text-dark">${req.actualWeight || req.estimatedWeight || 5} kg</strong></div>
+            ${req.notes ? `<div class="fst-italic text-secondary mt-1">&ldquo;${escapeHTML(req.notes)}&rdquo;</div>` : ''}
           </div>
 
           <div class="d-flex justify-content-between align-items-center pt-2 border-top flex-wrap gap-2">
             <a href="tel:${req.phone || '0988888888'}" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
-              <i class="bi bi-telephone-fill text-success me-1"></i>${req.phone || 'Gọi cư dân'}
+              <i class="bi bi-telephone-fill text-success me-1"></i>${escapeHTML(req.phone || 'Gọi cư dân')}
             </a>
             
             <div class="d-flex gap-2">

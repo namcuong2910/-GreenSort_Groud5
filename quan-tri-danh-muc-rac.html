@@ -61,20 +61,10 @@
         </nav>
 
         <div class="d-flex align-items-center gap-2">
-          <div class="dropdown">
-            <button class="btn btn-outline-danger btn-sm dropdown-toggle rounded-pill px-3 fw-semibold" type="button" data-bs-toggle="dropdown">
-              <i class="bi bi-shield-lock me-1"></i><span id="currentUserDisplay">Trần Quản Trị (Quản trị viên)</span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-              <li><h6 class="dropdown-header text-uppercase text-muted small">Tài khoản Quản trị:</h6></li>
-              <li><a class="dropdown-item" href="quan-tri-bang-dieu-khien.html"><i class="bi bi-speedometer2 me-2"></i>Admin Dashboard</a></li>
-              <li><a class="dropdown-item active bg-danger text-white" href="quan-tri-danh-muc-rac.html"><i class="bi bi-recycle me-2"></i>Quản lý Danh mục Rác</a></li>
-              <li><a class="dropdown-item" href="quan-tri-nguoi-dung.html"><i class="bi bi-people me-2"></i>Quản lý Tài khoản & Quyền</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><button class="dropdown-item text-danger" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</button></li>
-            </ul>
-          </div>
-          <button class="btn btn-sm btn-light border text-danger rounded-pill px-3" onclick="logoutUser()" title="Đăng xuất khỏi hệ thống">
+          <span class="badge bg-danger-subtle text-danger-emphasis border border-danger-subtle px-3 py-2 rounded-pill fw-semibold shadow-sm d-inline-flex align-items-center">
+            <i class="bi bi-shield-lock text-danger me-1"></i><span id="currentUserDisplay">Trần Quản Trị (Quản trị viên)</span>
+          </span>
+          <button class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-semibold shadow-sm" onclick="logoutUser()" title="Đăng xuất khỏi hệ thống">
             <i class="bi bi-box-arrow-right me-1"></i>Đăng xuất
           </button>
         </div>
@@ -89,7 +79,7 @@
       <!-- Top header actions -->
       <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
         <div>
-          <h2 class="h4 fw-bold text-dark mb-1">Quản lý Danh mục Loại Rác & Quy tắc Phân loại</h2>
+          <h1 class="h4 fw-bold text-dark mb-1">Quản lý Danh mục Loại Rác & Quy tắc Phân loại</h1>
           <p class="text-secondary small mb-0">Cấu hình danh mục phân loại rác, điểm thưởng cho người dân và tiêu chuẩn xử lý rác đô thị.</p>
         </div>
         <button class="btn btn-success rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#wasteTypeModal" onclick="openAddModal()">
@@ -267,13 +257,13 @@
                 </div>
               </div>
 
-              <h5 class="fw-bold text-dark mb-1">${loaiRac.name}</h5>
+              <h5 class="fw-bold text-dark mb-1">${escapeHTML(loaiRac.name)}</h5>
               <div class="mb-2">
                 <span class="badge bg-${mauChuDao}-subtle text-${mauChuDao} border border-${mauChuDao}-subtle">
                   +${loaiRac.pointsPerKg || 10} điểm / kg
                 </span>
               </div>
-              <p class="text-secondary small mb-3">${loaiRac.description || 'Chưa có mô tả'}</p>
+              <p class="text-secondary small mb-3">${escapeHTML(loaiRac.description || 'Chưa có mô tả')}</p>
 
               <div class="p-2 rounded bg-light small mb-3">
                 <strong class="text-dark d-block mb-1"><i class="bi bi-lightbulb text-warning me-1"></i>Ví dụ phổ biến:</strong>
@@ -282,7 +272,7 @@
             </div>
 
             <div class="pt-3 border-top mt-2 small text-muted">
-              <strong class="text-dark">Cách xử lý:</strong> ${loaiRac.disposalGuide || 'Theo quy định chung'}
+              <strong class="text-dark">Cách xử lý:</strong> ${escapeHTML(loaiRac.disposalGuide || 'Theo quy định chung')}
             </div>
           </div>
         `;
