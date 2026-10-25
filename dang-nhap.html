@@ -6,7 +6,7 @@
   <title>GreenSort - Đăng Nhập Hệ Thống Phân Loại & Điều Phối Rác</title>
   <meta name="description" content="Đăng nhập tài khoản GreenSort dành cho Người dân, Thu gom viên, Điều phối viên và Quản trị viên.">
 
-  <!-- Google Fonts & Bootstrap 5.3 -->
+  <!-- 1. ĐÂY LÀ PHẦN KHAI BÁO (HEAD): Nạp phông chữ Inter, Bootstrap 5 và CSS xác thực -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -70,9 +70,10 @@
 </head>
 <body class="nen-xac-thuc">
 
+  <!-- 2. ĐÂY LÀ PHẦN THÂN TRANG (MAIN): Khung thẻ đăng nhập trung tâm -->
   <main class="the-xac-thuc p-4 p-md-5">
     
-    <!-- Logo & Tiêu đề đăng nhập -->
+    <!-- 2.1. Logo GreenSort và tiêu đề đăng nhập (thẻ H1 duy nhất) -->
     <div class="text-center mb-4">
       <a href="dang-nhap.html" class="text-decoration-none d-inline-flex align-items-center mb-2">
         <span class="fs-1 me-2">🌱</span>
@@ -82,7 +83,7 @@
       <p class="text-muted small mb-0">Hệ thống phân loại rác & điều phối thu gom đô thị</p>
     </div>
 
-    <!-- Đăng nhập nhanh với các tài khoản mẫu -->
+    <!-- 2.2. Khung đăng nhập nhanh 1 chạm cho 4 vai trò (Người dân, Thu gom, Điều phối, Admin) -->
     <div class="mb-2">
       <div class="d-flex align-items-center gap-2 mb-2">
         <span class="badge bg-warning-subtle text-dark border border-warning-subtle px-2 py-1" style="font-size: 0.7rem;">
@@ -130,15 +131,15 @@
       </div>
     </div>
 
-    <!-- Hoặc đăng nhập bằng tài khoản cá nhân -->
+    <!-- 2.3. Đường phân cách chọn phương thức đăng nhập -->
     <div class="duong-phan-cach-dang-nhap">
       <span>hoặc đăng nhập bằng tài khoản cá nhân</span>
     </div>
 
-    <!-- Alert thông báo -->
+    <!-- 2.4. Khung hiển thị thông báo lỗi hoặc thành công -->
     <div id="loginAlert" class="alert d-none small py-2 mb-3" role="alert"></div>
 
-    <!-- Form Đăng nhập -->
+    <!-- 2.5. Biểu mẫu đăng nhập tài khoản & mật khẩu cá nhân -->
     <form id="loginForm" class="needs-validation" novalidate>
       
       <div class="mb-3">
@@ -172,12 +173,12 @@
         </label>
       </div>
 
-      <!-- Nút Đăng nhập -->
+      <!-- Nút bấm Đăng Nhập vào hệ thống -->
       <button type="submit" class="btn btn-success w-100 rounded-pill py-2 fw-bold mb-3 shadow-sm" id="btnLoginSubmit">
         <i class="bi bi-box-arrow-in-right me-2"></i>Đăng Nhập Vào Hệ Thống
       </button>
 
-      <!-- Chuyển sang Tạo tài khoản mới -->
+      <!-- Liên kết chuyển sang trang Đăng Ký tài khoản mới -->
       <div class="text-center pt-2 border-top">
         <span class="small text-muted">Bạn chưa có tài khoản?</span>
         <a href="dang-ky.html" class="small text-success fw-bold text-decoration-none ms-1">
@@ -189,11 +190,11 @@
 
   </div>
 
-  <!-- Scripts -->
+  <!-- 3. ĐÂY LÀ CÁC FILE JAVASCRIPT VÀ MÃ NGUỒN XỬ LÝ ĐĂNG NHẬP -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/kiem-tra-quyen.js"></script>
   <script>
-    // ===== XỬ LÝ ĐĂNG NHẬP NHANH (QUICK LOGIN) =====
+    // 1. Xử lý chức năng bấm chọn đăng nhập nhanh cho 4 vai trò mẫu
     const danhSachTheDangNhapNhanh = document.querySelectorAll('.the-dang-nhap-nhanh');
     
     danhSachTheDangNhapNhanh.forEach(theChon => {
@@ -217,7 +218,7 @@
       });
     });
 
-    // ===== ẨN / HIỆN MẬT KHẨU =====
+    // 2. Xử lý nút bấm ẩn / hiện mật khẩu (biểu tượng con mắt)
     const nutAnHienMatKhau = document.getElementById('togglePassword');
     const oNhapMatKhau = document.getElementById('passwordInput');
     nutAnHienMatKhau.addEventListener('click', () => {
@@ -226,7 +227,7 @@
       nutAnHienMatKhau.innerHTML = kieuHienThi === 'password' ? '<i class="bi bi-eye text-muted"></i>' : '<i class="bi bi-eye-slash text-muted"></i>';
     });
 
-    // ===== TỰ ĐỘNG ĐIỀN THÔNG TIN ĐÃ LƯU (REMEMBER ME) =====
+    // 3. Tự động điền lại tài khoản & mật khẩu nếu người dùng đã tích chọn "Ghi nhớ"
     const thongTinDangNhapDaLuu = JSON.parse(localStorage.getItem('greensort_saved_login') || 'null');
     if (thongTinDangNhapDaLuu) {
       document.getElementById('usernameInput').value = thongTinDangNhapDaLuu.username;
@@ -245,7 +246,7 @@
       hopThongBao.classList.remove('d-none');
     }
 
-    // ===== TỰ ĐỘNG ĐIỀN TÀI KHOẢN KHI VỪA ĐĂNG KÝ XONG =====
+    // 4. Tự động điền tên tài khoản nếu vừa đăng ký mới từ trang dang-ky.html chuyển sang
     const thamSoDuongDan = new URLSearchParams(window.location.search);
     const taiKhoanVuaDangKy = thamSoDuongDan.get('user');
     if (taiKhoanVuaDangKy) {
@@ -256,7 +257,7 @@
       hopThongBao.classList.remove('d-none');
     }
 
-    // ===== XỬ LÝ ĐĂNG NHẬP: VALIDATION & XÁC THỰC =====
+    // 5. Xử lý kiểm tra dữ liệu form và gọi hàm xác thực đăng nhập
     const bieuMauDangNhap = document.getElementById('loginForm');
     const hopThongBaoDangNhap = document.getElementById('loginAlert');
 

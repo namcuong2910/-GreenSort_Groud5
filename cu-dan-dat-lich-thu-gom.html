@@ -6,7 +6,7 @@
   <title>GreenSort - Đặt Lịch Thu Gom Rác Cồng Kềnh</title>
   <meta name="description" content="Gửi yêu cầu thu gom đồ cồng kềnh, phế liệu kích thước lớn tận nhà, theo dõi tiến độ SLA và tính toán độ ưu tiên tự động.">
 
-  <!-- Google Fonts & Bootstrap 5.3 -->
+  <!-- 1. ĐÂY LÀ PHẦN KHAI BÁO (HEAD): Nạp phông chữ Inter, Bootstrap 5 và CSS giao diện -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-  <!-- HEADER -->
+  <!-- 2. ĐÂY LÀ PHẦN ĐẦU TRANG (HEADER): Logo GreenSort, Menu chuyển trang và Nút Đăng xuất -->
   <header class="sticky-top bg-white border-bottom shadow-sm">
     <div class="container py-2">
       <div class="d-flex align-items-center justify-content-between">
@@ -26,6 +26,7 @@
           <span class="badge bg-success-subtle text-success ms-2 border border-success-subtle"><i class="bi bi-person-heart me-1"></i>Người dân</span>
         </a>
 
+        <!-- 2.1. Menu chuyển nhanh giữa các trang của Người dân (trên máy tính) -->
         <nav class="d-none d-lg-flex align-items-center gap-2">
           <a href="cu-dan-tra-cuu-rac.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
             <i class="bi bi-book me-1"></i>Hướng dẫn phân loại
@@ -38,6 +39,7 @@
           </a>
         </nav>
 
+        <!-- 2.2. Khung hiển thị tên người dùng và Nút Đăng xuất -->
         <div class="d-flex align-items-center gap-2">
           <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle px-3 py-2 rounded-pill fw-semibold shadow-sm d-inline-flex align-items-center">
             <i class="bi bi-person-check-fill text-success me-1"></i><span id="currentUserDisplay">Nguyễn Văn An (Người dân)</span>
@@ -53,7 +55,7 @@
     </div>
   </header>
 
-  <!-- MOBILE NAV -->
+  <!-- 2.3. Menu trượt ngang khi xem trên điện thoại (Mobile Drawer) -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileNav">
     <div class="offcanvas-header border-bottom">
       <h5 class="offcanvas-title">🌱 GreenSort</h5>
@@ -73,13 +75,13 @@
     </div>
   </div>
 
-  <!-- MAIN -->
+  <!-- 3. ĐÂY LÀ PHẦN THÂN TRANG (MAIN): Đặt lịch thu gom đồ cồng kềnh và theo dõi tiến độ -->
   <main class="flex-grow-1 py-4 bg-light">
     <div class="container">
       
       <div class="row g-4">
         
-        <!-- Cột trái: Form đặt lịch (C & Form Validation) -->
+        <!-- 3.1. CỘT TRÁI: BIỂU MẪU ĐẶT LỊCH THU GOM RÁC CỒNG KỀNH (FORM NHẬP LIỆU) -->
         <div class="col-lg-7">
           <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
             <div class="d-flex align-items-center mb-3">
@@ -137,7 +139,7 @@
                   <textarea class="form-control" id="requestNotes" rows="2" placeholder="Ví dụ: Tủ gỗ 2 cánh dài 1m6, để sẵn ở tầng 1 sân trước"></textarea>
                 </div>
 
-                <!-- Tính điểm ưu tiên SLA tự động -->
+                <!-- Khung tự động tính điểm ưu tiên SLA (AI / Thuật toán tự chấm điểm theo loại rác) -->
                 <div class="col-12">
                   <div class="p-3 bg-success bg-opacity-10 rounded-3 border border-success border-opacity-25 d-flex align-items-center justify-content-between">
                     <div>
@@ -159,7 +161,7 @@
           </div>
         </div>
 
-        <!-- Cột phải: Danh sách yêu cầu đã gửi (R & Trạng thái CRUD) -->
+        <!-- 3.2. CỘT PHẢI: DANH SÁCH LỊCH SỬ CÁC YÊU CẦU ĐÃ GỬI (KÈM TRẠNG THÁI & NÚT HỦY ĐƠN) -->
         <div class="col-lg-5">
           <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -167,7 +169,7 @@
               <span class="badge bg-secondary-subtle text-secondary rounded-pill" id="requestCountBadge">2 yêu cầu</span>
             </div>
 
-            <!-- List requests (Được render tự động từ KhoDuLieu) -->
+            <!-- Nơi hiển thị danh sách các đơn đã đặt (JavaScript sẽ tự động vẽ vào đây) -->
             <div class="d-flex flex-column gap-3" id="requestsListContainer">
               <div class="text-center py-4 text-muted">
                 <div class="spinner-border spinner-border-sm text-success me-2" role="status"></div>
@@ -183,7 +185,7 @@
     </div>
   </main>
 
-  <!-- FOOTER -->
+  <!-- 4. ĐÂY LÀ PHẦN CHÂN TRANG (FOOTER): Thông tin học phần CSE122 và bản quyền nhóm sinh viên -->
   <footer class="bg-dark text-white py-4 mt-auto">
     <div class="container text-center small text-white-50">
       <p class="mb-1">GreenSort • Hệ thống phân loại & điều phối thu gom rác thông minh • Học phần CSE122</p>
@@ -191,11 +193,12 @@
     </div>
   </footer>
 
+  <!-- 5. ĐÂY LÀ CÁC FILE JAVASCRIPT VÀ MÃ NGUỒN XỬ LÝ ĐẶT LỊCH THU GOM -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/kiem-tra-quyen.js"></script>
   <script src="js/du-lieu.js"></script>
   <script>
-    // Tự động tính điểm ưu tiên thu gom theo công thức tính điểm ưu tiên theo nhóm rác
+    // 1. Hàm tự động tính điểm ưu tiên SLA dựa trên loại rác và từ khóa ghi chú
     const oChonLoaiRac = document.getElementById('wasteCategorySelect');
     const oNhapGhiChu = document.getElementById('requestNotes');
     const hopHienThiUuTien = document.getElementById('aiPriorityEstimate');
@@ -232,14 +235,16 @@
     // Gán hàm vào window để đảm bảo tương thích
     window.calculateDynamicPriority = tinhDiemUuTien;
 
+    // 2. Lắng nghe thay đổi loại rác hoặc nội dung ghi chú để tính lại điểm SLA ngay lập tức
     oChonLoaiRac.addEventListener('change', tinhDiemUuTien);
     oNhapGhiChu.addEventListener('input', tinhDiemUuTien);
 
-    // Xử lý gửi biểu mẫu & thêm mới vào LocalStorage qua KhoDuLieu
+    // 3. Khai báo các phần tử giao diện của form đặt lịch và danh sách lịch sử
     const bieuMauDatLich = document.getElementById('pickupForm');
     const khungChuaLichSu = document.getElementById('requestsListContainer');
     const theDemSoLuong = document.getElementById('requestCountBadge');
 
+    // 4. Hàm nạp và hiển thị danh sách lịch sử yêu cầu của người dân từ KhoDuLieu (LocalStorage)
     function taiLichSuYeuCau() {
       const danhSachYeuCau = KhoDuLieu.pickupRequests.getAll();
       theDemSoLuong.textContent = `${danhSachYeuCau.length} yêu cầu`;
@@ -282,7 +287,7 @@
     }
 
     window.loadUserRequests = taiLichSuYeuCau;
-    // Lắng nghe đồng bộ đa tab Real-time (+0.5đ Bonus BTL)
+    // 5. Lắng nghe sự kiện đồng bộ đa tab Real-time khi dữ liệu thay đổi ở tab khác
     window.addEventListener('greensort:dataChanged', (e) => {
       if (e.detail.key === 'gs_pickup_requests') {
         taiLichSuYeuCau();
@@ -290,6 +295,7 @@
     });
 
 
+    // 6. Xử lý gửi form đặt lịch (thêm mới yêu cầu vào KhoDuLieu)
     bieuMauDatLich.addEventListener('submit', function(suKien) {
       suKien.preventDefault();
       if (!bieuMauDatLich.checkValidity()) {
@@ -324,6 +330,7 @@
       taiLichSuYeuCau();
     });
 
+    // 7. Hàm hủy yêu cầu thu gom rác khi người dân bấm nút Hủy
     function huyYeuCau(maDon) {
       if (confirm(`Bạn có chắc muốn hủy yêu cầu ${maDon}?`)) {
         KhoDuLieu.pickupRequests.delete(maDon);
@@ -333,6 +340,7 @@
 
     window.cancelRequest = huyYeuCau;
 
+    // 8. Tự động nạp lịch sử yêu cầu ngay khi vừa mở trang
     document.addEventListener('DOMContentLoaded', taiLichSuYeuCau);
   </script>
 </body>
