@@ -1,107 +1,293 @@
-# KỊCH BẢN CHI TIẾT 03 VIDEO MINH CHỨNG OBS DÀNH CHO SV1 (BẢN CHUẨN ĐẶC BIỆT)
-**Học phần:** CSE122 - Phát triển ứng dụng Web cơ bản (Phiên bản Barem V2 - 2026)  
-**Giảng viên chấm thi:** ThS. Kiều Tuấn Dũng & ThS. Tạ Chí Hiếu (TLU)  
+# KỊCH BẢN 03 VIDEO MINH CHỨNG OBS DÀNH CHO SV1 (BẢN TỐI ƯU SIÊU GỌN)
+**Học phần:** CSE122 - Phát triển ứng dụng Web cơ bản (TLU)  
+**Giảng viên chấm thi:** ThS. Kiều Tuấn Dũng & ThS. Tạ Chí Hiếu  
 **Sinh viên thực hiện:** Bùi Văn Nam Cường – Mã SV: `2551060590`  
 **Vai trò:** Sinh viên 1 (SV1 - Nhóm trưởng) – Phân hệ Người dân & Xác thực  
 **Nhánh Git cá nhân:** `Bui_Van_Nam_Cuong`  
-**Repository chính thức:** `https://github.com/namcuong2910/-GreenSort_Groud5`  
-**Trang web chạy thử GitHub Pages:** `https://namcuong2910.github.io/-GreenSort_Groud5/`
+**Repository:** `https://github.com/namcuong2910/-GreenSort_Groud5`  
+**Link web chạy thử (GitHub Pages):** `https://namcuong2910.github.io/-GreenSort_Groud5/`
 
 ---
 
-## TỔNG QUAN 03 VIDEO MINH CHỨNG CỦA SV1
-
-| Video | Tên file xuất OBS | Màn hình phụ trách | Mã Task ID | Điểm nhấn Sửa Code Trực Tiếp (Live Edit) | Điểm nhấn Git / GitHub |
-| :---: | :--- | :--- | :---: | :--- | :--- |
-| **01** | `SV1-01-cu-dan-tra-cuu-rac.mp4` | `cu-dan-tra-cuu-rac.html` | `GS-RES-07` | Nâng cấp nút bấm Trợ lý AI v2.5 (`btn-primary`, icon vi xử lý `bi-cpu-fill`) | `git diff`, `git add`, `git commit`, `git push`, đối soát commit hash trên GitHub |
-| **02** | `SV1-02-cu-dan-diem-thu-gom.mp4` | `cu-dan-diem-thu-gom.html` | `GS-RES-08` | Bổ sung huy hiệu công nghệ `IoT LoRaWAN` cạnh H1, kiểm tra cảm biến 92% | `git status` phân tích Staging Area, commit conventional, xem nhánh `Bui_Van_Nam_Cuong` |
-| **03** | `SV1-03-cu-dan-dat-lich-thu-gom.mp4` | `cu-dan-dat-lich-thu-gom.html` | `GS-RES-09` | Nâng cấp thuật toán AI-2 SLA: nhận diện từ khóa "khẩn cấp" nhảy điểm 80đ đỏ | `git diff` xem logic code, `git push`, chứng minh lịch sử commit minh bạch |
-
-> [!IMPORTANT]
-> **QUY TẮC BẮT BUỘC TRONG MỖI VIDEO (THEO TRANG 21 BAREM V2):**
-> 1. **Bật Webcam góc màn hình**: Thấy rõ khuôn mặt sinh viên Bùi Văn Nam Cường từ giây đầu tiên đến giây cuối cùng.
-> 2. **Giọng nói thật**: Nam Cường tự thuyết minh rõ ràng, tự tin (không dùng giọng AI, không để video câm).
-> 3. **Thời lượng chuẩn**: Từ **3:30 đến 4:30 phút/video** (vừa vặn, không quá ngắn, không thừa giờ).
-> 4. **Trình tự chuẩn hóa 8 bước**: Chào hỏi -> Đối chiếu Figma -> Cấu trúc HTML5/CSS -> Giải thích JavaScript -> **Sửa Code Trực Tiếp (Live Edit)** -> Chạy thử F12 Responsive -> **Thao tác Git/GitHub trên Terminal & Web** -> Kết thúc.
+## 💡 ĐẶC QUYỀN CỦA BẢN KỊCH BẢN TỐI ƯU NÀY
+1. **Phần sửa code trực tiếp (Live Edit) SIÊU NGẮN (chỉ mất 3 đến 5 giây)**:
+   - **Video 1**: Đổi đúng 1 từ `btn-success` thành `btn-primary` (đổi màu nút bấm từ Xanh lá sang Xanh dương).
+   - **Video 2**: Đổi đúng 1 số `92` thành `99` (bấm Báo đầy rác nhảy vọt lên 99% đỏ rực).
+   - **Video 3**: Đổi đúng 1 số `30` thành `50` (điểm cơ bản SLA tự động nhảy từ 30đ lên 50đ).
+   👉 **Ưu điểm tuyệt đối:** Không phải gõ nhiều chữ, không bao giờ lo gõ nhầm hay lỗi cú pháp, kết quả thay đổi trên web ngay lập tức 100% rõ rệt!
+2. **Kịch bản lời thoại đầy đủ 100% từng giây**: Có sẵn từng câu chữ Nam Cường đọc vào micro, không phải nghĩ thêm gì.
+3. **Thao tác Git cực chuẩn**: Hướng dẫn chính xác từng lệnh Terminal và cách mở web GitHub đối chiếu commit.
 
 ---
 
-# VIDEO 1: TRA CỨU PHÂN LOẠI RÁC & TRỢ LÝ THÔNG MINH AI-1
-* **Tên file video:** `SV1-01-cu-dan-tra-cuu-rac.mp4`
+# ========================================================
+# 🎬 VIDEO 1: TRA CỨU PHÂN LOẠI RÁC & TRỢ LÝ AI-1
+# ========================================================
+* **Tên file video khi xuất OBS:** `SV1-01-cu-dan-tra-cuu-rac.mp4`
 * **Màn hình demo:** `cu-dan-tra-cuu-rac.html`
-* **Mã công việc:** `GS-RES-07` | **Nhánh Git:** `Bui_Van_Nam_Cuong`
-
-### KỊCH BẢN THAO TÁC & LỜI THOẠI CHI TIẾT TỪNG GIÂY (VIDEO 1):
-
-| Mốc thời gian | Bước chuẩn Barem | Thao tác trên màn hình (Hành động chuột & bàn phím) | Lời thoại chi tiết của Nam Cường (Nói to, rõ ràng vào mic) |
-| :---: | :--- | :--- | :--- |
-| **0:00 – 0:30** | **Bước 1: Chào hỏi & Nhận diện** | • Mở OBS, để khung webcam thấy mặt ở góc phải dưới.<br>• Để màn hình desktop hiển thị sẵn VS Code và trình duyệt. | *"Em xin kính chào Thầy Kiều Tuấn Dũng và Thầy Tạ Chí Hiếu! Em tên là Bùi Văn Nam Cường, MSSV 2551060590, là sinh viên 1 kiêm nhóm trưởng nhóm BTL-05 đề tài GreenSort. Trong video đầu tiên này, em xin trình bày minh chứng quá trình phát triển màn hình Cư dân tra cứu phân loại rác thông minh tích hợp Trợ lý AI-1, mã công việc GS-RES-07 trên nhánh Git cá nhân Bui_Van_Nam_Cuong."* |
-| **0:30 – 1:00** | **Bước 2: Đối chiếu Mockup Figma** | • Mở tab Figma đề tài GreenSort.<br>• Phóng to màn hình Cư dân tra cứu rác. | *"Đầu tiên, đây là bản vẽ thiết kế trên Figma do em phụ trách: Phía trên là thanh Header thương hiệu GreenSort; ở giữa là Khung tìm kiếm Trợ lý AI nổi bật với hiệu ứng đổ bóng; bên dưới là lưới 4 nhóm rác quy chuẩn (Hữu cơ, Tái chế, Nguy hại, Vô cơ) chuẩn hóa theo Luật Bảo vệ Môi trường Việt Nam."* |
-| **1:00 – 2:00** | **Bước 3 & 4: Giải thích Code trong VS Code** | • Mở VS Code tệp `cu-dan-tra-cuu-rac.html`.<br>• Cuộn qua các dòng ghi chú đánh số: `<!-- 1. ĐÂY LÀ... -->`, `<!-- 2. ĐÂY LÀ... -->`, `<!-- 3. ĐÂY LÀ... -->`. | *"Tiếp theo, em mở file cu-dan-tra-cuu-rac.html trong VS Code:<br>- Toàn bộ code đã được em đánh số thứ tự từ 1 đến 6 rất rõ ràng: Mục 1 là phần Khai báo Head, Mục 2 là Header, Mục 3 là Thân trang Main duy nhất.<br>- Chuẩn ngữ nghĩa HTML5: Trang có đúng 1 thẻ main tại dòng 110 và đúng 1 thẻ h1 duy nhất tại dòng 121.<br>- Về JavaScript trong file js/chinh.js: Hàm xuLyGoiYPhanLoai() đối sánh từ khóa rác thông minh. Khi người dùng nhập dưới 3 ký tự, hệ thống kích hoạt Uncertainty UX gợi ý 4 nhóm rác nhanh. Mọi chuỗi kết quả đều được bọc qua hàm escapeHTML() để chống triệt để lỗ hổng XSS theo quy định VP-02 của thầy."* |
-| **2:00 – 2:45** | **Bước 5: SỬA CODE TRỰC TIẾP (LIVE EDIT) - HƯỚNG DẪN CỰC KỲ CHI TIẾT** | **1.** Trong VS Code file `cu-dan-tra-cuu-rac.html`, cuộn đến mục **`<!-- 3.2. TRỢ LÝ AI PHÂN LOẠI RÁC... -->`** (khoảng dòng 210).<br>**2.** Tìm nút bấm phân tích AI:<br>`<button class="btn btn-success px-4" id="btnAiAnalyze" type="button">`<br>`  <i class="bi bi-magic me-1"></i>Gợi ý phân loại ✨`<br>`</button>`<br>**3.** Sửa `btn-success` thành `btn-primary shadow-sm`, sửa icon `bi-magic` thành `bi-cpu-fill`, đổi chữ thành `Phân tích AI v2.5 ✨`.<br>**4.** Nhấn tổ hợp phím **`Ctrl + S`** để lưu lại. | *(Vừa gõ phím vừa giải thích chậm rãi, tự tin)*:<br>*"Bây giờ, em xin phép thực hiện phần Sửa code trực tiếp tại chỗ theo yêu cầu của Barem. Em tìm đến khối 3.2 mà em đã đánh dấu trong code. Em nâng cấp nút bấm phân tích AI:<br>- Em đổi class màu từ btn-success xanh lá sang btn-primary xanh dương công nghệ, thêm hiệu ứng đổ bóng shadow-sm.<br>- Em đổi icon phép thuật sang icon vi xử lý bi-cpu-fill và đổi tên nút thành 'Phân tích AI v2.5'.<br>Em nhấn Ctrl+S để lưu lại tệp."* |
-| **2:45 – 3:30** | **Bước 6: Chạy thử trên Trình duyệt & Test Responsive F12** | **1.** Chuyển sang trình duyệt (Alt + Tab), nhấn **`Ctrl + F5`**.<br>**2.** Chỉ chuột vào nút bấm màu xanh dương mới đổi.<br>**3.** Gõ vào ô tìm kiếm: `"Pin con thỏ cũ"` -> Bấm nút: Hiện loading 800ms -> Trả kết quả Thùng đỏ Nguy hại 98.5%.<br>**4.** Gõ thử 1 ký tự `"a"` -> Hiện cảnh báo Uncertainty tin cậy thấp.<br>**5.** Nhấn **`F12`**, bật Toggle device toolbar (Ctrl+Shift+M), chọn màn hình iPhone SE (375px) và 320px co kéo mượt mà. | *"Em quay lại trình duyệt và nhấn Ctrl+F5 làm tươi trang:<br>- Như hai thầy thấy, nút bấm lập tức đổi sang màu xanh dương công nghệ với icon vi xử lý bi-cpu-fill em vừa sửa trực tiếp.<br>- Giờ em test chức năng AI: Em nhập 'Pin con thỏ cũ' và bấm nút: Hiệu ứng loading xuất hiện rồi hiển thị ngay kết quả Thùng Đỏ Rác Nguy Hại độ tin cậy 98.5% cùng hướng dẫn quấn băng dính 2 đầu cực.<br>- Em thử nhập 1 ký tự 'a': Hệ thống kích hoạt ngay Fallback Uncertainty cảnh báo độ tin cậy thấp kèm 4 gợi ý nhanh.<br>- Em nhấn F12 co màn hình về kích thước điện thoại 320px: Giao diện hoàn toàn co giãn mượt mà, không hề bị vỡ khung hay xuất hiện thanh cuộn ngang."* |
-| **3:30 – 4:30** | **Bước 7 & 8: THAO TÁC GIT & GITHUB - HƯỚNG DẪN CỰC KỲ CHI TIẾT** | **1.** Mở Terminal trong VS Code (phím tắt **`Ctrl + ` `**).<br>**2.** Gõ: `git status`<br>*(Thấy file `cu-dan-tra-cuu-rac.html` màu đỏ)*.<br>**3.** Gõ: `git diff cu-dan-tra-cuu-rac.html`<br>*(Chỉ chuột vào dòng màu xanh có dấu `+` vừa sửa)*.<br>**4.** Gõ: `git add cu-dan-tra-cuu-rac.html`<br>**5.** Gõ: `git commit -m "feat(ai-waste): live edit nang cap nut bam tro ly AI v2.5"`<br>**6.** Gõ: `git push origin Bui_Van_Nam_Cuong`<br>**7.** Mở trình duyệt vào tab GitHub: `https://github.com/namcuong2910/-GreenSort_Groud5/tree/Bui_Van_Nam_Cuong` -> Nhấn **`F5`** -> Chỉ vào commit mới tinh vừa xuất hiện! | *(Thao tác gõ lệnh trên Terminal và thuyết minh)*:<br>*"- Em mở Terminal gõ `git status`: Git báo file cu-dan-tra-cuu-rac.html đang ở trạng thái Modified màu đỏ.<br>- Em gõ `git diff`: Thầy có thể thấy ngay dòng màu xanh có dấu cộng chính là đoạn code nút bấm AI v2.5 em vừa sửa trực tiếp.<br>- Em gõ `git add cu-dan-tra-cuu-rac.html` và commit với thông điệp chuẩn Conventional Commits.<br>- Giờ em gõ `git push origin Bui_Van_Nam_Cuong` để đẩy lên nhánh cá nhân của em.<br>- Terminal báo push thành công. Em chuyển sang trình duyệt mở trang GitHub repository nhánh Bui_Van_Nam_Cuong và F5: Thưa thầy, commit mới nhất vừa xuất hiện cách đây vài giây, minh chứng hoàn toàn trung thực quá trình làm việc của em.<br>Em xin kết thúc video số 1 tại đây. Cảm ơn hai thầy!"* |
+* **Mã Task ID Barem:** `GS-RES-07` | **Nhánh Git:** `Bui_Van_Nam_Cuong`
+* **Thời lượng chuẩn:** ~ 3 phút 45 giây
 
 ---
 
-# VIDEO 2: ĐIỂM THU GOM RÁC & CẢM BIẾN MỨC ĐẦY IOT THỜI GIAN THỰC
-* **Tên file video:** `SV1-02-cu-dan-diem-thu-gom.mp4`
+### KỊCH BẢN CHI TIẾT TỪNG PHẦN (VIDEO 1):
+
+#### ⏰ PHẦN 1: CHÀO HỎI & NHẬN DIỆN (0:00 – 0:30)
+* **Hành động màn hình:** Mở OBS, bật webcam hiển thị rõ khuôn mặt Nam Cường ở góc phải dưới. Màn hình máy tính để sẵn cửa sổ trình duyệt và VS Code.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Em xin kính chào Thầy Kiều Tuấn Dũng và Thầy Tạ Chí Hiếu! Em là Bùi Văn Nam Cường, mã số sinh viên 2551060590, là sinh viên 1 kiêm nhóm trưởng nhóm BTL-05 đề tài GreenSort. Trong video đầu tiên này, em xin trình bày minh chứng quá trình phát triển màn hình Cư dân tra cứu phân loại rác thông minh tích hợp Trợ lý AI-1, mã công việc GS-RES-07 trên nhánh Git cá nhân Bui_Van_Nam_Cuong."*
+
+---
+
+#### ⏰ PHẦN 2: ĐỐI CHIẾU MOCKUP FIGMA (0:30 – 1:00)
+* **Hành động màn hình:** Mở tab trình duyệt Figma thiết kế GreenSort, phóng to khung màn hình Tra cứu rác.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Trước hết, đây là bản vẽ thiết kế trên Figma do em tự thiết kế: Phía trên là thanh Header nhận diện thương hiệu GreenSort; ở giữa là Khung tìm kiếm Trợ lý AI nổi bật với hiệu ứng bo tròn hiện đại; bên dưới là lưới danh mục 4 nhóm rác quy chuẩn gồm Hữu cơ, Tái chế, Nguy hại và Vô cơ theo đúng Luật Bảo vệ Môi trường 2024."*
+
+---
+
+#### ⏰ PHẦN 3 & 4: GIẢI THÍCH CODE TRONG VS CODE (1:00 – 2:00)
+* **Hành động màn hình:** Chuyển sang VS Code mở tệp `cu-dan-tra-cuu-rac.html`. Cuộn chuột cho thầy thấy các khối chú thích số `1. ĐÂY LÀ...`, `2. ĐÂY LÀ...`, `3. ĐÂY LÀ...`.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Tiếp theo, em mở file cu-dan-tra-cuu-rac.html trong VS Code:<br>- Toàn bộ code đã được em đánh số thứ tự từ 1 đến 6 rất khoa học: Mục 1 là Khai báo Head, Mục 2 là Header, Mục 3 là Thân trang Main duy nhất.<br>- Về chuẩn HTML5 Semantic: Trang tuân thủ đúng yêu cầu chỉ có duy nhất 1 thẻ main tại dòng 110 và đúng 1 thẻ h1 lớn nhất tại dòng 121.<br>- Về CSS: Em dùng hệ thống lưới Bootstrap 5.3 kết hợp file giao-dien.css tạo các card bo góc rounded-4 mượt mà.<br>- Về JavaScript: Hàm xuLyGoiYPhanLoai() trong file chinh.js xử lý đối sánh từ khóa rác thông minh. Khi người dùng nhập dưới 3 ký tự, hệ thống kích hoạt Uncertainty UX hiển thị 4 gợi ý nhanh. Toàn bộ chuỗi hiển thị đều được bọc qua hàm escapeHTML() để chống triệt để lỗ hổng XSS theo quy định VP-02 của thầy."*
+
+---
+
+#### ⏰ PHẦN 5: SỬA CODE TRỰC TIẾP (LIVE EDIT SIÊU NGẮN 3 GIÂY) (2:00 – 2:30)
+* **Hành động màn hình:**
+  1. Trong VS Code file `cu-dan-tra-cuu-rac.html`, cuộn chuột đến mục **`<!-- 3.2. TRỢ LÝ AI PHÂN LOẠI RÁC... -->`** (khoảng dòng 210).
+  2. Tìm nút bấm AI:
+     ```html
+     <button class="btn btn-success px-4" id="btnAiAnalyze" type="button">
+     ```
+  3. **Thao tác sửa cực ngắn:** Xóa đúng chữ `btn-success` -> Gõ thành `btn-primary`.
+     ```html
+     <button class="btn btn-primary px-4" id="btnAiAnalyze" type="button">
+     ```
+  4. Nhấn **`Ctrl + S`** để lưu lại.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Bây giờ em thực hiện phần Sửa code trực tiếp theo Barem: Tại khối 3.2 Trợ lý AI, em đổi class của nút bấm phân tích từ màu xanh lá btn-success sang màu xanh dương công nghệ btn-primary. Em nhấn Ctrl+S lưu lại."*
+
+---
+
+#### ⏰ PHẦN 6: CHẠY THỬ TRÌNH DUYỆT & TEST F12 RESPONSIVE (2:30 – 3:15)
+* **Hành động màn hình:**
+  1. Nhấn `Alt + Tab` sang trình duyệt, nhấn **`Ctrl + F5`**.
+  2. Chỉ chuột vào nút bấm: Đã đổi sang màu xanh dương!
+  3. Gõ ô tìm kiếm: `"Pin con thỏ cũ"` -> Bấm nút -> Hiện loading -> Trả kết quả Thùng đỏ Rác Nguy Hại (độ tin cậy 98.5%).
+  4. Gõ 1 chữ `"a"` -> Hiện ngay cảnh báo Uncertainty độ tin cậy thấp kèm 4 gợi ý nhanh.
+  5. Nhấn **`F12`**, co màn hình về kích thước điện thoại 320px.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Em quay lại trình duyệt và nhấn Ctrl+F5:<br>- Nút bấm lập tức chuyển sang màu xanh dương đúng như em vừa sửa trực tiếp.<br>- Giờ em test AI: Em nhập 'Pin con thỏ cũ' và bấm nút: Hệ thống hiện hiệu ứng loading rồi trả kết quả Thùng Đỏ Rác Nguy Hại độ tin cậy 98.5% cùng hướng dẫn quấn băng dính 2 đầu cực.<br>- Em thử gõ 1 chữ 'a': Hệ thống kích hoạt cảnh báo Uncertainty độ tin cậy thấp kèm 4 gợi ý chuẩn.<br>- Em nhấn F12 co màn hình về 320px: Toàn bộ layout co giãn mượt mà, không hề bị tràn viền."*
+
+---
+
+#### ⏰ PHẦN 7: THAO TÁC GIT TRÊN TERMINAL (3:15 – 3:50)
+* **Hành động màn hình:** Mở Terminal trong VS Code (**`Ctrl + ` `**). Gõ lần lượt 5 lệnh:
+  ```bash
+  git status
+  ```
+  *(Thấy file `cu-dan-tra-cuu-rac.html` báo đỏ)*
+  ```bash
+  git diff cu-dan-tra-cuu-rac.html
+  ```
+  *(Chỉ chuột vào dòng `- btn-success` màu đỏ và `+ btn-primary` màu xanh lá)*
+  ```bash
+  git add cu-dan-tra-cuu-rac.html
+  git commit -m "feat(ai-waste): live edit doi mau nut bam sang btn-primary"
+  git push origin Bui_Van_Nam_Cuong
+  ```
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Bây giờ em thực hiện thao tác Git trong Terminal:<br>- Em gõ `git status`: File cu-dan-tra-cuu-rac.html đang báo đỏ trạng thái Modified.<br>- Em gõ `git diff`: Thầy thấy rõ dòng trừ màu đỏ là btn-success cũ, và dòng cộng màu xanh là btn-primary em vừa sửa.<br>- Em gõ `git add`, sau đó commit với thông điệp chuẩn Conventional Commits.<br>- Cuối cùng em gõ `git push origin Bui_Van_Nam_Cuong` để đẩy lên nhánh cá nhân của em."*
+
+---
+
+#### ⏰ PHẦN 8: KIỂM TRA TRÊN GITHUB & KẾT THÚC (3:50 – 4:10)
+* **Hành động màn hình:** Chuyển sang trình duyệt mở tab GitHub nhánh `Bui_Van_Nam_Cuong`:  
+  `https://github.com/namcuong2910/-GreenSort_Groud5/tree/Bui_Van_Nam_Cuong`  
+  Nhấn **`F5`**, chỉ chuột vào commit mới nhất vừa xuất hiện.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Em chuyển sang trang web GitHub của nhóm: Nhánh Bui_Van_Nam_Cuong vừa cập nhật commit mới nhất cách đây vài giây, minh chứng hoàn toàn trung thực quá trình làm việc của em. Em xin kết thúc video số 1 tại đây. Cảm ơn hai thầy!"*
+
+---
+
+# ========================================================
+# 🎬 VIDEO 2: ĐIỂM THU GOM RÁC & CẢM BIẾN MỨC ĐẦY IOT
+# ========================================================
+* **Tên file video khi xuất OBS:** `SV1-02-cu-dan-diem-thu-gom.mp4`
 * **Màn hình demo:** `cu-dan-diem-thu-gom.html`
-* **Mã công việc:** `GS-RES-08` | **Nhánh Git:** `Bui_Van_Nam_Cuong`
-
-### KỊCH BẢN THAO TÁC & LỜI THOẠI CHI TIẾT TỪNG GIÂY (VIDEO 2):
-
-| Mốc thời gian | Bước chuẩn Barem | Thao tác trên màn hình (Hành động chuột & bàn phím) | Lời thoại chi tiết của Nam Cường (Nói to, rõ ràng vào mic) |
-| :---: | :--- | :--- | :--- |
-| **0:00 – 0:30** | **Bước 1: Chào hỏi & Nhận diện** | • Mở OBS, kiểm tra webcam thấy mặt rõ ràng góc dưới.<br>• Để màn hình desktop sẵn sàng. | *"Em xin kính chào Thầy Kiều Tuấn Dũng và Thầy Tạ Chí Hiếu! Em là Bùi Văn Nam Cường, MSSV 2551060590, sinh viên 1 của nhóm BTL-05 GreenSort. Trong video thứ 2 này, em xin trình bày minh chứng màn hình Mạng lưới Điểm thu gom và Giám sát cảm biến mức đầy thùng rác IoT thời gian thực, mã công việc GS-RES-08 trên nhánh Bui_Van_Nam_Cuong."* |
-| **0:30 – 1:00** | **Bước 2: Đối chiếu Mockup Figma** | • Mở tab Figma chuyển sang Frame Điểm thu gom rác.<br>• Phóng to khu vực bản đồ và các thẻ điểm thu gom. | *"Trên bản vẽ Figma, màn hình này được em thiết kế trực quan gồm: Thanh tìm kiếm theo quận huyện; bộ nút bấm lọc nhanh loại rác tiếp nhận; và danh sách các thẻ điểm thu gom hiển thị mức đầy cảm biến IoT kèm giờ mở cửa và nút định vị GPS."* |
-| **1:00 – 2:00** | **Bước 3 & 4: Giải thích Code trong VS Code** | • Mở VS Code tệp `cu-dan-diem-thu-gom.html`.<br>• Cuộn qua các khối ghi chú: Khối 1 Head, Khối 2 Header, Khối 3 Main.<br>• Mở phần `<script>` chỉ vào các hàm được đánh số từ 1 đến 8. | *"Trong VS Code tệp cu-dan-diem-thu-gom.html:<br>- Cấu trúc HTML5 chuẩn có đúng 1 thẻ main tại dòng 77 và 1 thẻ h1 duy nhất tại dòng 83.<br>- Toàn bộ JavaScript đã được em chú thích rõ ràng 8 hàm chức năng: Hàm số 4 `taiDanhSachDiemThuGom()` lấy dữ liệu từ `KhoDuLieu.collectionPoints`. Dữ liệu cảm biến IoT được mô phỏng qua thanh tiến độ `progress-bar` với 3 dải màu: Dưới 70% là xanh an toàn, 70-85% là vàng gần đầy, và trên 85% là đỏ báo động quá tải.<br>- Hàm số 7 `baoCaoThungRacDay()` cho phép người dân bấm báo đầy rác, hệ thống lập tức cập nhật lên 92% quá tải và đồng bộ sang Bảng điều phối của Coordinator."* |
-| **2:00 – 2:45** | **Bước 5: SỬA CODE TRỰC TIẾP (LIVE EDIT) - HƯỚNG DẪN CỰC KỲ CHI TIẾT** | **1.** Trong file `cu-dan-diem-thu-gom.html`, tìm đến mục **`<!-- 3.1. KHUNG TIÊU ĐỀ (thẻ H1 duy nhất)... -->`** (khoảng dòng 83).<br>**2.** Tìm thẻ H1:<br>`<h1 class="h3 fw-bold text-dark mb-1">Mạng Lưới Điểm Thu Gom Rác & Tái Chế</h1>`<br>**3.** Thêm một huy hiệu công nghệ ngay sau chữ Tái Chế:<br>`<h1 class="h3 fw-bold text-dark mb-1">Mạng Lưới Điểm Thu Gom Rác & Tái Chế <span class="badge bg-success-subtle text-success border border-success-subtle fs-6 align-middle"><i class="bi bi-broadcast me-1"></i>IoT LoRaWAN</span></h1>`<br>**4.** Nhấn **`Ctrl + S`** để lưu lại. | *(Vừa gõ phím vừa giải thích)*:<br>*"Em thực hiện sửa code trực tiếp trên tệp cu-dan-diem-thu-gom.html tại mục 3.1: Em bổ sung một huy hiệu 'IoT LoRaWAN' kèm biểu tượng phát sóng không dây bi-broadcast ngay cạnh tiêu đề H1 để người dân nhận biết dữ liệu mức đầy thùng rác được truyền tự động qua giao thức IoT. Em nhấn phím Ctrl+S để lưu lại."* |
-| **2:45 – 3:30** | **Bước 6: Chạy thử trên Trình duyệt & Test Responsive F12** | **1.** Mở trình duyệt nhấn **`Ctrl + F5`**.<br>**2.** Chỉ chuột vào huy hiệu IoT LoRaWAN màu xanh cạnh H1.<br>**3.** Bấm nút **'Tìm gần tôi (GPS)'** -> Thông báo định vị 2km xuất hiện.<br>**4.** Bấm nút **'Báo đầy rác'** tại trạm Đại học Thủy Lợi -> Mức đầy lập tức nhảy lên 92% chuyển sang thanh màu đỏ báo động.<br>**5.** Bấm nút **'Gợi ý điểm mới'** -> Modal mở ra mượt mà.<br>**6.** Nhấn **`F12`** co về 375px điện thoại. | *"Quay lại trình duyệt:<br>- Huy hiệu 'IoT LoRaWAN' vừa thêm đã hiển thị nổi bật cạnh tiêu đề H1.<br>- Em bấm 'Tìm gần tôi (GPS)': Hệ thống định vị tọa độ khu vực Thủy Lợi Đống Đa và lọc nhanh các trạm xung quanh.<br>- Em bấm 'Báo đầy rác' tại Điểm thu gom TLU: Mức đầy cảm biến lập tức tăng lên 92%, thanh chuyển màu đỏ báo động quá tải.<br>- Em bấm 'Gợi ý điểm mới': Modal chuẩn Bootstrap hiện ra để người dân đề xuất trạm mới.<br>- Bấm F12 co về 375px: Lưới card điểm gom tự động xếp chồng 1 cột dọc rất ngay ngắn, dễ chạm bấm."* |
-| **3:30 – 4:30** | **Bước 7 & 8: THAO TÁC GIT & GITHUB - HƯỚNG DẪN CỰC KỲ CHI TIẾT** | **1.** Mở Terminal VS Code (**`Ctrl + ` `**).<br>**2.** Gõ: `git status`<br>*(Thấy `cu-dan-diem-thu-gom.html` màu đỏ)*.<br>**3.** Gõ: `git diff cu-dan-diem-thu-gom.html`<br>*(Chỉ vào dòng badge `IoT LoRaWAN` màu xanh lá)*.<br>**4.** Gõ: `git add cu-dan-diem-thu-gom.html`<br>**5.** Gõ: `git commit -m "feat(collection-points): live edit them huy hieu IoT LoRaWAN va kiem tra cam bien muc day"`<br>**6.** Gõ: `git push origin Bui_Van_Nam_Cuong`<br>**7.** Mở tab GitHub: `https://github.com/namcuong2910/-GreenSort_Groud5/commits/Bui_Van_Nam_Cuong` -> Nhấn **`F5`** thấy commit mới. | *(Thao tác và nói vào micro)*:<br>*"- Em gõ `git status` trong Terminal: File điểm thu gom báo đỏ đã sửa đổi.<br>- Em gõ `git diff`: Thầy có thể nhìn thấy dòng thêm mới huy hiệu IoT LoRaWAN màu xanh lá.<br>- Em gõ `git add cu-dan-diem-thu-gom.html` và commit với thông điệp rõ ràng.<br>- Em gõ `git push origin Bui_Van_Nam_Cuong` để đẩy lên server GitHub.<br>- Em chuyển sang trình duyệt kiểm tra trang Commits của nhánh Bui_Van_Nam_Cuong trên GitHub: Commit mới nhất đã được đẩy lên an toàn và minh bạch.<br>Em xin kết thúc video số 2. Em cảm ơn hai thầy!"* |
+* **Mã Task ID Barem:** `GS-RES-08` | **Nhánh Git:** `Bui_Van_Nam_Cuong`
+* **Thời lượng chuẩn:** ~ 3 phút 45 giây
 
 ---
 
-# VIDEO 3: ĐẶT LỊCH THU GOM RÁC CỒNG KỀNH & THUẬT TOÁN AI-2 SLA
-* **Tên file video:** `SV1-03-cu-dan-dat-lich-thu-gom.mp4`
+### KỊCH BẢN CHI TIẾT TỪNG PHẦN (VIDEO 2):
+
+#### ⏰ PHẦN 1: CHÀO HỎI & NHẬN DIỆN (0:00 – 0:30)
+* **Hành động màn hình:** Mở OBS, bật webcam thấy mặt rõ ràng góc dưới phải.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Em xin kính chào Thầy Kiều Tuấn Dũng và Thầy Tạ Chí Hiếu! Em là Bùi Văn Nam Cường, MSSV 2551060590, sinh viên 1 nhóm BTL-05 GreenSort. Trong video thứ 2 này, em xin trình bày minh chứng màn hình Mạng lưới Điểm thu gom và Giám sát cảm biến mức đầy thùng rác IoT thời gian thực, mã công việc GS-RES-08 trên nhánh cá nhân Bui_Van_Nam_Cuong."*
+
+---
+
+#### ⏰ PHẦN 2: ĐỐI CHIẾU MOCKUP FIGMA (0:30 – 1:00)
+* **Hành động màn hình:** Mở Figma chuyển sang Frame Điểm thu gom rác.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Trên bản vẽ Figma, màn hình này được em thiết kế trực quan gồm: Thanh tìm kiếm theo quận huyện; bộ nút bấm lọc nhanh loại rác tiếp nhận; và danh sách các thẻ điểm thu gom hiển thị mức đầy cảm biến IoT kèm giờ mở cửa và nút định vị GPS."*
+
+---
+
+#### ⏰ PHẦN 3 & 4: GIẢI THÍCH CODE TRONG VS CODE (1:00 – 2:00)
+* **Hành động màn hình:** Mở VS Code tệp `cu-dan-diem-thu-gom.html`. Chỉ vào cấu trúc đánh số và 8 hàm trong thẻ `<script>`.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Trong VS Code tệp cu-dan-diem-thu-gom.html:<br>- Cấu trúc HTML5 chuẩn có đúng 1 thẻ main tại dòng 77 và 1 thẻ h1 duy nhất tại dòng 83.<br>- Toàn bộ JavaScript đã được em chú thích rõ ràng 8 hàm chức năng: Hàm số 4 taiDanhSachDiemThuGom() nạp dữ liệu từ KhoDuLieu. Dữ liệu cảm biến IoT được hiển thị qua thanh tiến độ progress-bar với 3 dải màu: Dưới 70% xanh an toàn, 70 đến 85% vàng cảnh báo, và trên 85% đỏ quá tải.<br>- Hàm số 7 baoCaoThungRacDay() cho phép người dân bấm báo đầy rác, hệ thống lập tức cập nhật trạng thái thùng rác và gửi cảnh báo sang Coordinator."*
+
+---
+
+#### ⏰ PHẦN 5: SỬA CODE TRỰC TIẾP (LIVE EDIT SIÊU NGẮN 3 GIÂY) (2:00 – 2:30)
+* **Hành động màn hình:**
+  1. Trong file `cu-dan-diem-thu-gom.html`, cuộn xuống thẻ `<script>` tìm đến **`// 7. Hàm báo cáo thùng rác đầy...`** (khoảng dòng 388).
+  2. Tìm dòng code:
+     ```javascript
+     KhoDuLieu.collectionPoints.update(maDiem, { fillLevel: 92 });
+     ```
+  3. **Thao tác sửa cực ngắn:** Xóa số `92` -> Gõ thành `99`.
+     ```javascript
+     KhoDuLieu.collectionPoints.update(maDiem, { fillLevel: 99 });
+     ```
+  4. Nhấn **`Ctrl + S`** để lưu lại.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Em thực hiện sửa code trực tiếp tại hàm số 7 baoCaoThungRacDay(): Em nâng mức đầy cảnh báo khẩn cấp khi người dân bấm báo đầy rác từ 92% lên 99% để thể hiện tình trạng thùng rác quá tải mức tối đa. Em nhấn Ctrl+S lưu lại."*
+
+---
+
+#### ⏰ PHẦN 6: CHẠY THỬ TRÌNH DUYỆT & TEST F12 RESPONSIVE (2:30 – 3:15)
+* **Hành động màn hình:**
+  1. Nhấn `Alt + Tab` sang trình duyệt, nhấn **`Ctrl + F5`**.
+  2. Bấm nút **'Tìm gần tôi (GPS)'** -> Thông báo định vị 2km hiện lên.
+  3. Bấm nút **'Báo đầy rác'** tại trạm ĐH Thủy Lợi -> Bấm OK xác nhận -> Thanh đo cảm biến lập tức nhảy vọt lên **99% (Quá tải - Đã báo xe)** màu đỏ rực!
+  4. Bấm **`F12`** co về 375px điện thoại: Lưới card điểm gom tự động xếp 1 cột dọc rất ngay ngắn.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Em quay lại trình duyệt nhấn Ctrl+F5:<br>- Em bấm 'Tìm gần tôi (GPS)': Hệ thống định vị tọa độ khu vực Thủy Lợi Đống Đa và lọc nhanh các trạm xung quanh.<br>- Em bấm nút 'Báo đầy rác' tại Điểm thu gom TLU: Mức đầy cảm biến lập tức nhảy lên đúng 99% đỏ rực như em vừa sửa trong code.<br>- Nhấn F12 co về 375px: Lưới card điểm gom tự động xếp chồng 1 cột dọc rất chuẩn, các nút bấm to rõ ràng dễ chạm."*
+
+---
+
+#### ⏰ PHẦN 7: THAO TÁC GIT TRÊN TERMINAL (3:15 – 3:50)
+* **Hành động màn hình:** Mở Terminal trong VS Code (**`Ctrl + ` `**). Gõ lần lượt:
+  ```bash
+  git status
+  git diff cu-dan-diem-thu-gom.html
+  ```
+  *(Chỉ chuột vào dòng `- fillLevel: 92` và `+ fillLevel: 99`)*
+  ```bash
+  git add cu-dan-diem-thu-gom.html
+  git commit -m "feat(points): live edit nang muc day bao cao len 99 phan tram"
+  git push origin Bui_Van_Nam_Cuong
+  ```
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Em mở Terminal gõ `git status` và `git diff`: Thầy thấy dòng màu xanh chính là số 99% em vừa sửa trực tiếp. Em gõ `git add` và commit, sau đó gõ `git push origin Bui_Van_Nam_Cuong` để đẩy lên server GitHub."*
+
+---
+
+#### ⏰ PHẦN 8: KIỂM TRA TRÊN GITHUB & KẾT THÚC (3:50 – 4:10)
+* **Hành động màn hình:** Mở trình duyệt vào trang GitHub nhánh `Bui_Van_Nam_Cuong`, nhấn **`F5`**, chỉ vào commit mới nhất.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Em kiểm tra trên web GitHub nhánh Bui_Van_Nam_Cuong: Commit mới nhất đã xuất hiện minh bạch. Em xin kết thúc video số 2. Em cảm ơn hai thầy!"*
+
+---
+
+# ========================================================
+# 🎬 VIDEO 3: ĐẶT LỊCH THU GOM RÁC CỒNG KỀNH & THUẬT TOÁN AI-2 SLA
+# ========================================================
+* **Tên file video khi xuất OBS:** `SV1-03-cu-dan-dat-lich-thu-gom.mp4`
 * **Màn hình demo:** `cu-dan-dat-lich-thu-gom.html`
-* **Mã công việc:** `GS-RES-09` | **Nhánh Git:** `Bui_Van_Nam_Cuong`
-
-### KỊCH BẢN THAO TÁC & LỜI THOẠI CHI TIẾT TỪNG GIÂY (VIDEO 3):
-
-| Mốc thời gian | Bước chuẩn Barem | Thao tác trên màn hình (Hành động chuột & bàn phím) | Lời thoại chi tiết của Nam Cường (Nói to, rõ ràng vào mic) |
-| :---: | :--- | :--- | :--- |
-| **0:00 – 0:30** | **Bước 1: Chào hỏi & Nhận diện** | • Mở OBS, kiểm tra webcam góc dưới hiển thị rõ mặt.<br>• Để màn hình desktop sẵn sàng. | *"Em xin kính chào Thầy Kiều Tuấn Dũng và Thầy Tạ Chí Hiếu! Em là Bùi Văn Nam Cường, MSSV 2551060590, sinh viên 1 của nhóm BTL-05 GreenSort. Trong video thứ 3 này, em xin chứng minh quá trình phát triển màn hình Đặt lịch thu gom rác cồng kềnh tích hợp thuật toán chấm điểm ưu tiên SLA AI-2 và đồng bộ Real-time đa tab, mã công việc GS-RES-09 trên nhánh Bui_Van_Nam_Cuong."* |
-| **0:30 – 1:00** | **Bước 2: Đối chiếu Mockup Figma** | • Mở tab Figma chuyển sang Frame Đặt lịch thu gom rác cồng kềnh.<br>• Chỉ rõ cấu trúc 2 cột. | *"Trên bản vẽ Figma, màn hình được bố cục 2 cột rõ ràng: Cột bên trái là Biểu mẫu đặt lịch với ô chấm điểm ưu tiên SLA tự động nhảy điểm; Cột bên phải là Danh sách lịch sử các yêu cầu đã gửi kèm trạng thái xử lý và nút hủy yêu cầu."* |
-| **1:00 – 2:00** | **Bước 3 & 4: Giải thích Code trong VS Code** | • Mở VS Code tệp `cu-dan-dat-lich-thu-gom.html`.<br>• Chỉ vào mục 3.1 Cột trái Form và 3.2 Cột phải Lịch sử.<br>• Mở phần `<script>` chỉ vào hàm số 1 `tinhDiemUuTien()` và hàm số 5 `greensort:dataChanged`. | *"Trong VS Code tệp cu-dan-dat-lich-thu-gom.html:<br>- Cấu trúc HTML5 chuẩn có đúng 1 thẻ main tại dòng 77 và đúng 1 thẻ h1 tại dòng 90.<br>- Về thuật toán AI-2: Hàm `tinhDiemUuTien()` tự động tính điểm theo công thức kết hợp loại rác (Nguy hại/Điện máy +45đ, Cành cây cản trở +35đ, Đồ gỗ +20đ). Nếu điểm đạt từ 70 trở lên sẽ kích hoạt luồng P1 Khẩn cấp cam kết xử lý trong 2 giờ.<br>- Về tính năng đồng bộ Real-time: Em cài đặt sự kiện `greensort:dataChanged` để lắng nghe thay đổi đa tab. Khi người dân đặt lịch ở tab này, bảng điều phối ở tab của bạn Đức Anh tự động nhảy đơn mới mà không cần F5."* |
-| **2:00 – 2:45** | **Bước 5: SỬA CODE TRỰC TIẾP (LIVE EDIT) - HƯỚNG DẪN CỰC KỲ CHI TIẾT** | **1.** Trong file `cu-dan-dat-lich-thu-gom.html`, cuộn xuống thẻ `<script>` tìm đến **`// 1. Hàm tự động tính điểm ưu tiên SLA...`** (khoảng dòng 203 - 217).<br>**2.** Tìm đoạn if kiểm tra từ khóa:<br>```javascript
-      if (loaiRac.includes('điện') || loaiRac.includes('nguy hại') || ghiChu.includes('pin') || ghiChu.includes('hóa chất') || ghiChu.includes('cháy')) {
-        diemSo += 45;
-      }
-```<br>**3.** Viết thêm một điều kiện nhận diện từ khóa khẩn cấp:<br>```javascript
-      if (ghiChu.includes('khẩn cấp') || ghiChu.includes('gấp')) {
-        diemSo += 30; // Cộng dồn 30 điểm khi người dân báo khẩn cấp
-      }
-```<br>**4.** Nhấn **`Ctrl + S`** để lưu lại. | *(Vừa gõ phím vừa giải thích chậm rãi)*:<br>*"Em thực hiện sửa code trực tiếp vào thuật toán AI-2 tính điểm ưu tiên SLA tại hàm tinhDiemUuTien(). Em viết thêm một logic điều kiện: Nếu người dân gõ từ 'khẩn cấp' hoặc 'gấp' trong phần ghi chú, thuật toán sẽ nhận diện ngữ cảnh và cộng dồn thêm 30 điểm ưu tiên để lập tức đưa yêu cầu vào diện Khẩn cấp SLA 2h điều xe ngay. Em nhấn Ctrl+S để lưu lại."* |
-| **2:45 – 3:30** | **Bước 6: Chạy thử trên Trình duyệt & Test Responsive F12** | **1.** Mở trình duyệt nhấn **`Ctrl + F5`**.<br>**2.** Thử bấm **'Gửi Yêu Cầu Thu Gom'** khi chưa điền: Trình duyệt hiện viền đỏ Validation lỗi từng ô.<br>**3.** Điền họ tên: `Bùi Văn Nam Cường`, SĐT: `0987654321`, địa chỉ: `Số 175 Tây Sơn, Đống Đa`, chọn loại rác: `Đồ gỗ / Tủ / Bàn ghế cũ`.<br>**4.** Ô ghi chú gõ: `"Tủ gỗ to cần chuyển đi gấp, khẩn cấp trong sáng nay"` -> Nhìn ô SLA: Điểm lập tức nhảy lên **80 điểm màu đỏ rực: Khẩn Cấp (80đ - SLA 2h - Điều xe ngay)**!<br>**5.** Bấm Gửi: Alert thành công, đơn hàng nhảy sang cột Lịch sử bên phải.<br>**6.** Nhấn **`F12`** co về 320px điện thoại: 2 cột chuyển thành 1 cột dọc liên tục. | *"Quay lại trình duyệt:<br>- Trước tiên em bấm nút Gửi khi form còn trống: Trình duyệt lập tức kích hoạt HTML5 Form Validation với viền đỏ và thông báo lỗi chuẩn xác.<br>- Giờ em điền tên 'Bùi Văn Nam Cường', số điện thoại, địa chỉ trường Thủy Lợi, chọn loại rác Đồ gỗ.<br>- Tại ô ghi chú, em gõ cụm từ 'khẩn cấp trong sáng nay': Như hai thầy thấy, thuật toán AI-2 em vừa sửa trực tiếp lập tức nhận diện từ khóa và cộng 30 điểm, đẩy điểm ưu tiên lên 80 điểm màu đỏ rực - mức Khẩn cấp SLA 2 giờ!<br>- Em bấm Gửi đơn: Yêu cầu lập tức xuất hiện ngay sang cột Lịch sử bên phải.<br>- Em bấm F12 co về 320px: Bố cục 2 cột tự động chuyển thành 1 cột dọc co giãn vừa khít màn hình điện thoại."* |
-| **3:30 – 4:30** | **Bước 7 & 8: THAO TÁC GIT & GITHUB - HƯỚNG DẪN CỰC KỲ CHI TIẾT** | **1.** Mở Terminal VS Code (**`Ctrl + ` `**).<br>**2.** Gõ: `git status`<br>*(Thấy `cu-dan-dat-lich-thu-gom.html` màu đỏ)*.<br>**3.** Gõ: `git diff cu-dan-dat-lich-thu-gom.html`<br>*(Chỉ chuột vào khối IF cộng 30 điểm khẩn cấp màu xanh)*.<br>**4.** Gõ: `git add cu-dan-dat-lich-thu-gom.html`<br>**5.** Gõ: `git commit -m "feat(booking-sla): live edit nang cap thuat toan AI-2 nhan dien tu khoa khan cap"`<br>**6.** Gõ: `git push origin Bui_Van_Nam_Cuong`<br>**7.** Mở trình duyệt tab GitHub: `https://github.com/namcuong2910/-GreenSort_Groud5/tree/Bui_Van_Nam_Cuong` -> Nhấn **`F5`** thấy commit mới toanh! | *(Thao tác gõ lệnh và thuyết minh)*:<br>*"- Em mở Terminal gõ `git status`: File đặt lịch báo đỏ.<br>- Em gõ `git diff`: Terminal hiện rõ đoạn mã logic IF cộng 30 điểm khẩn cấp màu xanh lá mà em vừa viết.<br>- Em gõ `git add cu-dan-dat-lich-thu-gom.html` và commit với thông điệp rõ ràng.<br>- Em gõ `git push origin Bui_Van_Nam_Cuong` để đẩy lên server GitHub.<br>- Em chuyển sang trình duyệt vào nhánh Bui_Van_Nam_Cuong trên GitHub và F5: Thưa thầy, commit mới nhất vừa được ghi nhận thành công trên GitHub.<br>Em xin chân thành cảm ơn hai thầy Kiều Tuấn Dũng và Tạ Chí Hiếu đã theo dõi toàn bộ 3 video minh chứng của em!"* |
+* **Mã Task ID Barem:** `GS-RES-09` | **Nhánh Git:** `Bui_Van_Nam_Cuong`
+* **Thời lượng chuẩn:** ~ 3 phút 45 giây
 
 ---
 
-## BỘ CẨM NANG ĐỐI ĐÁP GIT & GITHUB NẾU THẦY HỎI THÊM
+### KỊCH BẢN CHI TIẾT TỪNG PHẦN (VIDEO 3):
 
-Khi thầy xem video hoặc hỏi trực tiếp về Git/GitHub, Nam Cường chỉ cần trả lời theo các quy chuẩn sau:
+#### ⏰ PHẦN 1: CHÀO HỎI & NHẬN DIỆN (0:00 – 0:30)
+* **Hành động màn hình:** Mở OBS, kiểm tra webcam hiển thị rõ khuôn mặt.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Em xin kính chào Thầy Kiều Tuấn Dũng và Thầy Tạ Chí Hiếu! Em là Bùi Văn Nam Cường, MSSV 2551060590, sinh viên 1 của nhóm BTL-05 GreenSort. Trong video thứ 3 này, em xin chứng minh quá trình phát triển màn hình Đặt lịch thu gom rác cồng kềnh tích hợp thuật toán chấm điểm ưu tiên SLA AI-2 và đồng bộ Real-time đa tab, mã công việc GS-RES-09 trên nhánh Bui_Van_Nam_Cuong."*
 
-### 1. Thầy hỏi: "Tại sao em lại làm việc trên nhánh Bui_Van_Nam_Cuong mà không đẩy thẳng lên main?"
-* **Trả lời:** *"Dạ thưa thầy, theo quy trình Git Flow chuyên nghiệp và yêu cầu của Barem đề tài, mỗi thành viên phải làm việc độc lập trên nhánh mang tên mình (nhánh của em là `Bui_Van_Nam_Cuong`). Điều này giúp phân tách rõ ràng trách nhiệm của từng sinh viên, tránh xung đột mã nguồn (merge conflict), và toàn bộ commit của em trên nhánh này là minh chứng 100% cho khối lượng công việc em tự làm. Sau khi kiểm thử xong, nhóm em mới tạo Pull Request để merge vào nhánh `dev` và `main` ạ."*
+---
 
-### 2. Thầy hỏi: "Giải thích các lệnh Git em vừa gõ trong video?"
-* **Trả lời:**
-  * `git status`: *"Xem trạng thái các tệp tin trong thư mục làm việc, xem tệp nào bị sửa đổi (đỏ) hoặc đã đưa vào Staging Area (xanh)."*
-  * `git diff`: *"Xem chi tiết từng dòng code vừa thêm mới (+) màu xanh lá hoặc bị xóa/sửa (-) màu đỏ so với commit trước đó."*
-  * `git add <tên_file>`: *"Đưa tệp tin đã sửa đổi vào Staging Area để chuẩn bị đóng gói commit."*
-  * `git commit -m "..."`: *"Đóng gói các thay đổi thành một mốc lịch sử (commit) kèm thông điệp mô tả theo chuẩn Conventional Commits (ví dụ tiền tố `feat:` cho tính năng mới, `fix:` cho sửa lỗi)."*
-  * `git push origin <tên_nhánh>`: *"Đẩy nhánh và toàn bộ commit mới từ máy cá nhân lên kho lưu trữ từ xa (remote repository) trên GitHub."*
+#### ⏰ PHẦN 2: ĐỐI CHIẾU MOCKUP FIGMA (0:30 – 1:00)
+* **Hành động màn hình:** Mở tab Figma chuyển sang Frame Đặt lịch thu gom rác cồng kềnh.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Trên bản vẽ Figma, màn hình được bố cục 2 cột rõ ràng: Cột bên trái là Biểu mẫu đặt lịch với ô chấm điểm ưu tiên SLA tự động nhảy điểm theo thời gian thực; Cột bên phải là Danh sách lịch sử các yêu cầu đã gửi kèm trạng thái xử lý và nút hủy yêu cầu."*
 
-### 3. Thầy hỏi: "Làm thế nào để chứng minh 3 bạn trong nhóm không up code hộ nhau?"
-* **Trả lời:** *"Dạ thưa thầy, trên GitHub repository của nhóm em, thầy có thể vào mục **Insights -> Network Graph** hoặc xem lịch sử commit của từng nhánh. Mỗi nhánh `Bui_Van_Nam_Cuong`, `Nguyen_Xuan_Hung`, `Tran_Duc_Anh` đều gắn liền với tài khoản GitHub, email tác giả và thời gian push commit độc lập của từng bạn, hoàn toàn minh bạch và khớp với phân chia vai trò trong Đề cương BTL-05 ạ."*
+---
+
+#### ⏰ PHẦN 3 & 4: GIẢI THÍCH CODE TRONG VS CODE (1:00 – 2:00)
+* **Hành động màn hình:** Mở VS Code tệp `cu-dan-dat-lich-thu-gom.html`. Chỉ vào cấu trúc 2 cột tại mục 3.1 và 3.2, sau đó cuộn xuống các hàm JavaScript.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Trong VS Code tệp cu-dan-dat-lich-thu-gom.html:<br>- Cấu trúc HTML5 chuẩn có đúng 1 thẻ main tại dòng 77 và đúng 1 thẻ h1 duy nhất tại dòng 90.<br>- Về thuật toán AI-2: Hàm tinhDiemUuTien() tự động tính điểm dựa trên loại rác và từ khóa ghi chú. Nếu điểm từ 70 trở lên, hệ thống xếp vào diện Khẩn cấp SLA 2 giờ điều xe ngay.<br>- Về tính năng đồng bộ Real-time: Em cài đặt sự kiện greensort:dataChanged để đồng bộ đa tab. Khi người dân gửi đơn ở tab này, bảng điều phối ở tab của bạn Đức Anh tự động nhảy đơn mới mà không cần nhấn F5."*
+
+---
+
+#### ⏰ PHẦN 5: SỬA CODE TRỰC TIẾP (LIVE EDIT SIÊU NGẮN 3 GIÂY) (2:00 – 2:30)
+* **Hành động màn hình:**
+  1. Trong file `cu-dan-dat-lich-thu-gom.html`, cuộn xuống thẻ `<script>` tìm đến **`// 1. Hàm tự động tính điểm ưu tiên SLA...`** (khoảng dòng 206).
+  2. Tìm dòng khai báo điểm số cơ bản:
+     ```javascript
+     let diemSo = 30; // Điểm cơ bản
+     ```
+  3. **Thao tác sửa cực ngắn:** Xóa số `30` -> Gõ thành `50`.
+     ```javascript
+     let diemSo = 50; // Điểm cơ bản
+     ```
+  4. Nhấn **`Ctrl + S`** để lưu lại.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Em thực hiện sửa code trực tiếp vào thuật toán AI-2 tính điểm ưu tiên SLA tại hàm tinhDiemUuTien(): Em nâng mức điểm ưu tiên cơ bản từ 30 điểm lên 50 điểm để hỗ trợ xử lý nhanh các đơn thu gom trong đợt cao điểm. Em nhấn Ctrl+S lưu lại."*
+
+---
+
+#### ⏰ PHẦN 6: CHẠY THỬ TRÌNH DUYỆT & TEST F12 RESPONSIVE (2:30 – 3:15)
+* **Hành động màn hình:**
+  1. Nhấn `Alt + Tab` sang trình duyệt, nhấn **`Ctrl + F5`**.
+  2. Nhìn ngay vào khung xanh SLA: Điểm ưu tiên cơ bản lập tức nhảy lên mức **Ưu Tiên (50đ - SLA 12h)** màu vàng cam!
+  3. Thử bấm 'Gửi Yêu Cầu Thu Gom' khi chưa điền -> Kích hoạt HTML5 Validation báo lỗi viền đỏ từng ô.
+  4. Điền họ tên: `Bùi Văn Nam Cường`, SĐT: `0987654321`, địa chỉ: `Số 175 Tây Sơn`, chọn loại rác: `Đồ điện tử / Thiết bị máy cũ`.
+  5. Điểm SLA lập tức nhảy lên **95 điểm màu đỏ rực: Khẩn Cấp (95đ - SLA 2h - Điều xe ngay)**!
+  6. Bấm Gửi đơn -> Đơn hàng xuất hiện ngay sang cột Lịch sử bên phải.
+  7. Bấm **`F12`** co về 320px: Bố cục 2 cột tự chuyển thành 1 cột dọc co giãn vừa khít.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Quay lại trình duyệt:<br>- Điểm ưu tiên cơ bản đã lập tức nhảy lên 50 điểm mức Ưu tiên theo đúng dòng code em vừa sửa.<br>- Em thử bấm Gửi khi form còn trống: Trình duyệt kích hoạt ngay HTML5 Form Validation với viền đỏ chuẩn xác.<br>- Giờ em điền đầy đủ thông tin và chọn Thiết bị điện tử: Điểm số cộng dồn lên 95 điểm mức Khẩn cấp SLA 2 giờ.<br>- Em bấm Gửi: Đơn hàng lập tức xuất hiện ngay sang cột Lịch sử bên phải.<br>- Em nhấn F12 co về 320px: Bố cục 2 cột tự động chuyển thành 1 cột dọc rất chuẩn trên màn hình điện thoại."*
+
+---
+
+#### ⏰ PHẦN 7: THAO TÁC GIT TRÊN TERMINAL (3:15 – 3:50)
+* **Hành động màn hình:** Mở Terminal trong VS Code (**`Ctrl + ` `**). Gõ lần lượt:
+  ```bash
+  git status
+  git diff cu-dan-dat-lich-thu-gom.html
+  ```
+  *(Chỉ chuột vào dòng `- let diemSo = 30;` và `+ let diemSo = 50;`)*
+  ```bash
+  git add cu-dan-dat-lich-thu-gom.html
+  git commit -m "feat(booking-sla): live edit nang diem uu tien co ban len 50"
+  git push origin Bui_Van_Nam_Cuong
+  ```
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Em mở Terminal gõ `git status` và `git diff`: Thầy thấy dòng code đổi điểm số cơ bản từ 30 lên 50 hiển thị rõ ràng màu xanh lá. Em gõ `git add` và commit, sau đó gõ `git push origin Bui_Van_Nam_Cuong` để đẩy lên server GitHub."*
+
+---
+
+#### ⏰ PHẦN 8: KIỂM TRA TRÊN GITHUB & KẾT THÚC (3:50 – 4:10)
+* **Hành động màn hình:** Mở trình duyệt vào trang GitHub nhánh `Bui_Van_Nam_Cuong`, nhấn **`F5`**, chỉ chuột vào commit mới nhất vừa xuất hiện.
+* **Lời thoại Nam Cường nói vào mic:**
+  > *"Em chuyển sang trình duyệt vào nhánh Bui_Van_Nam_Cuong trên GitHub và nhấn F5: Commit mới nhất đã được ghi nhận thành công trên GitHub. Em xin chân thành cảm ơn hai thầy Kiều Tuấn Dũng và Tạ Chí Hiếu đã theo dõi toàn bộ 3 video minh chứng của em!"*
+
+---
+
+## 🛡️ TỔNG HỢP 3 PHA LIVE EDIT SIÊU NGẮN (TRA CỨU NHANH KHI QUAY)
+
+| Video | Tệp tin | Vị trí cần tìm | Code cũ | Sửa thành (Code mới) | Kết quả thấy ngay trên web |
+| :---: | :--- | :--- | :--- | :--- | :--- |
+| **Video 1** | `cu-dan-tra-cuu-rac.html` | Dòng ~210 (mục 3.2) | `btn-success` | `btn-primary` | Nút bấm AI đổi từ Xanh lá sang Xanh dương |
+| **Video 2** | `cu-dan-diem-thu-gom.html` | Dòng ~388 (hàm số 7) | `fillLevel: 92` | `fillLevel: 99` | Bấm "Báo đầy rác" nhảy lên 99% đỏ rực |
+| **Video 3** | `cu-dan-dat-lich-thu-gom.html` | Dòng ~206 (hàm số 1) | `let diemSo = 30;` | `let diemSo = 50;` | Điểm cơ bản SLA nhảy từ 30đ lên 50đ cam |
