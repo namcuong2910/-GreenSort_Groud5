@@ -753,3 +753,211 @@ nav a.btn {
     box-shadow: none !important;
   }
 }
+
+/* ==========================================================================
+   TỐI ƯU HÓA HOÀN TOÀN CHO MÀN HÌNH NHỎ & MOBILE S (320px - 576px)
+   Khắc phục 100% lỗi tràn ngang, vỡ giao diện trên điện thoại và DevTools 320px
+   ========================================================================== */
+
+/* 1. Reset chống tràn ngang tuyệt đối toàn hệ thống */
+html, body {
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+}
+
+@media (max-width: 767.98px) {
+  /* Ẩn badge hiển thị tên người dùng dài dòng trên Header ở mobile để không đẩy nút vỡ dòng */
+  header.sticky-top span.badge:has(#currentUserDisplay),
+  header.sticky-top span.badge:has(span[id^="currentUser"]),
+  header.sticky-top span.badge.d-inline-flex {
+    display: none !important;
+  }
+
+  /* Ẩn nhãn vai trò phụ trong Logo ở màn hình điện thoại */
+  .logo-thuong-hieu .badge {
+    display: none !important;
+  }
+}
+
+@media (max-width: 991.98px) {
+  /* Cho phép menu điều hướng của các vai trò hiển thị dạng thanh cuộn ngang mượt mà dưới header */
+  header.sticky-top nav.d-none.d-lg-flex {
+    display: flex !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    white-space: nowrap !important;
+    gap: 0.35rem !important;
+    padding: 0.35rem 0 0.15rem 0 !important;
+    border-top: 1px dashed #e2e8f0;
+    margin-top: 0.35rem;
+  }
+  header.sticky-top nav.d-none.d-lg-flex::-webkit-scrollbar {
+    display: none;
+  }
+  header.sticky-top nav.d-none.d-lg-flex > a.btn {
+    padding: 0.25rem 0.65rem !important;
+    font-size: 0.75rem !important;
+    flex-shrink: 0 !important;
+    border-radius: 9999px !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  /* Khoảng cách Header nhỏ gọn trên màn hình điện thoại */
+  header.sticky-top .container,
+  header.sticky-top .container-fluid {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    padding-top: 0.4rem !important;
+    padding-bottom: 0.4rem !important;
+  }
+
+  /* Khóa hàng header không cho bẻ dòng lung tung làm vỡ chiều cao */
+  header.sticky-top .d-flex.align-items-center.justify-content-between {
+    flex-wrap: wrap !important;
+    gap: 0.35rem !important;
+  }
+
+  /* Logo nhỏ gọn */
+  .logo-thuong-hieu span.fs-3 {
+    font-size: 1.25rem !important;
+    margin-right: 0.25rem !important;
+  }
+  .logo-thuong-hieu span.fw-bold {
+    font-size: 1.05rem !important;
+    white-space: nowrap !important;
+  }
+
+  /* Nút Đăng xuất thu nhỏ */
+  header.sticky-top button[onclick="logoutUser()"],
+  header.sticky-top a[onclick="logoutUser()"] {
+    padding: 0.28rem 0.55rem !important;
+    font-size: 0.75rem !important;
+    white-space: nowrap !important;
+  }
+
+  /* Nút hamburger mở menu điện thoại luôn hiển thị chuẩn */
+  button[data-bs-toggle="offcanvas"] {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Tối ưu phần thân trang (Main content) */
+  main, main.p-4, main.p-md-4, main.p-md-5 {
+    padding: 0.75rem !important;
+  }
+
+  /* Co giãn tiêu đề văn bản */
+  h1.display-4, h1.display-5, h1.display-6, .display-4, .display-5 {
+    font-size: 1.35rem !important;
+    line-height: 1.3 !important;
+  }
+  h2, .h2 {
+    font-size: 1.15rem !important;
+  }
+  h3, .h3 {
+    font-size: 1.05rem !important;
+  }
+  h4, .h4 {
+    font-size: 0.95rem !important;
+  }
+
+  /* Tối ưu thẻ Card */
+  .card, .the-quan-tri, .the-phan-loai-ai {
+    padding: 0.85rem !important;
+    border-radius: 0.75rem !important;
+  }
+
+  /* Ô tìm kiếm trợ lý AI xếp dọc tự nhiên trên màn hình bé */
+  .input-group.input-group-lg {
+    flex-direction: column !important;
+  }
+  .input-group.input-group-lg > .form-control {
+    width: 100% !important;
+    border-radius: 0.5rem !important;
+    margin-bottom: 0.4rem !important;
+    font-size: 0.88rem !important;
+  }
+  .input-group.input-group-lg > .btn {
+    width: 100% !important;
+    border-radius: 0.5rem !important;
+    font-size: 0.88rem !important;
+    padding: 0.5rem !important;
+  }
+
+  /* Bộ lọc danh mục dạng thanh trượt ngang */
+  .thanh-nut-loc {
+    display: flex !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    white-space: nowrap !important;
+    gap: 0.3rem !important;
+    padding-bottom: 0.4rem !important;
+  }
+  .thanh-nut-loc > button {
+    flex-shrink: 0 !important;
+    font-size: 0.78rem !important;
+    padding: 0.28rem 0.65rem !important;
+  }
+
+  /* Bảng dữ liệu có thanh cuộn ngang mượt mà, không bẹp cột */
+  .table-responsive {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    margin-bottom: 0.75rem;
+  }
+  .table-responsive table {
+    min-width: 480px;
+  }
+
+  /* Tối ưu Floating Demo Role Switcher trên màn hình điện thoại */
+  .greensort-switcher-container {
+    bottom: 8px !important;
+    right: 8px !important;
+    z-index: 9999 !important;
+  }
+  .greensort-switcher-card {
+    width: auto !important;
+    max-width: 165px !important;
+    border-width: 1px !important;
+  }
+  .greensort-switcher-header {
+    padding: 4px 6px !important;
+    font-size: 0.72rem !important;
+  }
+  .greensort-switcher-header span.badge {
+    font-size: 0.65rem !important;
+    padding: 2px 4px !important;
+  }
+  #switcherRoleLabel {
+    display: none !important;
+  }
+  .greensort-switcher-body {
+    width: 210px !important;
+    max-width: calc(100vw - 20px) !important;
+    font-size: 0.75rem !important;
+    padding: 6px !important;
+  }
+  .greensort-switcher-body button {
+    font-size: 0.75rem !important;
+    padding: 3px 6px !important;
+  }
+}
+
+/* Tối ưu đặc biệt cho màn hình siêu nhỏ 320px (Mobile S) */
+@media (max-width: 360px) {
+  header.sticky-top button[onclick="logoutUser()"],
+  header.sticky-top a[onclick="logoutUser()"] {
+    font-size: 0.7rem !important;
+    padding: 0.2rem 0.4rem !important;
+  }
+  .logo-thuong-hieu span.fw-bold {
+    font-size: 0.95rem !important;
+  }
+}

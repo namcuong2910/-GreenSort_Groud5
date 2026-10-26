@@ -49,10 +49,10 @@
 
         <!-- 2.3. Khung hiển thị tên người dùng và Nút Đăng xuất -->
         <div class="d-flex align-items-center gap-2">
-          <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle px-3 py-2 rounded-pill fw-semibold shadow-sm d-inline-flex align-items-center">
+          <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle px-3 py-2 rounded-pill fw-semibold shadow-sm d-none d-md-inline-flex align-items-center">
             <i class="bi bi-person-check-fill text-success me-1"></i><span id="currentUserDisplay">Nguyễn Văn An (Người dân)</span>
           </span>
-          <button class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-semibold shadow-sm" onclick="logoutUser()" title="Đăng xuất khỏi hệ thống">
+          <button class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-semibold shadow-sm d-none d-sm-inline-block" onclick="logoutUser()" title="Đăng xuất khỏi hệ thống">
             <i class="bi bi-box-arrow-right me-1"></i>Đăng xuất
           </button>
 
@@ -99,6 +99,7 @@
           <i class="bi bi-person-check me-1"></i>Tài khoản Cư dân khu đô thị
         </span>
       </div>
+      <button class="btn btn-outline-danger btn-sm w-100 mt-3 rounded-pill fw-semibold" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-1"></i>Đăng xuất</button>
     </div>
   </div>
 
@@ -203,8 +204,8 @@
                 </label>
                 <div class="input-group input-group-lg">
                   <input type="text" id="aiWasteInput" class="form-control" placeholder="Ví dụ: Pin con thỏ cũ, hộp xốp dính dầu mỡ, vỏ chuối..." value="Pin con thỏ hết điện">
-                  <button class="btn btn-success px-4" id="btnAiAnalyze" type="button">
-                    <i class="bi bi-magic me-1"></i>Gợi ý phân loại ✨
+                  <button class="btn btn-primary px-4 shadow-sm " id="btnAiAnalyze" type="button">
+                    <i class="bi bi-robot me-1"></i>Phân Tích AI ✨
                   </button>
                 </div>
                 <div class="invalid-feedback">Vui lòng nhập tên đồ vật cần phân loại.</div>
