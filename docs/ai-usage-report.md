@@ -39,7 +39,7 @@ Tuân thủ quy định học thuật và liêm chính trong học phần CSE122
 
 | Tiêu chí khai báo | Chi tiết thực hiện của nhóm |
 |---|---|
-| **1. Công cụ AI đã sử dụng** | GitHub Copilot & ChatGPT-4o (đóng vai trò trợ lý tra cứu cú pháp và gợi ý đoạn mã mẫu). |
+| **1. Công cụ AI đã sử dụng** | GitHub Copilot,ChatGPT-4o và Antigravity(geminni flash 3.8) (đóng vai trò trợ lý tra cứu cú pháp và gợi ý đoạn mã mẫu). |
 | **2. Các câu lệnh (Prompt) chính đã dùng** | - *"Gợi ý bảng mã màu sinh thái sinh thái chuẩn Bootstrap 5 cho website môi trường"*<br>- *"Viết biểu thức chính quy (Regex) kiểm tra số điện thoại di động 10 số của Việt Nam"*<br>- *"Gợi ý cấu trúc JSON giả lập dữ liệu các trạm thu gom rác thải đô thị"* |
 | **3. Phần mã nguồn có sự hỗ trợ của AI** | - Bộ khung layout lưới ban đầu của Bootstrap 5.<br>- Biểu thức regex xác thực biểu mẫu.<br>- Dữ liệu mẫu JSON trong `waste-data.json`. |
 | **4. Phần sinh viên tự tay thiết kế & phát triển** | - Tự phân tích kiến trúc dữ liệu và viết toàn bộ module `GreenSortAPI` trên LocalStorage trong `js/api.js`.<br>- Tự lập trình cơ chế bảo vệ phân quyền nghiêm ngặt 4 vai trò (RBAC) và chuyển hướng trong `js/auth-guard.js`.<br>- Tự lập trình xử lý DOM, bắt sự kiện, tính toán tiến độ tải xe, lọc danh mục và phân tuyến động.<br>- Tự xử lý tất cả các trạng thái giao diện: Trạng thái Rỗng (Empty State), Đang tải (Loading Skeleton), Thất bại (Failure/Uncertainty State) và trang 403 Forbidden. |
